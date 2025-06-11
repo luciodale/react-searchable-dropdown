@@ -1,6 +1,6 @@
 {
 	"name": "@luciodale/react-searchable-dropdown",
-	"version": "0.0.2",
+	"version": "0.0.3",
 	"description": "A reusable React searchable dropdown component.",
 	"keywords": ["react", "dropdown", "searchable", "component", "npm"],
 	"main": "dist/react-searchable-dropdown.umd.js",
@@ -10,7 +10,7 @@
 	"scripts": {
 		"dev": "vite -c dev.vite.config.mts",
 		"build:lib": "vite build",
-		"publish": "bun run build:lib && npm publish --access public"
+		"npm": "bun run build:lib && npm publish --access public"
 	},
 	"author": "Your Name Here",
 	"license": "MIT",
