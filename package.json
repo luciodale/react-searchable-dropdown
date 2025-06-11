@@ -1,38 +1,39 @@
 {
-	"name": "@luciodale/react-searchable-dropdown",
-	"version": "0.0.1",
-	"description": "A reusable React searchable dropdown component.",
-	"keywords": ["react", "dropdown", "searchable", "component", "npm"],
-	"main": "dist/react-searchable-dropdown.umd.js",
-	"module": "dist/react-searchable-dropdown.es.js",
-	"types": "dist/index.d.ts",
-	"files": ["dist"],
-	"scripts": {
-		"dev": "vite -c dev.vite.config.mts",
-		"build:lib": "vite build",
-		"prepublishOnly": "npm run build:lib"
-	},
-	"author": "Your Name Here",
-	"license": "MIT",
-	"devDependencies": {
-		"@biomejs/biome": "^1.9.4",
-		"@types/autosuggest-highlight": "^3.2.3",
-		"@types/node": "^24.0.0",
-		"@types/react": "^18.3.3",
-		"@types/react-dom": "^18.3.0",
-		"@vitejs/plugin-react": "^4.3.1",
-		"react": "^18.3.1",
-		"react-dom": "^18.3.1",
-		"vite": "^5.3.1",
-		"vite-plugin-dts": "^3.9.1"
-	},
-	"peerDependencies": {
-		"react": ">=16.9.0",
-		"react-dom": ">=16.9.0"
-	},
-	"dependencies": {
-		"autosuggest-highlight": "^3.3.4",
-		"match-sorter": "^8.0.2",
-		"react-virtuoso": "^4.12.8"
-	}
+  "name": "@luciodale/react-searchable-dropdown",
+  "version": "0.0.1",
+  "description": "A reusable React searchable dropdown component.",
+  "keywords": ["react", "dropdown", "searchable", "component", "npm"],
+  "main": "dist/react-searchable-dropdown.umd.js",
+  "module": "dist/react-searchable-dropdown.es.js",
+  "types": "dist/index.d.ts",
+  "files": ["dist"],
+  "scripts": {
+    "dev": "vite -c dev.vite.config.mts",
+    "build:lib": "vite build",
+    "publish": "bun run build:lib && npm publish --access public"
+  },
+  "author": "Your Name Here",
+  "license": "MIT",
+  "devDependencies": {
+    "@biomejs/biome": "^1.9.4",
+    "@luciodale/react-searchable-dropdown": "^0.0.1",
+    "@types/autosuggest-highlight": "^3.2.3",
+    "@types/node": "^24.0.0",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "@vitejs/plugin-react": "^4.3.1",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "vite": "^5.3.1",
+    "vite-plugin-dts": "^3.9.1"
+  },
+  "peerDependencies": {
+    "react": ">=16.9.0",
+    "react-dom": ">=16.9.0"
+  },
+  "dependencies": {
+    "autosuggest-highlight": "^3.3.4",
+    "match-sorter": "^8.0.2",
+    "react-virtuoso": "^4.12.8"
+  }
 }

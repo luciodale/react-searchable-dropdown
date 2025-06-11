@@ -1,3 +1,4 @@
+import { SearchableDropdown as SearchableDropdownNPM } from "@luciodale/react-searchable-dropdown";
 import React, { useState } from "react";
 import "../../src/assets/style.css";
 import { SearchableDropdown } from "../../src/index";
@@ -22,6 +23,28 @@ export const SearchableDropdownExample = () => {
 			}}
 		>
 			<SearchableDropdown
+				options={sampleOptions}
+				// searchExtraKeys={['label']} // Search by category in addition to label
+				value={value}
+				setValue={(option) => setValue(option)}
+				// filterType="CONTAINS"
+				placeholder="Search Ric"
+				dropdownOptionsHeight={200}
+				// disabled
+				createNewOptionIfNoMatch={false}
+				// DropdownIcon={DropdownIcon}
+				dropdownOptionNoMatchLabel="No match!"
+				classNameSearchableDropdownContainer="searchable-dropdown-container"
+				classNameSearchQueryInput="search-query-input"
+				classNameDropdownOptions="dropdown-options"
+				classNameDropdownOption="dropdown-option"
+				classNameDropdownOptionFocused="dropdown-option-focused"
+				classNameDropdownOptionLabel="dropdown-option-label"
+				classNameDropdownOptionLabelFocused="dropdown-option-label-focused"
+				classNameDropdownOptionNoMatch="dropdown-option-no-match"
+			/>
+
+			<SearchableDropdownNPM
 				options={sampleOptions}
 				// searchExtraKeys={['label']} // Search by category in addition to label
 				value={value}
