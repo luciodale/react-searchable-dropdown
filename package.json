@@ -10,7 +10,8 @@
 	"scripts": {
 		"dev": "bun add -D @luciodale/react-searchable-dropdown@latest && vite -c dev.vite.config.mts",
 		"build:lib": "vite build",
-		"npm": "bun run build:lib && npm publish --access public"
+		"npm": "bun run build:lib && npm publish --access public",
+		"docs": "vite build -c dev.vite.config.mts"
 	},
 	"author": "Your Name Here",
 	"license": "MIT",
