@@ -1,8 +1,9 @@
-import { type ChangeEvent, useCallback, useRef, useState } from "react";
+import { type ChangeEvent, useCallback, useEffect, useRef, useState } from "react";
 import { Virtuoso, type VirtuosoHandle } from "react-virtuoso";
 import { DropdownIconDefault } from "./components/DropdownIconDefault";
 import { DropdownOption } from "./components/DropdownOption";
 import { DropdownOptionNoMatch } from "./components/DropdownOptionNoMatch";
+import { useDebounce } from "./hooks/useDebounce";
 import { useDropdownOptions } from "./hooks/useDropdownOptions";
 import { useKeyboardNavigation } from "./hooks/useKeyboardNavigation";
 import { useOnLeaveCallback } from "./hooks/useOnLeaveCallback";
@@ -19,6 +20,7 @@ export function SearchableDropdown<T extends TDropdownOption>({
 	searchOptionKeys,
 	disabled,
 	filterType = "CONTAINS",
+	debounceDelay = 0,
 	DropdownIcon,
 	dropdownOptionsHeight = 300,
 	dropdownOptionNoMatchLabel = "No Match",
@@ -31,6 +33,8 @@ export function SearchableDropdown<T extends TDropdownOption>({
 	classNameDropdownOptionLabel = "dropdown-option-label",
 	classNameDropdownOptionLabelFocused = "dropdown-option-label-focused",
 	classNameDropdownOptionNoMatch = "dropdown-option-no-match",
+	classNameTriggerIcon = "trigger-icon",
+	classNameTriggerIconInvert = "trigger-icon-invert",
 }: TSearchableDropdown<T>) {
 	const searchQueryinputRef = useRef<HTMLInputElement>(null);
 	const dropdownOptionsContainerRef = useRef<HTMLDivElement>(null);
@@ -40,6 +44,8 @@ export function SearchableDropdown<T extends TDropdownOption>({
 		getSearchQueryLabelFromOption(value || ""),
 	);
 
+	const [debouncedSearchQuery, setDebouncedSearchQuery] = useDebounce(searchQuery, debounceDelay);
+
 	const [showDropdownOptions, setShowDropdownOptions] = useState(false);
 	const [dropdownOptionNavigationIndex, setDropdownOptionNavigationIndex] = useState(0);
 	const [suppressMouseEnterOptionListener, setSuppressMouseEnterOptionListener] = useState(false);
@@ -47,7 +53,7 @@ export function SearchableDropdown<T extends TDropdownOption>({
 
 	const matchingOptions = useDropdownOptions(
 		options,
-		searchQuery,
+		debouncedSearchQuery,
 		searchOptionKeys,
 		filterType,
 		createNewOptionIfNoMatch,
@@ -66,12 +72,18 @@ export function SearchableDropdown<T extends TDropdownOption>({
 		setShowDropdownOptions(true);
 		setDropdownOptionNavigationIndex(0);
 		setSuppressMouseEnterOptionListener(false);
+	}, []);
+
+	// Scroll back to top when search query changes
+	useEffect(() => {
+		if (debouncedSearchQuery !== searchQuery) return;
+
 		virtuosoRef.current?.scrollToIndex({
 			index: 0,
 			align: "start",
 			behavior: "auto",
 		});
-	}, []);
+	}, [debouncedSearchQuery, searchQuery]);
 
 	const handleOnSelectDropdownOption = useCallback(
 		(option: T | undefined) => {
@@ -85,12 +97,13 @@ export function SearchableDropdown<T extends TDropdownOption>({
 				// if there was no value set we restore empty string - placeholder kicks in
 			} else {
 				setSearchQuery("");
+				setDebouncedSearchQuery("");
 			}
 			setShowDropdownOptions(false);
 			setDropdownOptionNavigationIndex(0);
 			setVirtuosoOptionsHeight(dropdownOptionsHeight);
 		},
-		[setValue, searchOptionKeys, value, dropdownOptionsHeight],
+		[setValue, searchOptionKeys, value, setDebouncedSearchQuery, dropdownOptionsHeight],
 	);
 
 	const onLeaveCallback = useCallback(() => {
@@ -125,7 +138,7 @@ export function SearchableDropdown<T extends TDropdownOption>({
 		(currentOptionIndex: number) => {
 			return (
 				<DropdownOption<T>
-					searchQuery={searchQuery}
+					searchQuery={debouncedSearchQuery}
 					currentOption={matchingOptions[currentOptionIndex]}
 					handleDropdownOptionSelect={handleOnSelectDropdownOption}
 					currentOptionIndex={currentOptionIndex}
@@ -141,7 +154,7 @@ export function SearchableDropdown<T extends TDropdownOption>({
 		},
 		[
 			matchingOptions,
-			searchQuery,
+			debouncedSearchQuery,
 			dropdownOptionNavigationIndex,
 			handleOnSelectDropdownOption,
 			handleMouseEnterOptionCallback,
@@ -193,6 +206,7 @@ export function SearchableDropdown<T extends TDropdownOption>({
 				}}
 				onFocus={() => {
 					setSearchQuery("");
+					setDebouncedSearchQuery("");
 					setShowDropdownOptions(true);
 				}}
 			/>
@@ -201,7 +215,9 @@ export function SearchableDropdown<T extends TDropdownOption>({
 				<DropdownIcon toggled={showDropdownOptions} />
 			) : (
 				<DropdownIconDefault
-					className={`trigger-icon ${!showDropdownOptions ? "trigger-icon-invert" : ""}`}
+					className={`${classNameTriggerIcon} ${
+						!showDropdownOptions ? classNameTriggerIconInvert : ""
+					}`}
 				/>
 			)}
 

@@ -22,6 +22,7 @@ export type TSearchableDropdown<T extends TDropdownOption> = {
 	placeholder?: string;
 	value: T | undefined;
 	setValue: (option: T) => void;
+	debounceDelay?: number;
 	searchOptionKeys?: TSearchOptionKeys;
 	filterType?: TSearchableDropdownFilterType;
 	dropdownOptionsHeight?: number;
@@ -36,5 +37,7 @@ export type TSearchableDropdown<T extends TDropdownOption> = {
 	classNameDropdownOptionLabel?: string;
 	classNameDropdownOptionLabelFocused?: string;
 	classNameDropdownOptionNoMatch?: string;
+	classNameTriggerIcon?: string;
+	classNameTriggerIconInvert?: string;
 	DropdownIcon?: FunctionComponent<{ toggled: boolean }>;
 };

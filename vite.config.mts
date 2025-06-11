@@ -8,7 +8,7 @@ export default defineConfig({
 	build: {
 		lib: {
 			name: "LucioDaleReactSearchableDropdown",
-			entry: resolve(__dirname, "src/index.tsx"),
+			entry: resolve(__dirname, "src/index.ts"),
 			formats: ["es", "umd"],
 			fileName: (format) => `react-searchable-dropdown.${format}.js`,
 		},
