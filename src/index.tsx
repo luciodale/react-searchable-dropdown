@@ -23,14 +23,14 @@ export function SearchableDropdown<T extends TDropdownOption>({
 	dropdownOptionsHeight = 300,
 	dropdownOptionNoMatchLabel = "No Match",
 	createNewOptionIfNoMatch = true,
-	classNameSearchableDropdownContainer,
-	classNameSearchQueryInput,
-	classNameDropdownOptions,
-	classNameDropdownOption,
-	classNameDropdownOptionFocused,
-	classNameDropdownOptionLabel,
-	classNameDropdownOptionLabelFocused,
-	classNameDropdownOptionNoMatch,
+	classNameSearchableDropdownContainer = "searchable-dropdown-container",
+	classNameSearchQueryInput = "search-query-input",
+	classNameDropdownOptions = "dropdown-options",
+	classNameDropdownOption = "dropdown-option",
+	classNameDropdownOptionFocused = "dropdown-option-focused",
+	classNameDropdownOptionLabel = "dropdown-option-label",
+	classNameDropdownOptionLabelFocused = "dropdown-option-label-focused",
+	classNameDropdownOptionNoMatch = "dropdown-option-no-match",
 }: TSearchableDropdown<T>) {
 	const searchQueryinputRef = useRef<HTMLInputElement>(null);
 	const dropdownOptionsContainerRef = useRef<HTMLDivElement>(null);

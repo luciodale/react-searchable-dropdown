@@ -34,14 +34,6 @@ export const SearchableDropdownExample = () => {
 				createNewOptionIfNoMatch={false}
 				// DropdownIcon={DropdownIcon}
 				dropdownOptionNoMatchLabel="No match!"
-				classNameSearchableDropdownContainer="searchable-dropdown-container"
-				classNameSearchQueryInput="search-query-input"
-				classNameDropdownOptions="dropdown-options"
-				classNameDropdownOption="dropdown-option"
-				classNameDropdownOptionFocused="dropdown-option-focused"
-				classNameDropdownOptionLabel="dropdown-option-label"
-				classNameDropdownOptionLabelFocused="dropdown-option-label-focused"
-				classNameDropdownOptionNoMatch="dropdown-option-no-match"
 			/>
 
 			<SearchableDropdownNPM
@@ -56,14 +48,6 @@ export const SearchableDropdownExample = () => {
 				createNewOptionIfNoMatch={false}
 				// DropdownIcon={DropdownIcon}
 				dropdownOptionNoMatchLabel="No match!"
-				classNameSearchableDropdownContainer="searchable-dropdown-container"
-				classNameSearchQueryInput="search-query-input"
-				classNameDropdownOptions="dropdown-options"
-				classNameDropdownOption="dropdown-option"
-				classNameDropdownOptionFocused="dropdown-option-focused"
-				classNameDropdownOptionLabel="dropdown-option-label"
-				classNameDropdownOptionLabelFocused="dropdown-option-label-focused"
-				classNameDropdownOptionNoMatch="dropdown-option-no-match"
 			/>
 		</div>
 	);
