@@ -1,13 +1,13 @@
-import { useState } from "react";
-import "./SearchInput/SearchInput.css";
-import { SearchableDropdown } from "./SearchInput/SearchableDropdown";
-import { sampleOptions } from "./SearchInput/mock";
+import React, { useState } from "react";
+import "../../src/assets/style.css";
+import { SearchableDropdown } from "../../src/index";
+import { sampleOptions } from "./mock";
 
 function DropdownIcon({ toggled }: { toggled: boolean }) {
 	return <div> {toggled ? "close" : "open"} </div>;
 }
 
-export const SearchExample = () => {
+export const SearchableDropdownExample = () => {
 	// Using undefined initially lets the user type without constraints
 	const [value, setValue] = useState<(typeof sampleOptions)[0] | undefined>();
 
