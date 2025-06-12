@@ -1,4 +1,4 @@
-import type { TDropdownOption, TSearchOptionKeys } from "./types";
+import type { TDropdownOption } from "./types";
 
 export function getLabelFromOption<T extends TDropdownOption>(option: T) {
 	return typeof option === "string" ? option : option.label;
@@ -17,7 +17,7 @@ export function getSearchQueryLabelFromOption<T extends TDropdownOption>(option:
 export function getValueFromOption<T extends TDropdownOption>(
 	option: T,
 	// searchOptionKeys is used to know whether our options are strings or objects
-	searchOptionKeys: TSearchOptionKeys | undefined,
+	searchOptionKeys: string[] | undefined,
 ): T {
 	if (typeof option === "string") return option;
 
@@ -31,7 +31,7 @@ export function getValueFromOption<T extends TDropdownOption>(
 export function createValueFromSearchQuery<T extends TDropdownOption>(
 	searchQuery: string,
 	// searchOptionKeys is used to know whether our options are strings or objects
-	searchOptionKeys: TSearchOptionKeys | undefined,
+	searchOptionKeys: string[] | undefined,
 ) {
 	if (searchOptionKeys?.length) {
 		const newOption = {

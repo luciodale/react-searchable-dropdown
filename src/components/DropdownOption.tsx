@@ -3,12 +3,12 @@ import type { TDropdownOption } from "../types";
 import { getLabelFromOption } from "../utils";
 import { DropdownOptionLabel } from "./DropdownOptionLabel";
 
-type DropdownOptionProps<T extends TDropdownOption> = {
-	currentOption: T;
+type DropdownOptionProps = {
+	currentOption: TDropdownOption;
 	searchQuery: string | undefined;
 	dropdownOptionNavigationIndex: number;
 	currentOptionIndex: number;
-	handleDropdownOptionSelect: (option: T) => unknown;
+	handleDropdownOptionSelect: (option: TDropdownOption) => unknown;
 	highlightMatches: boolean;
 	onMouseEnter?: (index: number) => void;
 	classNameDropdownOption?: string;
@@ -29,7 +29,7 @@ export function DropdownOption<T extends TDropdownOption>({
 	classNameDropdownOptionFocused,
 	classNameDropdownOptionLabel,
 	classNameDropdownOptionLabelFocused,
-}: DropdownOptionProps<T>) {
+}: DropdownOptionProps) {
 	const dropdownOptionRef = useRef<HTMLDivElement>(null);
 	const optionLabel = getLabelFromOption(currentOption);
 

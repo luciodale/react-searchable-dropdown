@@ -2,28 +2,34 @@ import type { matchSorter } from "match-sorter";
 import type { FunctionComponent } from "react";
 
 export type TSearchableDropdownFilterType = keyof typeof matchSorter.rankings;
+
 export type TNewValueDropdownOption = {
+	isNewValue: true;
 	label: string;
 	value: string;
-	isNewValue: true;
 };
 
 export type TObjectDropdownOption = {
-	value: string;
-	label: string;
 	[key: string]: string | number | boolean;
+	label: string;
+	value: string;
 };
 
 export type TDropdownOption = TObjectDropdownOption | string | TNewValueDropdownOption;
-export type TSearchOptionKeys = string[];
 
-export type TSearchableDropdown<T extends TDropdownOption> = {
+export type TSearchOptionKeys<T extends TDropdownOption> = T extends {
+	label: string;
+	value: string;
+}
+	? Array<Extract<keyof T, string>>
+	: never;
+
+export type TSearchableCommon<T extends TDropdownOption> = {
 	options: T[];
 	placeholder?: string;
 	value: T | undefined;
 	setValue: (option: T) => void;
 	debounceDelay?: number;
-	searchOptionKeys?: TSearchOptionKeys;
 	filterType?: TSearchableDropdownFilterType;
 	dropdownOptionsHeight?: number;
 	createNewOptionIfNoMatch?: boolean;
@@ -41,3 +47,14 @@ export type TSearchableDropdown<T extends TDropdownOption> = {
 	classNameTriggerIconInvert?: string;
 	DropdownIcon?: FunctionComponent<{ toggled: boolean }>;
 };
+
+export type TSearchableDropdown<T extends TDropdownOption> = T extends {
+	label: string;
+	value: string;
+}
+	? TSearchableCommon<T> & {
+			searchOptionKeys: TSearchOptionKeys<T>;
+		}
+	: TSearchableCommon<T> & {
+			searchOptionKeys?: undefined;
+		};

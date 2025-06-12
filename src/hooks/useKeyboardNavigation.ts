@@ -21,7 +21,7 @@ export function useKeyboardNavigation<T extends TDropdownOption>({
 	setShowDropdownOptions: (show: boolean) => void;
 	dropdownOptionNavigationIndex: number;
 	setDropdownOptionNavigationIndex: (index: number) => void;
-	handleOnSelectDropdownOption: (option: T) => void;
+	handleOnSelectDropdownOption: (option: TDropdownOption) => void;
 	setSuppressMouseEnterOptionListener: (suppress: boolean) => void;
 	onLeaveCallback: () => void;
 }) {

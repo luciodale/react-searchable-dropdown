@@ -86,7 +86,7 @@ export function SearchableDropdown<T extends TDropdownOption>({
 	}, [debouncedSearchQuery, searchQuery]);
 
 	const handleOnSelectDropdownOption = useCallback(
-		(option: T | undefined) => {
+		(option: TDropdownOption | undefined) => {
 			// option might be undefined when createNewOptionIfNoMatch is false
 			if (option) {
 				setValue(getValueFromOption(option, searchOptionKeys));

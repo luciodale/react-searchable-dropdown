@@ -32,8 +32,8 @@ function generateNewOptionIfNoMatch<T extends TDropdownOption>(
 	return undefined;
 }
 
-export function useDropdownOptions<T extends TDropdownOption>(
-	options: T[],
+export function useDropdownOptions(
+	options: TDropdownOption[],
 	searchQuery: string | undefined,
 	searchOptionKeys: string[] | undefined,
 	filterType: TSearchableDropdownFilterType,
@@ -61,7 +61,7 @@ export function useDropdownOptions<T extends TDropdownOption>(
 			const generatedOption = generateNewOptionIfNoMatch(searchQuery, matchingOptions);
 
 			if (generatedOption) {
-				matchingOptions.unshift(generatedOption as T);
+				matchingOptions.unshift(generatedOption);
 			}
 		}
 

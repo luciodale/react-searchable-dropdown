@@ -17,7 +17,7 @@
 	"license": "MIT",
 	"devDependencies": {
 		"@biomejs/biome": "^1.9.4",
-		"@luciodale/react-searchable-dropdown": "^0.0.6",
+		"@luciodale/react-searchable-dropdown": "latest",
 		"@types/autosuggest-highlight": "^3.2.3",
 		"@types/node": "^24.0.0",
 		"@types/react": "^18.3.3",
