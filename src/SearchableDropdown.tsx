@@ -89,6 +89,7 @@ export function SearchableDropdown<T extends TDropdownOption>({
 		(option: TDropdownOption | undefined) => {
 			// option might be undefined when createNewOptionIfNoMatch is false
 			if (option) {
+				// @ts-expect-error - the union type messes up the type inference
 				setValue(getValueFromOption(option, searchOptionKeys));
 				setSearchQuery(getSearchQueryLabelFromOption(option));
 				// when undefined we restore the value as searchQuery

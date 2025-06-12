@@ -25,6 +25,9 @@ export function getValueFromOption<T extends TDropdownOption>(
 		if (option.isNewValue) return { label: option.value, value: option.value } as T;
 		return option;
 	}
+
+	// this happens when the option comes from a user generated new value and the searchOptionKeys is not provided
+	// so the options variable is an array of strings
 	return option.value as T;
 }
 
