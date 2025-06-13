@@ -189,7 +189,7 @@ export function SearchableDropdown<T extends TDropdownOption>({
 	);
 
 	return (
-		<div className={classNameSearchableDropdownContainer}>
+		<div className={classNameSearchableDropdownContainer} onKeyDown={handleKeyDown}>
 			<input
 				ref={searchQueryinputRef}
 				type="text"
@@ -199,7 +199,6 @@ export function SearchableDropdown<T extends TDropdownOption>({
 				className={classNameSearchQueryInput}
 				value={searchQuery}
 				onChange={handleOnChangeSearchQuery}
-				onKeyDown={handleKeyDown}
 				onMouseUp={() => {
 					if (!showDropdownOptions) {
 						searchQueryinputRef.current?.focus();
