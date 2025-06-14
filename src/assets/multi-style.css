@@ -5,28 +5,28 @@
   width: var(--width-container);
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
   gap: var(--spacing-sm);
-  padding: var(--spacing-sm) var(--spacing-xl) var(--spacing-sm) var(--spacing-sm);
+  padding: var(--spacing-sm) var(--spacing-xxl) var(--spacing-sm) var(--spacing-sm);
   border: 1px solid var(--color-border);
   border-radius: var(--border-radius-sm);
   min-height: var(--height-input);
   background-color: var(--color-background);
 }
 
-.searchable-dropdown .multi-searchable-dropdown-container:focus-within {
+.searchable-dropdown.multi-searchable-dropdown-container:focus-within {
   border-color: var(--color-focus);
   box-shadow: var(--shadow-focus);
 }
 
 .searchable-dropdown .multi-search-query-input {
-  flex: 1;
-  min-width: 60px;
+  width: 100%;
   border: none;
-  padding: var(--spacing-sm);
-  font-size: var(--font-size-base);
-  background: none;
   outline: none;
-  color: inherit;
+  background: transparent;
+  padding: 0 32px 0 8px;
+  font-size: var(--font-size);
+  color: var(--text-color);
 }
 
 .searchable-dropdown .multi-search-query-input:focus {
@@ -35,8 +35,7 @@
 }
 
 .searchable-dropdown .multi-search-query-input:disabled {
-  background: none;
-  opacity: 0.5;
+  background: transparent;
 }
 
 .searchable-dropdown .multi-trigger-icon {
@@ -135,31 +134,21 @@
 
 .searchable-dropdown .multi-clear-all {
   position: absolute;
-  right: var(--spacing-xl);
+  right: var(--spacing-md);
   top: 50%;
   transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: var(--spacing-xxl);
-  height: var(--spacing-xxl);
-  border: none;
-  background: none;
-  color: var(--color-text-secondary);
-  font-size: var(--font-size-base);
-  line-height: 1;
-  cursor: pointer;
-  border-radius: var(--border-radius-circle);
-  padding: 0;
-  transition: background-color var(--transition-base) ease, color var(--transition-base) ease;
+  color: var(--text-color);
+  opacity: 0.5;
+  z-index: 2;
 }
 
 .searchable-dropdown .multi-clear-all:hover {
-  background-color: var(--color-chip-close-hover-bg);
-  color: var(--color-chip-close-hover-text);
-}
-
-.searchable-dropdown .multi-clear-all:focus {
-  outline: none;
-  box-shadow: var(--shadow-button);
+  opacity: 1;
 } 

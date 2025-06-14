@@ -81,6 +81,7 @@ export type TSearchableCommonMulti<T extends TDropdownOption> = {
 	classNameMultiSelectedOption?: string;
 	classNameMultiSelectedOptionClose?: string;
 	DropdownIcon?: FunctionComponent<{ toggled: boolean }>;
+	ClearAllIcon?: FunctionComponent;
 };
 
 export type TSearchableDropdownMulti<T extends TObjectLikeDropdownOption | TStringDropdownOption> =

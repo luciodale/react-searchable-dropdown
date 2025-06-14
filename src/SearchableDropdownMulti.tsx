@@ -45,6 +45,7 @@ export function SearchableDropdownMulti<T extends TDropdownOption>({
 	classNameTriggerIconInvert = "multi-trigger-icon-invert",
 	classNameMultiSelectedOption = "multi-chip",
 	classNameMultiSelectedOptionClose = "multi-chip-close",
+	ClearAllIcon,
 }: TSearchableDropdownMulti<T>) {
 	const searchQueryinputRef = useRef<HTMLInputElement>(null);
 	const dropdownOptionsContainerRef = useRef<HTMLDivElement>(null);
@@ -272,6 +273,7 @@ export function SearchableDropdownMulti<T extends TDropdownOption>({
 			ref={containerRef}
 			className={`searchable-dropdown ${classNameSearchableDropdownContainer}`}
 			onKeyDown={handleKeyDown}
+			onMouseUp={() => searchQueryinputRef.current?.focus()}
 		>
 			{values?.map((selectedOption) => (
 				<Chip
@@ -291,7 +293,7 @@ export function SearchableDropdownMulti<T extends TDropdownOption>({
 				type="text"
 				readOnly={disabled}
 				disabled={disabled}
-				placeholder={placeholder}
+				placeholder={values?.length ? "" : placeholder}
 				className={`${classNameSearchQueryInput}`}
 				value={searchQuery}
 				onChange={handleOnChangeSearchQuery}
@@ -311,17 +313,19 @@ export function SearchableDropdownMulti<T extends TDropdownOption>({
 					onClear={() => setValues([])}
 					inputRef={searchQueryinputRef}
 					className="multi-clear-all"
+					Icon={ClearAllIcon}
 				/>
 			)}
-			{DropdownIcon ? (
-				<DropdownIcon toggled={showDropdownOptions} />
-			) : (
-				<DropdownIconDefault
-					className={`${classNameTriggerIcon} ${
-						!showDropdownOptions ? classNameTriggerIconInvert : ""
-					}`}
-				/>
-			)}
+			{(!values || values.length === 0) &&
+				(DropdownIcon ? (
+					<DropdownIcon toggled={showDropdownOptions} />
+				) : (
+					<DropdownIconDefault
+						className={`${classNameTriggerIcon} ${
+							!showDropdownOptions ? classNameTriggerIconInvert : ""
+						}`}
+					/>
+				))}
 
 			{showDropdownOptions && (
 				<div ref={dropdownOptionsContainerRef} className={classNameDropdownOptions}>

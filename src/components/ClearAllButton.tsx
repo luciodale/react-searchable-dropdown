@@ -1,16 +1,13 @@
-import type { RefObject } from "react";
+import type { FunctionComponent, RefObject } from "react";
 
 type TClearAllButton = {
 	onClear: () => void;
 	inputRef: RefObject<HTMLInputElement>;
 	className?: string;
+	Icon?: FunctionComponent;
 };
 
-export function ClearAllButton({
-	onClear,
-	inputRef,
-	className = "multi-selected-clear-all",
-}: TClearAllButton) {
+export function ClearAllButton({ onClear, inputRef, className, Icon }: TClearAllButton) {
 	return (
 		<button
 			type="button"
@@ -20,7 +17,7 @@ export function ClearAllButton({
 				inputRef.current?.focus();
 			}}
 		>
-			×
+			{Icon ? <Icon /> : "×"}
 		</button>
 	);
 }
