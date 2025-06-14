@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import "../../../src/assets/multi-style.css";
 import "../../../src/assets/single-style.css";
 import { SearchableDropdown, SearchableDropdownMulti } from "../../../src/index";
+// import { SearchableDropdown, SearchableDropdownMulti } from "@luciodale/react-searchable-dropdown";
 import { containerStyle } from "../constants";
 import { sampleOptions } from "../mock";
 
