@@ -60,6 +60,10 @@
   background-color: rgb(55, 55, 55);
 }
 
+.dropdown-option-selected {
+  background-color: rgb(131, 131, 131);
+}
+
 .dropdown-option-label {
   font-size: 16px;
 }

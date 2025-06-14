@@ -1,27 +1,29 @@
-import { type ChangeEvent, useCallback, useEffect, useRef, useState } from "react";
+import { type ChangeEvent, useCallback, useEffect, useMemo, useRef, useState } from "react"; // Added useMemo
 import { Virtuoso, type VirtuosoHandle } from "react-virtuoso";
 import { DropdownIconDefault } from "./components/DropdownIconDefault";
 import { DropdownOption } from "./components/DropdownOption";
 import { DropdownOptionNoMatch } from "./components/DropdownOptionNoMatch";
+import { MultiSelectedDropdownOption } from "./components/MultiSelectedDropdownOption";
 import { useDebounce } from "./hooks/useDebounce";
 import { useDropdownOptions } from "./hooks/useDropdownOptions";
 import { useKeyboardNavigation } from "./hooks/useKeyboardNavigation";
 import { useOnLeaveCallback } from "./hooks/useOnLeaveCallback";
 import { useOnMouseEnterOptionHandler } from "./hooks/useOnMouseEnterOptionHandler";
 import { useResetSuppressMouseEnterOption } from "./hooks/useResetSuppressMouseEnterOption";
-import type { TDropdownOption, TSearchableDropdown } from "./types";
+import type { TDropdownOption, TSearchableDropdownMulti } from "./types";
 import {
-	getLabelFromOption,
+	createValueFromSearchQuery, // Added createValueFromSearchQuery
+	getLabelFromOption, // Added getLabelFromOption
 	getSearchQueryLabelFromOption,
 	getValueFromOption,
 	getValueStringFromOption,
 } from "./utils";
 
-export function SearchableDropdown<T extends TDropdownOption>({
+export function SearchableDropdownMulti<T extends TDropdownOption>({
 	options,
 	placeholder,
-	value,
-	setValue,
+	values,
+	setValues,
 	searchOptionKeys,
 	disabled,
 	filterType = "CONTAINS",
@@ -35,19 +37,18 @@ export function SearchableDropdown<T extends TDropdownOption>({
 	classNameDropdownOptions = "dropdown-options",
 	classNameDropdownOption = "dropdown-option",
 	classNameDropdownOptionFocused = "dropdown-option-focused",
-	classNameDropdownOptionSelected = "dropdown-option-selected",
 	classNameDropdownOptionLabel = "dropdown-option-label",
 	classNameDropdownOptionLabelFocused = "dropdown-option-label-focused",
 	classNameDropdownOptionNoMatch = "dropdown-option-no-match",
 	classNameTriggerIcon = "trigger-icon",
 	classNameTriggerIconInvert = "trigger-icon-invert",
-}: TSearchableDropdown<T>) {
+}: TSearchableDropdownMulti<T>) {
 	const searchQueryinputRef = useRef<HTMLInputElement>(null);
 	const dropdownOptionsContainerRef = useRef<HTMLDivElement>(null);
 	const virtuosoRef = useRef<VirtuosoHandle>(null);
 
 	const [searchQuery, setSearchQuery] = useState<string | undefined>(
-		getSearchQueryLabelFromOption(value || ""),
+		getSearchQueryLabelFromOption(""),
 	);
 
 	const [debouncedSearchQuery, setDebouncedSearchQuery] = useDebounce(searchQuery, debounceDelay);
@@ -57,6 +58,25 @@ export function SearchableDropdown<T extends TDropdownOption>({
 	const [suppressMouseEnterOptionListener, setSuppressMouseEnterOptionListener] = useState(false);
 	const [virtuosoOptionsHeight, setVirtuosoOptionsHeight] = useState<number | null>(null);
 
+	// Create a Set of selected values for O(1) average time lookups
+	const selectedValuesSet = useMemo(() => {
+		const set = new Set<string>();
+		if (values) {
+			for (const val of values) {
+				set.add(getValueStringFromOption(val, searchOptionKeys));
+			}
+		}
+		return set;
+	}, [values, searchOptionKeys]);
+
+	// Filter out selected options from the main options array BEFORE passing to useDropdownOptions
+	const availableOptions = useMemo(() => {
+		return options.filter(
+			(option) => !selectedValuesSet.has(getValueStringFromOption(option, searchOptionKeys)),
+		);
+	}, [options, selectedValuesSet, searchOptionKeys]);
+
+	// The enhanceOptionsWithNewCreation callback for multi-select
 	const enhanceOptionsWithNewCreationCallback = useCallback(
 		(matchingOptions: TDropdownOption[], currentSearchQuery: string) => {
 			if (!createNewOptionIfNoMatch) {
@@ -64,11 +84,22 @@ export function SearchableDropdown<T extends TDropdownOption>({
 			}
 
 			const searchQueryNormalized = currentSearchQuery.toLocaleLowerCase();
-			const exactMatchFound = matchingOptions.some(
-				(option) => getLabelFromOption(option).toLocaleLowerCase() === searchQueryNormalized,
-			);
+			let exactMatchFoundInAvailableOptions = false;
 
-			if (!exactMatchFound) {
+			// Check for exact match in the currently available (non-selected, matched) options
+			for (const matchedOption of matchingOptions) {
+				if (getLabelFromOption(matchedOption).toLocaleLowerCase() === searchQueryNormalized) {
+					exactMatchFoundInAvailableOptions = true;
+					break;
+				}
+			}
+
+			// Also check if the search query would result in a value already selected
+			const proposedNewValue = createValueFromSearchQuery(currentSearchQuery, searchOptionKeys);
+			const proposedNewValueString = getValueStringFromOption(proposedNewValue, searchOptionKeys);
+			const isAlreadySelected = selectedValuesSet.has(proposedNewValueString);
+
+			if (!exactMatchFoundInAvailableOptions && !isAlreadySelected) {
 				return {
 					label: `Create New: ${currentSearchQuery}`,
 					value: currentSearchQuery,
@@ -77,15 +108,15 @@ export function SearchableDropdown<T extends TDropdownOption>({
 			}
 			return undefined;
 		},
-		[createNewOptionIfNoMatch],
+		[createNewOptionIfNoMatch, selectedValuesSet, searchOptionKeys], // Add selectedValuesSet and searchOptionKeys to dependencies
 	);
 
 	const matchingOptions = useDropdownOptions(
-		options,
+		availableOptions, // Pass the pre-filtered available options
 		debouncedSearchQuery,
 		searchOptionKeys,
 		filterType,
-		enhanceOptionsWithNewCreationCallback, // Use the new single-select specific callback
+		enhanceOptionsWithNewCreationCallback, // Use the new multi-select specific callback
 	);
 
 	// to restore mouse option selection
@@ -116,14 +147,22 @@ export function SearchableDropdown<T extends TDropdownOption>({
 
 	const handleOnSelectDropdownOption = useCallback(
 		(option: TDropdownOption | undefined) => {
+			const safeValues = values?.length ? values : [];
 			// option might be undefined when createNewOptionIfNoMatch is false
 			if (option) {
-				// @ts-expect-error - the union type messes up the type inference
-				setValue(getValueFromOption(option, searchOptionKeys));
-				setSearchQuery(getSearchQueryLabelFromOption(option));
-				// when undefined we restore the value as searchQuery
-			} else if (value) {
-				setSearchQuery(getSearchQueryLabelFromOption(value));
+				// Ensure the option isn't already selected before adding it
+				const newValue = getValueFromOption(option, searchOptionKeys);
+				const newValueString = getValueStringFromOption(newValue, searchOptionKeys);
+
+				if (!selectedValuesSet.has(newValueString)) {
+					// Use selectedValuesSet for quick check
+					// @ts-expect-error - the union type messes up the type inference
+					setValues([...safeValues, newValue]);
+				}
+				setSearchQuery("");
+				// when undefined we restore searchQuery as empty
+			} else if (values) {
+				setSearchQuery("");
 				// if there was no value set we restore empty string - placeholder kicks in
 			} else {
 				setSearchQuery("");
@@ -133,16 +172,23 @@ export function SearchableDropdown<T extends TDropdownOption>({
 			setDropdownOptionNavigationIndex(0);
 			setVirtuosoOptionsHeight(dropdownOptionsHeight);
 		},
-		[setValue, searchOptionKeys, value, setDebouncedSearchQuery, dropdownOptionsHeight],
+		[
+			setValues,
+			searchOptionKeys,
+			values,
+			setDebouncedSearchQuery,
+			dropdownOptionsHeight,
+			selectedValuesSet,
+		], // Add selectedValuesSet to dependencies
 	);
 
 	const onLeaveCallback = useCallback(() => {
 		setShowDropdownOptions(false);
 		setSuppressMouseEnterOptionListener(false);
-		setSearchQuery(getLabelFromOption(value || ""));
+		setSearchQuery("");
 		setDropdownOptionNavigationIndex(0);
 		setVirtuosoOptionsHeight(dropdownOptionsHeight);
-	}, [value, dropdownOptionsHeight]);
+	}, [dropdownOptionsHeight]);
 
 	useOnLeaveCallback([searchQueryinputRef, dropdownOptionsContainerRef], onLeaveCallback);
 
@@ -164,24 +210,12 @@ export function SearchableDropdown<T extends TDropdownOption>({
 		setDropdownOptionNavigationIndex,
 	);
 
-	const currentOptionIsSelectedCallback = useCallback(
-		(option: TDropdownOption) => {
-			if (!value) return false;
-			return (
-				getValueStringFromOption(option, searchOptionKeys) ===
-				getValueStringFromOption(value, searchOptionKeys)
-			);
-		},
-		[searchOptionKeys, value],
-	);
-
 	const DropdownOptionCallback = useCallback(
 		(currentOptionIndex: number) => {
 			return (
 				<DropdownOption
 					searchQuery={debouncedSearchQuery}
 					currentOption={matchingOptions[currentOptionIndex]}
-					currentOptionIsSelected={currentOptionIsSelectedCallback}
 					handleDropdownOptionSelect={handleOnSelectDropdownOption}
 					currentOptionIndex={currentOptionIndex}
 					dropdownOptionNavigationIndex={dropdownOptionNavigationIndex}
@@ -189,7 +223,6 @@ export function SearchableDropdown<T extends TDropdownOption>({
 					onMouseEnter={handleMouseEnterOptionCallback}
 					classNameDropdownOption={classNameDropdownOption}
 					classNameDropdownOptionFocused={classNameDropdownOptionFocused}
-					classNameDropdownOptionSelected={classNameDropdownOptionSelected}
 					classNameDropdownOptionLabel={classNameDropdownOptionLabel}
 					classNameDropdownOptionLabelFocused={classNameDropdownOptionLabelFocused}
 				/>
@@ -201,12 +234,10 @@ export function SearchableDropdown<T extends TDropdownOption>({
 			dropdownOptionNavigationIndex,
 			handleOnSelectDropdownOption,
 			handleMouseEnterOptionCallback,
-			currentOptionIsSelectedCallback,
 			classNameDropdownOption,
 			classNameDropdownOptionFocused,
 			classNameDropdownOptionLabel,
 			classNameDropdownOptionLabelFocused,
-			classNameDropdownOptionSelected,
 		],
 	);
 
@@ -234,12 +265,21 @@ export function SearchableDropdown<T extends TDropdownOption>({
 
 	return (
 		<div className={classNameSearchableDropdownContainer} onKeyDown={handleKeyDown}>
+			{values?.map((selectedOption) => (
+				<MultiSelectedDropdownOption
+					key={getValueStringFromOption(selectedOption, searchOptionKeys)}
+					selectedOption={selectedOption}
+					searchOptionKeys={searchOptionKeys}
+					values={values}
+					setValues={setValues}
+				/>
+			))}
 			<input
 				ref={searchQueryinputRef}
 				type="text"
 				readOnly={disabled}
 				disabled={disabled}
-				placeholder={getSearchQueryLabelFromOption(value || "") || placeholder}
+				placeholder={placeholder}
 				className={classNameSearchQueryInput}
 				value={searchQuery}
 				onChange={handleOnChangeSearchQuery}

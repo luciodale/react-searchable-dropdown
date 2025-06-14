@@ -5,50 +5,29 @@ import type {
 	TNewValueDropdownOption,
 	TSearchableDropdownFilterType,
 } from "../types";
-import { getLabelFromOption } from "../utils";
-
-// to generate a new option when the searchQuery doesn't equal any of the matchingOption values
-function generateNewOptionIfNoMatch<T extends TDropdownOption>(
-	searchQuery: string,
-	matchingOptions: T[],
-) {
-	const searchQueryNormalized = searchQuery.toLocaleLowerCase();
-	let searchQueryMatchesOption = false;
-
-	for (const matchedOption of matchingOptions) {
-		if (getLabelFromOption(matchedOption).toLocaleLowerCase() === searchQueryNormalized) {
-			searchQueryMatchesOption = true;
-			break;
-		}
-	}
-
-	if (!searchQueryMatchesOption) {
-		return {
-			label: `Create New: ${searchQuery}`,
-			value: searchQuery,
-			isNewValue: true,
-		} satisfies TNewValueDropdownOption;
-	}
-	return undefined;
-}
 
 export function useDropdownOptions(
 	options: TDropdownOption[],
 	searchQuery: string | undefined,
 	searchOptionKeys: string[] | undefined,
 	filterType: TSearchableDropdownFilterType,
-	createNewOptionIfNoMatch: boolean,
+	enhanceOptionsWithNewCreation: (
+		matchingOptions: TDropdownOption[],
+		searchQuery: string,
+		// These parameters are optional as they are only relevant for multi-select
+		selectedValuesSet?: Set<string>,
+		searchOptionKeys?: string[],
+	) => TNewValueDropdownOption | undefined,
 ) {
 	return useMemo(() => {
 		if (!searchQuery) return options;
 
 		const threshold = matchSorter.rankings[filterType];
 
+		// Perform the initial match-sorter filtering
 		const matchingOptions = matchSorter(
 			options,
-			// we support both string and object dropdown options
-			// so we cast to avoid type errors
-			searchQuery as unknown as string,
+			searchQuery,
 			searchOptionKeys?.length
 				? {
 						keys: searchOptionKeys,
@@ -57,14 +36,17 @@ export function useDropdownOptions(
 				: { threshold },
 		);
 
-		if (createNewOptionIfNoMatch) {
-			const generatedOption = generateNewOptionIfNoMatch(searchQuery, matchingOptions);
+		const generatedOption = enhanceOptionsWithNewCreation(
+			matchingOptions,
+			searchQuery,
+			undefined,
+			searchOptionKeys,
+		);
 
-			if (generatedOption) {
-				matchingOptions.unshift(generatedOption);
-			}
+		if (generatedOption) {
+			matchingOptions.unshift(generatedOption);
 		}
 
 		return matchingOptions;
-	}, [options, searchQuery, searchOptionKeys, filterType, createNewOptionIfNoMatch]);
+	}, [options, searchQuery, searchOptionKeys, filterType, enhanceOptionsWithNewCreation]);
 }

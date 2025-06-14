@@ -1,4 +1,5 @@
 export { SearchableDropdown } from "./SearchableDropdown";
+export { SearchableDropdownMulti } from "./SearchableDropdownMulti";
 
 export type {
 	TDropdownOption,

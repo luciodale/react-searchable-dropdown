@@ -45,3 +45,13 @@ export function createValueFromSearchQuery<T extends TDropdownOption>(
 	}
 	return searchQuery as T;
 }
+
+export function getValueStringFromOption<T extends TDropdownOption>(
+	option: T,
+	searchOptionKeys: string[] | undefined,
+) {
+	const value = getValueFromOption(option, searchOptionKeys);
+
+	if (typeof value === "string") return value;
+	return value.value;
+}

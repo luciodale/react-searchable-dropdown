@@ -9,15 +9,17 @@ type DropdownOptionProps = {
 	dropdownOptionNavigationIndex: number;
 	currentOptionIndex: number;
 	handleDropdownOptionSelect: (option: TDropdownOption) => unknown;
+	currentOptionIsSelected?: (currentOption: TDropdownOption) => boolean;
 	highlightMatches: boolean;
 	onMouseEnter?: (index: number) => void;
 	classNameDropdownOption?: string;
 	classNameDropdownOptionFocused?: string;
 	classNameDropdownOptionLabel?: string;
 	classNameDropdownOptionLabelFocused?: string;
+	classNameDropdownOptionSelected?: string;
 };
 
-export function DropdownOption<T extends TDropdownOption>({
+export function DropdownOption({
 	currentOption,
 	searchQuery,
 	dropdownOptionNavigationIndex,
@@ -25,18 +27,22 @@ export function DropdownOption<T extends TDropdownOption>({
 	handleDropdownOptionSelect,
 	highlightMatches,
 	onMouseEnter,
+	currentOptionIsSelected,
 	classNameDropdownOption,
 	classNameDropdownOptionFocused,
 	classNameDropdownOptionLabel,
 	classNameDropdownOptionLabelFocused,
+	classNameDropdownOptionSelected,
 }: DropdownOptionProps) {
 	const dropdownOptionRef = useRef<HTMLDivElement>(null);
 	const optionLabel = getLabelFromOption(currentOption);
+	const optionIsSelected =
+		classNameDropdownOptionSelected && currentOptionIsSelected?.(currentOption);
 
 	return (
 		<div
 			ref={dropdownOptionRef}
-			className={`${classNameDropdownOption} ${dropdownOptionNavigationIndex === currentOptionIndex ? classNameDropdownOptionFocused : ""}`}
+			className={`${classNameDropdownOption} ${optionIsSelected ? classNameDropdownOptionSelected : dropdownOptionNavigationIndex === currentOptionIndex ? classNameDropdownOptionFocused : ""}`}
 			onMouseDown={() => handleDropdownOptionSelect(currentOption)}
 			onMouseEnter={() => onMouseEnter?.(currentOptionIndex)}
 		>
