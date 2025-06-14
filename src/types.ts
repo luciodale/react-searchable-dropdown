@@ -84,7 +84,11 @@ export type TSearchableCommonMulti<T extends TDropdownOption> = {
 	ClearAllIcon?: FunctionComponent;
 };
 
-export type TSearchableDropdownMulti<T extends TObjectLikeDropdownOption | TStringDropdownOption> =
-	T extends TObjectLikeDropdownOption
-		? TSearchableCommonMulti<T> & { searchOptionKeys: Array<Extract<keyof T, string>> }
-		: TSearchableCommonMulti<T> & { searchOptionKeys?: undefined };
+export type TSearchableDropdownMulti<T extends TDropdownOption> = TSearchableCommonMulti<T> & {
+	values: T[] | undefined;
+	setValues: (value: T[]) => void;
+	onClearAll?: () => void;
+	searchOptionKeys: T extends TObjectLikeDropdownOption
+		? Array<Extract<keyof T, string>>
+		: undefined;
+};

@@ -46,6 +46,7 @@ export function SearchableDropdownMulti<T extends TDropdownOption>({
 	classNameMultiSelectedOption = "multi-chip",
 	classNameMultiSelectedOptionClose = "multi-chip-close",
 	ClearAllIcon,
+	onClearAll,
 }: TSearchableDropdownMulti<T>) {
 	const searchQueryinputRef = useRef<HTMLInputElement>(null);
 	const dropdownOptionsContainerRef = useRef<HTMLDivElement>(null);
@@ -310,7 +311,10 @@ export function SearchableDropdownMulti<T extends TDropdownOption>({
 			/>
 			{values && values.length > 0 && (
 				<ClearAllButton
-					onClear={() => setValues([])}
+					onClear={() => {
+						setValues([]);
+						onClearAll?.();
+					}}
 					inputRef={searchQueryinputRef}
 					className="multi-clear-all"
 					Icon={ClearAllIcon}
