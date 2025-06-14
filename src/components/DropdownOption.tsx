@@ -43,7 +43,7 @@ export function DropdownOption({
 		<div
 			ref={dropdownOptionRef}
 			className={`${classNameDropdownOption} ${optionIsSelected ? classNameDropdownOptionSelected : dropdownOptionNavigationIndex === currentOptionIndex ? classNameDropdownOptionFocused : ""}`}
-			onMouseDown={() => handleDropdownOptionSelect(currentOption)}
+			onMouseUp={() => handleDropdownOptionSelect(currentOption)}
 			onMouseEnter={() => onMouseEnter?.(currentOptionIndex)}
 		>
 			<DropdownOptionLabel

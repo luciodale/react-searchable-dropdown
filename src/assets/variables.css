@@ -1,0 +1,45 @@
+.searchable-dropdown {
+  /* Colors */
+  --color-background: #121212;
+  --color-border: rgb(55, 55, 55);
+  --color-focus: #2684ff;
+  --color-text: white;
+  --color-text-secondary: #666;
+  --color-chip-bg: #e0e0e0;
+  --color-chip-hover: #d0d0d0;
+  --color-chip-close-hover-bg: #bdbdbd;
+  --color-chip-close-hover-text: #333;
+  --color-option-hover: rgb(55, 55, 55);
+  --color-option-selected: rgb(131, 131, 131);
+
+  /* Spacing */
+  --spacing-xs: 2px;
+  --spacing-sm: 4px;
+  --spacing-md: 8px;
+  --spacing-lg: 12px;
+  --spacing-xl: 16px;
+  --spacing-xxl: 20px;
+
+  /* Sizes */
+  --width-container: 300px;
+  --height-input: 36px;
+  --height-dropdown: 300px;
+  --border-radius-sm: 4px;
+  --border-radius-md: 16px;
+  --border-radius-circle: 50%;
+
+  /* Typography */
+  --font-size-sm: 14px;
+  --font-size-base: 16px;
+
+  /* Transitions */
+  --transition-fast: 0.1s;
+  --transition-base: 0.2s;
+
+  /* Z-index */
+  --z-dropdown: 10;
+
+  /* Shadows */
+  --shadow-focus: 0 0 0 1px var(--color-focus);
+  --shadow-button: 0 0 0 2px rgba(0, 0, 0, 0.1);
+} 

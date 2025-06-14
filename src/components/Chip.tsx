@@ -1,11 +1,15 @@
+import type { RefObject } from "react";
 import type { TDropdownOption } from "../types";
 import { getLabelFromOption, getValueStringFromOption } from "../utils";
 
-type TMultiSelectedDropdownOption = {
+type TChip = {
 	selectedOption: TDropdownOption;
 	searchOptionKeys: string[] | undefined;
 	values: TDropdownOption[];
 	setValues: (options: TDropdownOption[]) => void;
+	inputRef: RefObject<HTMLInputElement>;
+	classNameChip?: string;
+	classNameChipClose?: string;
 };
 
 function listWithRemovedItem(
@@ -23,18 +27,29 @@ function listWithRemovedItem(
 	}, [] as TDropdownOption[]);
 }
 
-export function MultiSelectedDropdownOption({
+export function Chip({
 	selectedOption,
 	searchOptionKeys,
 	values,
 	setValues,
-}: TMultiSelectedDropdownOption) {
+	inputRef,
+	classNameChip = "multi-selected-option",
+	classNameChipClose = "multi-selected-option-close",
+}: TChip) {
 	const renderedOptionString = getLabelFromOption(selectedOption);
 	return (
-		<div
-			onMouseDown={() => setValues(listWithRemovedItem(values, selectedOption, searchOptionKeys))}
-		>
-			{renderedOptionString}
+		<div className={classNameChip}>
+			<span>{renderedOptionString}</span>
+			<button
+				type="button"
+				className={classNameChipClose}
+				onMouseUp={() => {
+					setValues(listWithRemovedItem(values, selectedOption, searchOptionKeys));
+					inputRef.current?.focus();
+				}}
+			>
+				×
+			</button>
 		</div>
 	);
 }

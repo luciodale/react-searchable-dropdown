@@ -3,10 +3,10 @@ import { Virtuoso, type VirtuosoHandle } from "react-virtuoso";
 import { DropdownIconDefault } from "./components/DropdownIconDefault";
 import { DropdownOption } from "./components/DropdownOption";
 import { DropdownOptionNoMatch } from "./components/DropdownOptionNoMatch";
+import { useClickOutside } from "./hooks/useClickOutside";
 import { useDebounce } from "./hooks/useDebounce";
 import { useDropdownOptions } from "./hooks/useDropdownOptions";
 import { useKeyboardNavigation } from "./hooks/useKeyboardNavigation";
-import { useOnLeaveCallback } from "./hooks/useOnLeaveCallback";
 import { useOnMouseEnterOptionHandler } from "./hooks/useOnMouseEnterOptionHandler";
 import { useResetSuppressMouseEnterOption } from "./hooks/useResetSuppressMouseEnterOption";
 import type { TDropdownOption, TSearchableDropdown } from "./types";
@@ -144,7 +144,7 @@ export function SearchableDropdown<T extends TDropdownOption>({
 		setVirtuosoOptionsHeight(dropdownOptionsHeight);
 	}, [value, dropdownOptionsHeight]);
 
-	useOnLeaveCallback([searchQueryinputRef, dropdownOptionsContainerRef], onLeaveCallback);
+	const containerRef = useClickOutside(onLeaveCallback);
 
 	const { handleKeyDown } = useKeyboardNavigation({
 		virtuosoRef,
@@ -233,7 +233,11 @@ export function SearchableDropdown<T extends TDropdownOption>({
 	);
 
 	return (
-		<div className={classNameSearchableDropdownContainer} onKeyDown={handleKeyDown}>
+		<div
+			ref={containerRef}
+			className={`searchable-dropdown ${classNameSearchableDropdownContainer}`}
+			onKeyDown={handleKeyDown}
+		>
 			<input
 				ref={searchQueryinputRef}
 				type="text"

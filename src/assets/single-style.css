@@ -1,0 +1,82 @@
+@import './variables.css';
+
+.searchable-dropdown.searchable-dropdown-container {
+  position: relative;
+  width: var(--width-container);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.searchable-dropdown .search-query-input { 
+  width: 100%;
+  border: none;
+  padding: var(--spacing-md) var(--spacing-lg);
+  border-radius: var(--border-radius-sm);
+  font-size: var(--font-size-base);
+  border: 1px solid var(--color-border);
+  outline: none;
+}
+
+.searchable-dropdown .search-query-input:disabled { 
+  background-color: red;
+}
+
+.searchable-dropdown .search-query-input:focus {
+  border-color: var(--color-focus);
+  box-shadow: var(--shadow-focus);
+}
+
+.searchable-dropdown .trigger-icon {
+  width: 30px;
+  position: absolute;
+  right: var(--spacing-lg);
+  transition: transform var(--transition-fast);
+}
+
+.searchable-dropdown .trigger-icon path {
+  stroke: var(--color-text);  
+}
+
+.searchable-dropdown .trigger-icon-invert {
+  transform: rotate(180deg);
+}
+
+.searchable-dropdown .dropdown-options {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  margin-top: var(--spacing-sm);
+  background-color: var(--color-background);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius-sm);
+  z-index: var(--z-dropdown);
+}
+
+.searchable-dropdown .dropdown-option {
+  padding: var(--spacing-md) var(--spacing-lg);
+  cursor: pointer;
+}
+
+.searchable-dropdown .dropdown-option-focused {
+  background-color: var(--color-option-hover);
+}
+
+.searchable-dropdown .dropdown-option-selected {
+  background-color: var(--color-option-selected);
+}
+
+.searchable-dropdown .dropdown-option-label {
+  font-size: var(--font-size-base);
+}
+
+.searchable-dropdown .dropdown-option-label-focused {
+  font-weight: bold;
+  color: var(--color-text);
+}
+
+.searchable-dropdown .dropdown-option-no-match {
+  padding: var(--spacing-md) var(--spacing-lg);
+  cursor: pointer;
+} 

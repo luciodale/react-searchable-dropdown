@@ -1,0 +1,165 @@
+@import './variables.css';
+
+.searchable-dropdown.multi-searchable-dropdown-container {
+  position: relative;
+  width: var(--width-container);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-sm) var(--spacing-xl) var(--spacing-sm) var(--spacing-sm);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius-sm);
+  min-height: var(--height-input);
+  background-color: var(--color-background);
+}
+
+.searchable-dropdown .multi-searchable-dropdown-container:focus-within {
+  border-color: var(--color-focus);
+  box-shadow: var(--shadow-focus);
+}
+
+.searchable-dropdown .multi-search-query-input {
+  flex: 1;
+  min-width: 60px;
+  border: none;
+  padding: var(--spacing-sm);
+  font-size: var(--font-size-base);
+  background: none;
+  outline: none;
+  color: inherit;
+}
+
+.searchable-dropdown .multi-search-query-input:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+.searchable-dropdown .multi-search-query-input:disabled {
+  background: none;
+  opacity: 0.5;
+}
+
+.searchable-dropdown .multi-trigger-icon {
+  width: 30px;
+  position: absolute;
+  right: var(--spacing-lg);
+  transition: transform var(--transition-fast);
+}
+
+.searchable-dropdown .multi-trigger-icon path {
+  stroke: var(--color-text);
+}
+
+.searchable-dropdown .multi-trigger-icon-invert {
+  transform: rotate(180deg);
+}
+
+.searchable-dropdown .multi-dropdown-options {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  margin-top: var(--spacing-sm);
+  background-color: var(--color-background);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius-sm);
+  z-index: var(--z-dropdown);
+}
+
+.searchable-dropdown .multi-dropdown-option {
+  padding: var(--spacing-md) var(--spacing-lg);
+  cursor: pointer;
+}
+
+.searchable-dropdown .multi-dropdown-option-focused {
+  background-color: var(--color-option-hover);
+}
+
+.searchable-dropdown .multi-dropdown-option-label {
+  font-size: var(--font-size-base);
+}
+
+.searchable-dropdown .multi-dropdown-option-label-focused {
+  font-weight: bold;
+  color: var(--color-text);
+}
+
+.searchable-dropdown .multi-dropdown-option-no-match {
+  padding: var(--spacing-md) var(--spacing-lg);
+  cursor: pointer;
+}
+
+.searchable-dropdown .multi-chip {
+  display: inline-flex;
+  align-items: center;
+  background-color: var(--color-chip-bg);
+  border-radius: var(--border-radius-md);
+  padding: var(--spacing-sm) var(--spacing-md);
+  margin: var(--spacing-xs);
+  font-size: var(--font-size-sm);
+  color: var(--color-chip-close-hover-text);
+  transition: background-color var(--transition-base) ease;
+}
+
+.searchable-dropdown .multi-chip:hover {
+  background-color: var(--color-chip-hover);
+}
+
+.searchable-dropdown .multi-chip-close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--spacing-xl);
+  height: var(--spacing-xl);
+  margin-left: var(--spacing-sm);
+  border: none;
+  background: none;
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-base);
+  line-height: 1;
+  cursor: pointer;
+  border-radius: var(--border-radius-circle);
+  padding: 0;
+  transition: background-color var(--transition-base) ease, color var(--transition-base) ease;
+}
+
+.searchable-dropdown .multi-chip-close:hover {
+  background-color: var(--color-chip-close-hover-bg);
+  color: var(--color-chip-close-hover-text);
+}
+
+.searchable-dropdown .multi-chip-close:focus {
+  outline: none;
+  box-shadow: var(--shadow-button);
+}
+
+.searchable-dropdown .multi-clear-all {
+  position: absolute;
+  right: var(--spacing-xl);
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--spacing-xxl);
+  height: var(--spacing-xxl);
+  border: none;
+  background: none;
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-base);
+  line-height: 1;
+  cursor: pointer;
+  border-radius: var(--border-radius-circle);
+  padding: 0;
+  transition: background-color var(--transition-base) ease, color var(--transition-base) ease;
+}
+
+.searchable-dropdown .multi-clear-all:hover {
+  background-color: var(--color-chip-close-hover-bg);
+  color: var(--color-chip-close-hover-text);
+}
+
+.searchable-dropdown .multi-clear-all:focus {
+  outline: none;
+  box-shadow: var(--shadow-button);
+} 

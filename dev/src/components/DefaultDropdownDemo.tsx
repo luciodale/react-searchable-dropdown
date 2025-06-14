@@ -1,6 +1,7 @@
 // dev/src/demos/FrostedEleganceDropdownDemo.tsx
 import React, { useState } from "react";
-import "../../../src/assets/style.css";
+import "../../../src/assets/multi-style.css";
+import "../../../src/assets/single-style.css";
 import { SearchableDropdown, SearchableDropdownMulti } from "../../../src/index";
 import { containerStyle } from "../constants";
 import { sampleOptions } from "../mock";

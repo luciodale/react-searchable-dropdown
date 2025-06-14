@@ -1,19 +1,20 @@
 import { type ChangeEvent, useCallback, useEffect, useMemo, useRef, useState } from "react"; // Added useMemo
 import { Virtuoso, type VirtuosoHandle } from "react-virtuoso";
+import { Chip } from "./components/Chip";
+import { ClearAllButton } from "./components/ClearAllButton";
 import { DropdownIconDefault } from "./components/DropdownIconDefault";
 import { DropdownOption } from "./components/DropdownOption";
 import { DropdownOptionNoMatch } from "./components/DropdownOptionNoMatch";
-import { MultiSelectedDropdownOption } from "./components/MultiSelectedDropdownOption";
+import { useClickOutside } from "./hooks/useClickOutside";
 import { useDebounce } from "./hooks/useDebounce";
 import { useDropdownOptions } from "./hooks/useDropdownOptions";
 import { useKeyboardNavigation } from "./hooks/useKeyboardNavigation";
-import { useOnLeaveCallback } from "./hooks/useOnLeaveCallback";
 import { useOnMouseEnterOptionHandler } from "./hooks/useOnMouseEnterOptionHandler";
 import { useResetSuppressMouseEnterOption } from "./hooks/useResetSuppressMouseEnterOption";
 import type { TDropdownOption, TSearchableDropdownMulti } from "./types";
 import {
-	createValueFromSearchQuery, // Added createValueFromSearchQuery
-	getLabelFromOption, // Added getLabelFromOption
+	createValueFromSearchQuery,
+	getLabelFromOption,
 	getSearchQueryLabelFromOption,
 	getValueFromOption,
 	getValueStringFromOption,
@@ -32,16 +33,18 @@ export function SearchableDropdownMulti<T extends TDropdownOption>({
 	dropdownOptionsHeight = 300,
 	dropdownOptionNoMatchLabel = "No Match",
 	createNewOptionIfNoMatch = true,
-	classNameSearchableDropdownContainer = "searchable-dropdown-container",
-	classNameSearchQueryInput = "search-query-input",
-	classNameDropdownOptions = "dropdown-options",
-	classNameDropdownOption = "dropdown-option",
-	classNameDropdownOptionFocused = "dropdown-option-focused",
-	classNameDropdownOptionLabel = "dropdown-option-label",
-	classNameDropdownOptionLabelFocused = "dropdown-option-label-focused",
-	classNameDropdownOptionNoMatch = "dropdown-option-no-match",
-	classNameTriggerIcon = "trigger-icon",
-	classNameTriggerIconInvert = "trigger-icon-invert",
+	classNameSearchableDropdownContainer = "multi-searchable-dropdown-container",
+	classNameSearchQueryInput = "multi-search-query-input",
+	classNameDropdownOptions = "multi-dropdown-options",
+	classNameDropdownOption = "multi-dropdown-option",
+	classNameDropdownOptionFocused = "multi-dropdown-option-focused",
+	classNameDropdownOptionLabel = "multi-dropdown-option-label",
+	classNameDropdownOptionLabelFocused = "multi-dropdown-option-label-focused",
+	classNameDropdownOptionNoMatch = "multi-dropdown-option-no-match",
+	classNameTriggerIcon = "multi-trigger-icon",
+	classNameTriggerIconInvert = "multi-trigger-icon-invert",
+	classNameMultiSelectedOption = "multi-chip",
+	classNameMultiSelectedOptionClose = "multi-chip-close",
 }: TSearchableDropdownMulti<T>) {
 	const searchQueryinputRef = useRef<HTMLInputElement>(null);
 	const dropdownOptionsContainerRef = useRef<HTMLDivElement>(null);
@@ -168,7 +171,8 @@ export function SearchableDropdownMulti<T extends TDropdownOption>({
 				setSearchQuery("");
 				setDebouncedSearchQuery("");
 			}
-			setShowDropdownOptions(false);
+
+			searchQueryinputRef.current?.focus();
 			setDropdownOptionNavigationIndex(0);
 			setVirtuosoOptionsHeight(dropdownOptionsHeight);
 		},
@@ -190,7 +194,7 @@ export function SearchableDropdownMulti<T extends TDropdownOption>({
 		setVirtuosoOptionsHeight(dropdownOptionsHeight);
 	}, [dropdownOptionsHeight]);
 
-	useOnLeaveCallback([searchQueryinputRef, dropdownOptionsContainerRef], onLeaveCallback);
+	const containerRef = useClickOutside(onLeaveCallback);
 
 	const { handleKeyDown } = useKeyboardNavigation({
 		virtuosoRef,
@@ -264,15 +268,22 @@ export function SearchableDropdownMulti<T extends TDropdownOption>({
 	);
 
 	return (
-		<div className={classNameSearchableDropdownContainer} onKeyDown={handleKeyDown}>
+		<div
+			ref={containerRef}
+			className={`searchable-dropdown ${classNameSearchableDropdownContainer}`}
+			onKeyDown={handleKeyDown}
+		>
 			{values?.map((selectedOption) => (
-				<MultiSelectedDropdownOption
+				<Chip
 					key={getValueStringFromOption(selectedOption, searchOptionKeys)}
 					selectedOption={selectedOption}
 					searchOptionKeys={searchOptionKeys}
 					values={values}
 					// @ts-expect-error - the union type messes up the type inference
 					setValues={setValues}
+					inputRef={searchQueryinputRef}
+					classNameChip={classNameMultiSelectedOption}
+					classNameChipClose={classNameMultiSelectedOptionClose}
 				/>
 			))}
 			<input
@@ -281,7 +292,7 @@ export function SearchableDropdownMulti<T extends TDropdownOption>({
 				readOnly={disabled}
 				disabled={disabled}
 				placeholder={placeholder}
-				className={classNameSearchQueryInput}
+				className={`${classNameSearchQueryInput}`}
 				value={searchQuery}
 				onChange={handleOnChangeSearchQuery}
 				onMouseUp={() => {
@@ -295,7 +306,13 @@ export function SearchableDropdownMulti<T extends TDropdownOption>({
 					setShowDropdownOptions(true);
 				}}
 			/>
-
+			{values && values.length > 0 && (
+				<ClearAllButton
+					onClear={() => setValues([])}
+					inputRef={searchQueryinputRef}
+					className="multi-clear-all"
+				/>
+			)}
 			{DropdownIcon ? (
 				<DropdownIcon toggled={showDropdownOptions} />
 			) : (
