@@ -88,6 +88,7 @@ export type TSearchableDropdownMulti<T extends TDropdownOption> = TSearchableCom
 	values: T[] | undefined;
 	setValues: (value: T[]) => void;
 	onClearAll?: () => void;
+	onClearOption?: (option: T) => void;
 	searchOptionKeys: T extends TObjectLikeDropdownOption
 		? Array<Extract<keyof T, string>>
 		: undefined;

@@ -47,6 +47,7 @@ export function SearchableDropdownMulti<T extends TDropdownOption>({
 	classNameMultiSelectedOptionClose = "multi-chip-close",
 	ClearAllIcon,
 	onClearAll,
+	onClearOption,
 }: TSearchableDropdownMulti<T>) {
 	const searchQueryinputRef = useRef<HTMLInputElement>(null);
 	const dropdownOptionsContainerRef = useRef<HTMLDivElement>(null);
@@ -282,11 +283,11 @@ export function SearchableDropdownMulti<T extends TDropdownOption>({
 					selectedOption={selectedOption}
 					searchOptionKeys={searchOptionKeys}
 					values={values}
-					// @ts-expect-error - the union type messes up the type inference
 					setValues={setValues}
 					inputRef={searchQueryinputRef}
 					classNameChip={classNameMultiSelectedOption}
 					classNameChipClose={classNameMultiSelectedOptionClose}
+					onClearOption={onClearOption}
 				/>
 			))}
 			<input

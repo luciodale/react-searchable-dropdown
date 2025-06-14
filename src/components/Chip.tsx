@@ -1,50 +1,50 @@
 import type { RefObject } from "react";
+import { useCallback } from "react";
 import type { TDropdownOption } from "../types";
 import { getLabelFromOption, getValueStringFromOption } from "../utils";
 
-type TChip = {
-	selectedOption: TDropdownOption;
+type TChip<T extends TDropdownOption> = {
+	selectedOption: T;
 	searchOptionKeys: string[] | undefined;
-	values: TDropdownOption[];
-	setValues: (options: TDropdownOption[]) => void;
+	values: T[] | undefined;
+	setValues: (value: T[]) => void;
 	inputRef: RefObject<HTMLInputElement>;
 	classNameChip?: string;
 	classNameChipClose?: string;
+	onClearOption?: (option: T) => void;
 };
 
-function listWithRemovedItem(
-	selectedOptions: TDropdownOption[],
-	optionToRemove: TDropdownOption,
-	searchOptionKeys: string[] | undefined,
-) {
-	const optionToRemoveValue = getValueStringFromOption(optionToRemove, searchOptionKeys);
-	return selectedOptions.reduce((coll, item) => {
-		if (getValueStringFromOption(item, searchOptionKeys) === optionToRemoveValue) {
-			return coll;
-		}
-		coll.push(item);
-		return coll;
-	}, [] as TDropdownOption[]);
-}
-
-export function Chip({
+export function Chip<T extends TDropdownOption>({
 	selectedOption,
 	searchOptionKeys,
 	values,
 	setValues,
 	inputRef,
-	classNameChip = "multi-selected-option",
-	classNameChipClose = "multi-selected-option-close",
-}: TChip) {
-	const renderedOptionString = getLabelFromOption(selectedOption);
+	classNameChip = "multi-chip",
+	classNameChipClose = "multi-chip-close",
+	onClearOption,
+}: TChip<T>) {
+	const listWithRemovedItem = useCallback(
+		(list: T[] | undefined, itemToRemove: T) => {
+			if (!list) return [];
+			return list.filter(
+				(item) =>
+					getValueStringFromOption(item, searchOptionKeys) !==
+					getValueStringFromOption(itemToRemove, searchOptionKeys),
+			);
+		},
+		[searchOptionKeys],
+	);
+
 	return (
 		<div className={classNameChip}>
-			<span>{renderedOptionString}</span>
+			{getLabelFromOption(selectedOption)}
 			<button
 				type="button"
 				className={classNameChipClose}
 				onMouseUp={() => {
-					setValues(listWithRemovedItem(values, selectedOption, searchOptionKeys));
+					setValues(listWithRemovedItem(values, selectedOption));
+					onClearOption?.(selectedOption);
 					inputRef.current?.focus();
 				}}
 			>
