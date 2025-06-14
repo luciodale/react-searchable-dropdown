@@ -48,6 +48,7 @@ export function SearchableDropdownMulti<T extends TDropdownOption>({
 	ClearAllIcon,
 	onClearAll,
 	onClearOption,
+	classNameDisabled,
 }: TSearchableDropdownMulti<T>) {
 	const searchQueryinputRef = useRef<HTMLInputElement>(null);
 	const dropdownOptionsContainerRef = useRef<HTMLDivElement>(null);
@@ -273,7 +274,7 @@ export function SearchableDropdownMulti<T extends TDropdownOption>({
 	return (
 		<div
 			ref={containerRef}
-			className={`searchable-dropdown ${classNameSearchableDropdownContainer}`}
+			className={`searchable-dropdown ${classNameSearchableDropdownContainer} ${disabled ? classNameDisabled || "disabled" : ""}`}
 			onKeyDown={handleKeyDown}
 			onMouseUp={() => searchQueryinputRef.current?.focus()}
 		>

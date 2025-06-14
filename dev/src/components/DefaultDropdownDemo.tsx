@@ -8,9 +8,7 @@ import { containerStyle } from "../constants";
 import { sampleOptions } from "../mock";
 
 export function DefaultDropdownDemo() {
-	const [selectedValue, setSelectedValue] = useState<{ label: string; value: string } | undefined>(
-		undefined,
-	);
+	const [selectedValue, setSelectedValue] = useState<string | undefined>(undefined);
 
 	const [selectedValueMulti, setSelectedValueMulti] = useState<
 		{ label: string; value: string }[] | undefined
@@ -23,20 +21,20 @@ export function DefaultDropdownDemo() {
 			<SearchableDropdown
 				dropdownOptionsHeight={52 * 6}
 				placeholder="Select an option"
-				options={sampleOptions.map((entry) => ({ label: entry, value: entry }))}
-				searchOptionKeys={["label"]}
+				options={sampleOptions}
+				disabled
 				value={selectedValue}
 				debounceDelay={0}
 				setValue={setSelectedValue}
 			/>
 
 			<div> Multi: </div>
-
 			<SearchableDropdownMulti
 				dropdownOptionsHeight={52 * 6}
 				placeholder="Select an option"
 				options={sampleOptions.map((entry) => ({ label: entry, value: entry }))}
 				searchOptionKeys={["label"]}
+				disabled
 				values={selectedValueMulti}
 				setValues={setSelectedValueMulti}
 				debounceDelay={0}

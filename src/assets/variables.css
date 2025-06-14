@@ -1,6 +1,7 @@
 .searchable-dropdown {
   /* Colors */
   --color-background: #121212;
+  --color-disabled: rgb(31, 31, 31);
   --color-border: rgb(55, 55, 55);
   --color-focus: #2684ff;
   --color-text: white;

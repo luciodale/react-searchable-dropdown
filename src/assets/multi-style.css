@@ -19,6 +19,11 @@
   box-shadow: var(--shadow-focus);
 }
 
+.searchable-dropdown.multi-searchable-dropdown-container.disabled {
+  background-color: var(--color-disabled);
+  opacity: 0.5;
+}
+
 .searchable-dropdown .multi-search-query-input {
   width: 100%;
   border: none;
@@ -34,9 +39,6 @@
   box-shadow: none;
 }
 
-.searchable-dropdown .multi-search-query-input:disabled {
-  background: transparent;
-}
 
 .searchable-dropdown .multi-trigger-icon {
   width: 30px;

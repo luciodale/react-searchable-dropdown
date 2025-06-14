@@ -41,6 +41,7 @@ export function SearchableDropdown<T extends TDropdownOption>({
 	classNameDropdownOptionNoMatch = "dropdown-option-no-match",
 	classNameTriggerIcon = "trigger-icon",
 	classNameTriggerIconInvert = "trigger-icon-invert",
+	classNameDisabled,
 }: TSearchableDropdown<T>) {
 	const searchQueryinputRef = useRef<HTMLInputElement>(null);
 	const dropdownOptionsContainerRef = useRef<HTMLDivElement>(null);
@@ -235,7 +236,7 @@ export function SearchableDropdown<T extends TDropdownOption>({
 	return (
 		<div
 			ref={containerRef}
-			className={`searchable-dropdown ${classNameSearchableDropdownContainer}`}
+			className={`searchable-dropdown ${classNameSearchableDropdownContainer} ${disabled ? "disabled" : ""}`}
 			onKeyDown={handleKeyDown}
 		>
 			<input

@@ -8,6 +8,11 @@
   justify-content: center;
 }
 
+.searchable-dropdown.searchable-dropdown-container.disabled {
+	background-color: var(--color-disabled);
+	opacity: 0.5;
+}
+
 .searchable-dropdown .search-query-input { 
   width: 100%;
   border: none;
@@ -19,7 +24,7 @@
 }
 
 .searchable-dropdown .search-query-input:disabled { 
-  background-color: red;
+  background-color: var(--color-disabled);
 }
 
 .searchable-dropdown .search-query-input:focus {
@@ -37,6 +42,7 @@
 .searchable-dropdown .trigger-icon path {
   stroke: var(--color-text);  
 }
+
 
 .searchable-dropdown .trigger-icon-invert {
   transform: rotate(180deg);
