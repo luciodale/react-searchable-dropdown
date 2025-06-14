@@ -271,6 +271,7 @@ export function SearchableDropdownMulti<T extends TDropdownOption>({
 					selectedOption={selectedOption}
 					searchOptionKeys={searchOptionKeys}
 					values={values}
+					// @ts-expect-error - the union type messes up the type inference
 					setValues={setValues}
 				/>
 			))}

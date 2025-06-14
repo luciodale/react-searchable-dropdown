@@ -15,7 +15,10 @@ export type TObjectDropdownOption = {
 	value: string;
 };
 
-export type TDropdownOption = TObjectDropdownOption | string | TNewValueDropdownOption;
+export type TObjectLikeDropdownOption = TObjectDropdownOption | TNewValueDropdownOption;
+export type TStringDropdownOption = string;
+
+export type TDropdownOption = TObjectLikeDropdownOption | TStringDropdownOption;
 
 export type TSearchOptionKeys<T extends TDropdownOption> = T extends {
 	label: string;
@@ -49,16 +52,10 @@ export type TSearchableCommon<T extends TDropdownOption> = {
 	DropdownIcon?: FunctionComponent<{ toggled: boolean }>;
 };
 
-export type TSearchableDropdown<T extends TDropdownOption> = T extends {
-	label: string;
-	value: string;
-}
-	? TSearchableCommon<T> & {
-			searchOptionKeys: TSearchOptionKeys<T>;
-		}
-	: TSearchableCommon<T> & {
-			searchOptionKeys?: undefined;
-		};
+export type TSearchableDropdown<T extends TObjectLikeDropdownOption | TStringDropdownOption> =
+	T extends TObjectLikeDropdownOption
+		? TSearchableCommon<T> & { searchOptionKeys: Array<Extract<keyof T, string>> }
+		: TSearchableCommon<T> & { searchOptionKeys?: undefined };
 
 export type TSearchableCommonMulti<T extends TDropdownOption> = {
 	options: T[];
@@ -84,13 +81,7 @@ export type TSearchableCommonMulti<T extends TDropdownOption> = {
 	DropdownIcon?: FunctionComponent<{ toggled: boolean }>;
 };
 
-export type TSearchableDropdownMulti<T extends TDropdownOption> = T extends {
-	label: string;
-	value: string;
-}
-	? TSearchableCommonMulti<T> & {
-			searchOptionKeys: TSearchOptionKeys<T>;
-		}
-	: TSearchableCommonMulti<T> & {
-			searchOptionKeys?: undefined;
-		};
+export type TSearchableDropdownMulti<T extends TObjectLikeDropdownOption | TStringDropdownOption> =
+	T extends TObjectLikeDropdownOption
+		? TSearchableCommonMulti<T> & { searchOptionKeys: Array<Extract<keyof T, string>> }
+		: TSearchableCommonMulti<T> & { searchOptionKeys?: undefined };

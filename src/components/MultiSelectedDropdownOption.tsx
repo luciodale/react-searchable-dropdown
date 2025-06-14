@@ -5,7 +5,7 @@ type TMultiSelectedDropdownOption = {
 	selectedOption: TDropdownOption;
 	searchOptionKeys: string[] | undefined;
 	values: TDropdownOption[];
-	setValues: (options: any) => void;
+	setValues: (options: TDropdownOption[]) => void;
 };
 
 function listWithRemovedItem(
