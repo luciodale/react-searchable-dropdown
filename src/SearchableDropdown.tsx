@@ -245,7 +245,7 @@ export function SearchableDropdown<T extends TDropdownOption>({
 				readOnly={disabled}
 				disabled={disabled}
 				placeholder={getSearchQueryLabelFromOption(value || "") || placeholder}
-				className={classNameSearchQueryInput}
+				className={`${classNameSearchQueryInput} ${disabled ? (classNameDisabled ?? "") : ""}`}
 				value={searchQuery}
 				onChange={handleOnChangeSearchQuery}
 				onMouseUp={() => {
