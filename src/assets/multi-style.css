@@ -167,6 +167,7 @@
   color: var(--text-color);
   opacity: 0.5;
   z-index: 2;
+  font-size: var(--font-size-base);
 }
 
 .searchable-dropdown .multi-clear-all:hover {

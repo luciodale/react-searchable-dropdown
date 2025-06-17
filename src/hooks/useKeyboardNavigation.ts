@@ -13,6 +13,7 @@ export function useKeyboardNavigation<T extends TDropdownOption>({
 	handleOnSelectDropdownOption,
 	setSuppressMouseEnterOptionListener,
 	onLeaveCallback,
+	isMultiSelect = false,
 }: {
 	virtuosoRef: React.RefObject<VirtuosoHandle>;
 	searchQueryinputRef: React.RefObject<HTMLInputElement>;
@@ -24,6 +25,7 @@ export function useKeyboardNavigation<T extends TDropdownOption>({
 	handleOnSelectDropdownOption: (option: TDropdownOption) => void;
 	setSuppressMouseEnterOptionListener: (suppress: boolean) => void;
 	onLeaveCallback: () => void;
+	isMultiSelect?: boolean;
 }) {
 	const handleKeyDown = useCallback(
 		(e: KeyboardEvent<HTMLInputElement>) => {
@@ -62,7 +64,11 @@ export function useKeyboardNavigation<T extends TDropdownOption>({
 			) {
 				e.preventDefault();
 				handleOnSelectDropdownOption(matchingOptions[dropdownOptionNavigationIndex]);
-				searchQueryinputRef.current?.blur();
+				if (isMultiSelect) {
+					searchQueryinputRef.current?.focus();
+				} else {
+					searchQueryinputRef.current?.blur();
+				}
 			} else if (e.key === "Escape") {
 				onLeaveCallback();
 				searchQueryinputRef.current?.blur();
@@ -79,6 +85,7 @@ export function useKeyboardNavigation<T extends TDropdownOption>({
 			setSuppressMouseEnterOptionListener,
 			onLeaveCallback,
 			virtuosoRef,
+			isMultiSelect,
 		],
 	);
 

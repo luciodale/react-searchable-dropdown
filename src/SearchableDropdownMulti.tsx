@@ -211,6 +211,7 @@ export function SearchableDropdownMulti<T extends TDropdownOption>({
 		handleOnSelectDropdownOption,
 		setSuppressMouseEnterOptionListener,
 		onLeaveCallback,
+		isMultiSelect: true,
 	});
 
 	const handleMouseEnterOptionCallback = useOnMouseEnterOptionHandler(
