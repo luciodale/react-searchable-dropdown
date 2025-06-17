@@ -1,7 +1,6 @@
 // dev/src/demos/FrostedEleganceDropdownDemo.tsx
 import React, { useState } from "react";
 import { SearchableDropdown } from "../../../src/index";
-import { containerStyle } from "../constants";
 import { sampleOptions } from "../mock";
 import "../styles/slick-grey.css";
 
@@ -9,7 +8,7 @@ export function SlickGreyEleganceDropdownDemo() {
 	const [selectedValue, setSelectedValue] = useState<string | undefined>(undefined);
 
 	return (
-		<div style={containerStyle}>
+		<div className="container">
 			<h3>Slick Grey Elegance Theme</h3>
 			<p> List length: {sampleOptions.length}</p>
 			<SearchableDropdown
