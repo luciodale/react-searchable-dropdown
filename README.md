@@ -1,8 +1,9 @@
+[VIEW DEMO](https://react-searchable-dropdown.netlify.app/)
+
 # React Searchable Dropdown
 
 I created this library because I was tired of piecing together different dropdown components to get the features I needed. You know the drill - one library has virtualization but looks terrible, another looks great but can't handle large lists, and yet another has a nice API but no way to create new options.
 
-[VIEW DEMO](https://react-searchable-dropdown.netlify.app/)
 
 What I really wanted was a dropdown that:
 - Handles large lists smoothly (virtualization)
