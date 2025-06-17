@@ -4,7 +4,7 @@ export function Navigation() {
 	return (
 		<nav className="docs-nav">
 			<div className="nav-content">
-				<div className="nav-brand">React Searchable Dropdown</div>
+				<div className="nav-brand">React Searchable Dropdown TS</div>
 				<a
 					href="https://github.com/luciodale/react-searchable-dropdown"
 					target="_blank"

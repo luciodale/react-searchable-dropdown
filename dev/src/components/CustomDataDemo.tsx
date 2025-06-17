@@ -51,6 +51,10 @@ export function CustomDataDemo() {
 						Fetch Data
 					</button>
 				</div>
+				<p className="info-text">
+					For this demo, you are expected to pass an array of string, although the lib supports
+					objects as well.
+				</p>
 
 				{error && <p className="error-message">{error}</p>}
 
@@ -62,10 +66,6 @@ export function CustomDataDemo() {
 					setValue={setValue}
 					debounceDelay={0}
 				/>
-				<p className="info-text">
-					For this demo, you are expected to pass an array of string, although the lib supports
-					objects as well.
-				</p>
 			</div>
 		</div>
 	);

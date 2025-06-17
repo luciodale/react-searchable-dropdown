@@ -239,9 +239,11 @@ body {
 /* Features Grid */
 .features-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 1.5rem;
-  margin: 0;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--spacing-md);
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--spacing-md);
 }
 
 .feature-card {
@@ -281,7 +283,7 @@ body {
   }
 
   .features-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .demo-tabs {
@@ -290,6 +292,20 @@ body {
 
   .tab-button {
     width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .features-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-title-container {
+    flex-direction: column;
+  }
+
+  .docs-section h2 {
+    text-align: center;
   }
 }
 

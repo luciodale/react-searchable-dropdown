@@ -10,7 +10,7 @@ export function Hero() {
 						alt="React Searchable Dropdown Logo"
 						className="hero-logo"
 					/>
-					<h1>React Searchable Dropdown</h1>
+					<h1>React Searchable Dropdown TS</h1>
 				</div>
 				<p className="hero-description">
 					A flexible and customizable searchable dropdown component for React applications. Built
