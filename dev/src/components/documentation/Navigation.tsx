@@ -4,10 +4,7 @@ export function Navigation() {
 	return (
 		<nav className="docs-nav">
 			<div className="nav-content">
-				<div className="nav-brand">
-					<span className="nav-logo">🔍</span>
-					React Searchable Dropdown
-				</div>
+				<div className="nav-brand">React Searchable Dropdown</div>
 				<a
 					href="https://github.com/luciodale/react-searchable-dropdown"
 					target="_blank"
@@ -15,6 +12,7 @@ export function Navigation() {
 					className="nav-github"
 					aria-label="GitHub Repository"
 				>
+					<span className="sr-only">View on GitHub</span>
 					<svg height="24" viewBox="0 0 16 16" width="24" aria-hidden="true">
 						<path
 							fill="currentColor"

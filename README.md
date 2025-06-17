@@ -14,6 +14,8 @@ The good news? I built it! This library combines these essential features in a w
 - Styling is a breeze - just add your CSS classes
 - All the good stuff in one package, no more mixing and matching
 
+[View Demo](https://react-searchable-dropdown.netlify.app/)
+
 ## Features
 
 - 🔍 Real-time search filtering
@@ -149,80 +151,7 @@ Both components share these common props:
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
-| `options` | `TDropdownOption[]` | Required | Array of options to display (strings or objects with label/value) |
+| `options` | `string[] \| { label: string; value: string; [key: string]: any }[]` | Required | Array of options to display (strings or objects with label/value) |
 | `placeholder` | `string` | - | Placeholder text when no value is selected |
 | `disabled` | `boolean` | `false` | Whether the dropdown is disabled |
 | `debounceDelay` | `number` | `0` | Delay in ms before filtering options |
-| `filterType` | `'CASE_SENSITIVE_EQUAL' \| 'EQUAL' \| 'STARTS_WITH' \| 'WORD_STARTS_WITH' \| 'CONTAINS' \| 'ACRONYM' \| 'MATCHES' \| 'NO_MATCH'` | `'CONTAINS'` | Type of search filtering. 
-| `dropdownOptionsHeight` | `number` | `300` | Height of the dropdown options container |
-| `createNewOptionIfNoMatch` | `boolean` | `true` | Whether to allow creating new options |
-| `dropdownOptionNoMatchLabel` | `string` | `'No Match'` | Label shown when no matches are found |
-| `DropdownIcon` | `FunctionComponent<{ toggled: boolean }>` | - | Custom dropdown icon component |
-
-### Single Select Props
-
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `value` | `T \| undefined` | Required | Currently selected value |
-| `setValue` | `(value: T) => void` | Required | Callback when value changes |
-| `searchOptionKeys` | `string[]` | Required for object options | Keys to search in object options |
-
-### Multi Select Props
-
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `values` | `T[] \| undefined` | Required | Currently selected values |
-| `setValues` | `(values: T[]) => void` | Required | Callback when values change |
-| `searchOptionKeys` | `string[]` | Required for object options | Keys to search in object options |
-| `ClearAllIcon` | `FunctionComponent` | - | Custom clear all icon component |
-| `onClearAll` | `() => void` | - | Callback when all values are cleared |
-| `onClearOption` | `(option: T) => void` | - | Callback when a single option is cleared |
-
-### Styling
-
-Both components support extensive styling customization through className props:
-
-```tsx
-<SearchableDropdown
-  classNameSearchableDropdownContainer="custom-container"
-  classNameSearchQueryInput="custom-input"
-  classNameDropdownOptions="custom-options"
-  classNameDropdownOption="custom-option"
-  classNameDropdownOptionFocused="custom-option-focused"
-  classNameDropdownOptionSelected="custom-option-selected"
-  classNameDropdownOptionLabel="custom-option-label"
-  classNameDropdownOptionLabelFocused="custom-option-label-focused"
-  classNameDropdownOptionNoMatch="custom-option-no-match"
-  classNameTriggerIcon="custom-trigger-icon"
-  classNameTriggerIconInvert="custom-trigger-icon-invert"
-  classNameDisabled="custom-disabled"
-/>
-```
-
-The multi-select variant includes additional class names for chips:
-
-```tsx
-<SearchableDropdownMulti
-  // ... common class names ...
-  classNameMultiSelectedOption="custom-chip"
-  classNameMultiSelectedOptionClose="custom-chip-close"
-/>
-```
-
-## Contributing
-
-This library is in its early versions but has been battle-tested in production environments. While it's solid and reliable, there's always room for improvement! I'm open to:
-
-- New feature ideas
-- Performance optimizations
-- Better accessibility
-- More examples and documentation
-- Bug reports and fixes
-
-Feel free to open issues or submit pull requests. 
-
-## License
-
-MIT
-
-

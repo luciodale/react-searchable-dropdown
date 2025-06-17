@@ -23,6 +23,13 @@ body,
   --hover-color: #1e293b;
   --code-background: #1e293b;
   --code-text: #e2e8f0;
+  --spacing-md: 0.75rem;
+  --spacing-lg: 1.5rem;
+  --border-radius-md: 0.5rem;
+  --font-size-base: 1rem;
+  --font-size-sm: 0.875rem;
+  --color-focus: #2680ff;
+  --transition-base: 0.2s;
 }
 
 body {
@@ -66,9 +73,6 @@ body {
   font-weight: 600;
 }
 
-.nav-logo {
-  font-size: 1.5rem;
-}
 
 .nav-github {
   color: var(--text-color);
@@ -91,9 +95,22 @@ body {
   margin: 0 auto;
 }
 
+.hero-title-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-md);
+}
+
+.hero-logo {
+  width: 48px;
+  height: auto;
+}
+
 .hero-content h1 {
   font-size: 3rem;
-  margin: 0 0 1rem;
+  margin: 0;
   background: linear-gradient(to right, var(--primary-color), #60a5fa);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -106,32 +123,23 @@ body {
   margin-bottom: 2rem;
 }
 
-.hero-badges {
-  display: flex;
-  gap: 1rem;
-  justify-content: center;
-  flex-wrap: wrap;
-}
-
-.badge {
-  background-color: var(--background-tertiary);
-  border: 1px solid var(--border-color);
-  padding: 0.5rem 1rem;
-  border-radius: 9999px;
-  font-size: 0.875rem;
-  color: var(--text-color);
-}
-
 /* Main Content */
 .docs-main {
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 8px;
+  padding: 3rem 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
 }
 
 .docs-section {
-  margin-bottom: 3rem;
+  margin-bottom: 0;
+}
+
+.docs-section h2 {
+  margin-bottom: 1.5rem;
 }
 
 .text-and-dropdown h2 {
@@ -142,6 +150,14 @@ body {
 
 .text-and-dropdown p {
   color: var(--text-color-light);
+  margin-bottom: 2rem;
+}
+
+.docs-section p {
+  margin-bottom: 1.5rem;
+}
+
+.docs-section p:has(+ .code-blocks) {
   margin-bottom: 2rem;
 }
 
@@ -225,7 +241,7 @@ body {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 1.5rem;
-  margin: 2rem 0;
+  margin: 0;
 }
 
 .feature-card {
@@ -319,12 +335,102 @@ body {
 @media (min-width: 768px) {
   .docs-main {
     width: 90%;
-    padding: 0 20px;
+    padding: 3rem 20px;
   }
 }
 
 @media (min-width: 1024px) {
   .docs-main {
     width: 80%;
+    padding: 3rem 20px;
   }
+}
+
+.url-input-container {
+  display: flex;
+  gap: 12px;
+  margin-bottom: var(--spacing-md);
+  width: 100%;
+  max-width: 500px;
+}
+
+.url-input {
+  flex: 1;
+  padding: 6px 8px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-md);
+  background-color: var(--background-secondary);
+  color: var(--text-color);
+  font-size: var(--font-size-sm);
+  height: 32px;
+}
+
+.url-input:focus {
+  outline: none;
+  border-color: var(--color-focus);
+  box-shadow: 0 0 0 2px rgba(38, 132, 255, 0.2);
+}
+
+.fetch-button {
+  padding: 6px 12px;
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: var(--border-radius-md);
+  cursor: pointer;
+  font-size: var(--font-size-sm);
+  transition: background-color var(--transition-base) ease;
+  height: 32px;
+  white-space: nowrap;
+}
+
+.fetch-button:hover {
+  background-color: #2563eb;
+}
+
+.error-message {
+  color: #ef4444;
+  margin-bottom: var(--spacing-md);
+  font-size: var(--font-size-sm);
+}
+
+.docs-header {
+	text-align: center;
+	margin-bottom: var(--spacing-xxl);
+}
+
+.docs-logo {
+	width: 48px;
+	height: auto;
+	margin-bottom: var(--spacing-md);
+}
+
+.docs-header h1 {
+	font-size: var(--font-size-xxl);
+	margin-bottom: var(--spacing-md);
+	color: var(--color-text);
+}
+
+.docs-description {
+	font-size: var(--font-size-lg);
+	color: var(--color-text-secondary);
+	max-width: 600px;
+	margin: 0 auto;
+}
+
+/* Remove hero badge styles */
+.hero-badges {
+	display: none;
+}
+
+.sr-only {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	white-space: nowrap;
+	border: 0;
 }

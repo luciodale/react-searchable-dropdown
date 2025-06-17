@@ -14,9 +14,9 @@ function App() {
 			<Navigation />
 			<Hero />
 			<main className="docs-main">
+				<Features />
 				<Installation />
 				<Examples />
-				<Features />
 				<DataTypes />
 			</main>
 		</div>
