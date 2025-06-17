@@ -1,24 +1,24 @@
 // dev/src/App.tsx
 import React from "react";
 import "./App.css";
-import { DefaultDropdownDemo } from "./components/DefaultDropdownDemo";
-import { SlickGreyEleganceDropdownDemo } from "./components/SlickGreyDropdownDemo"; // <--- NEW
-// import { SearchExample } from "./SearchExample"; // Keep or remove if you replace it completely
+import { DataTypes } from "./components/documentation/DataTypes";
+import { Examples } from "./components/documentation/Examples";
+import { Features } from "./components/documentation/Features";
+import { Hero } from "./components/documentation/Hero";
+import { Installation } from "./components/documentation/Installation";
+import { Navigation } from "./components/documentation/Navigation";
 
 function App() {
 	return (
-		<div
-			className="App"
-			style={{
-				display: "flex",
-				flexDirection: "column",
-				gap: "40px",
-				padding: "20px",
-			}}
-		>
-			<h2 style={{ textAlign: "center" }}>React Searchable Dropdown Demos</h2>
-			<DefaultDropdownDemo />
-			<SlickGreyEleganceDropdownDemo />
+		<div className="docs-container">
+			<Navigation />
+			<Hero />
+			<main className="docs-main">
+				<Installation />
+				<Examples />
+				<Features />
+				<DataTypes />
+			</main>
 		</div>
 	);
 }

@@ -9,40 +9,47 @@
 }
 
 .searchable-dropdown.searchable-dropdown-container.disabled {
-	background-color: var(--color-disabled);
-	opacity: 0.5;
+  background-color: var(--color-disabled);
+  opacity: 0.7;
+  cursor: not-allowed;
 }
 
 .searchable-dropdown .search-query-input { 
   width: 100%;
-  border: none;
-  padding: var(--spacing-md) var(--spacing-lg);
-  border-radius: var(--border-radius-sm);
-  font-size: var(--font-size-base);
   border: 1px solid var(--color-border);
+  padding: var(--spacing-md) var(--spacing-lg);
+  border-radius: var(--border-radius-md);
+  font-size: var(--font-size-base);
   outline: none;
+  color: var(--color-text);
+  background-color: var(--color-background);
 }
 
 .searchable-dropdown .search-query-input:disabled { 
   background-color: var(--color-disabled);
+  cursor: not-allowed;
 }
 
 .searchable-dropdown .search-query-input:focus {
   border-color: var(--color-focus);
-  box-shadow: var(--shadow-focus);
+  box-shadow: 0 0 0 2px rgba(38, 132, 255, 0.2);
 }
 
 .searchable-dropdown .trigger-icon {
-  width: 30px;
+  width: 24px;
+  height: 24px;
   position: absolute;
   right: var(--spacing-lg);
-  transition: transform var(--transition-fast);
+  opacity: 0.7;
 }
 
 .searchable-dropdown .trigger-icon path {
-  stroke: var(--color-text);  
+  stroke: var(--color-text);
 }
 
+.searchable-dropdown:hover .trigger-icon {
+  opacity: 1;
+}
 
 .searchable-dropdown .trigger-icon-invert {
   transform: rotate(180deg);
@@ -50,20 +57,27 @@
 
 .searchable-dropdown .dropdown-options {
   position: absolute;
-  top: 100%;
+  top: calc(100% + var(--spacing-sm));
   left: 0;
   right: 0;
-  margin-top: var(--spacing-sm);
   background-color: var(--color-background);
   border: 1px solid var(--color-border);
-  border-radius: var(--border-radius-sm);
+  border-radius: var(--border-radius-md);
   z-index: var(--z-dropdown);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+}
+
+.searchable-dropdown .dropdown-options.visible {
+  transform: translateY(0);
 }
 
 .searchable-dropdown .dropdown-option {
   padding: var(--spacing-md) var(--spacing-lg);
   cursor: pointer;
 }
+
+
 
 .searchable-dropdown .dropdown-option-focused {
   background-color: var(--color-option-hover);
@@ -78,11 +92,13 @@
 }
 
 .searchable-dropdown .dropdown-option-label-focused {
-  font-weight: bold;
+  font-weight: 500;
   color: var(--color-text);
 }
 
 .searchable-dropdown .dropdown-option-no-match {
   padding: var(--spacing-md) var(--spacing-lg);
   cursor: pointer;
-} 
+  color: var(--color-text-secondary);
+  font-style: italic;
+}

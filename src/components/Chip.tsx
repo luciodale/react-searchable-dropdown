@@ -3,18 +3,18 @@ import { useCallback } from "react";
 import type { TDropdownOption } from "../types";
 import { getLabelFromOption, getValueStringFromOption } from "../utils";
 
-type TChip<T extends TDropdownOption> = {
-	selectedOption: T;
+type TChip = {
+	selectedOption: TDropdownOption;
 	searchOptionKeys: string[] | undefined;
-	values: T[] | undefined;
-	setValues: (value: T[]) => void;
+	values: TDropdownOption[] | undefined;
+	setValues: (value: TDropdownOption[]) => void;
 	inputRef: RefObject<HTMLInputElement>;
 	classNameChip?: string;
 	classNameChipClose?: string;
-	onClearOption?: (option: T) => void;
+	onClearOption?: (option: TDropdownOption) => void;
 };
 
-export function Chip<T extends TDropdownOption>({
+export function Chip({
 	selectedOption,
 	searchOptionKeys,
 	values,
@@ -23,9 +23,9 @@ export function Chip<T extends TDropdownOption>({
 	classNameChip = "multi-chip",
 	classNameChipClose = "multi-chip-close",
 	onClearOption,
-}: TChip<T>) {
+}: TChip) {
 	const listWithRemovedItem = useCallback(
-		(list: T[] | undefined, itemToRemove: T) => {
+		(list: TDropdownOption[] | undefined, itemToRemove: TDropdownOption) => {
 			if (!list) return [];
 			return list.filter(
 				(item) =>

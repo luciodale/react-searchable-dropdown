@@ -284,11 +284,13 @@ export function SearchableDropdownMulti<T extends TDropdownOption>({
 					selectedOption={selectedOption}
 					searchOptionKeys={searchOptionKeys}
 					values={values}
+					// @ts-expect-error - from generic to TDropdownOption
 					setValues={setValues}
+					// @ts-expect-error - from generic to TDropdownOption
+					onClearOption={onClearOption}
 					inputRef={searchQueryinputRef}
 					classNameChip={classNameMultiSelectedOption}
 					classNameChipClose={classNameMultiSelectedOptionClose}
-					onClearOption={onClearOption}
 				/>
 			))}
 			<input

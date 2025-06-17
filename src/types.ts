@@ -63,6 +63,8 @@ export type TSearchableCommonMulti<T extends TDropdownOption> = {
 	placeholder?: string;
 	values: T[] | undefined;
 	setValues: (options: T[]) => void;
+	onClearAll?: () => void;
+	onClearOption?: (option: T) => void;
 	debounceDelay?: number;
 	filterType?: TSearchableDropdownFilterType;
 	dropdownOptionsHeight?: number;
@@ -86,12 +88,7 @@ export type TSearchableCommonMulti<T extends TDropdownOption> = {
 	ClearAllIcon?: FunctionComponent;
 };
 
-export type TSearchableDropdownMulti<T extends TDropdownOption> = TSearchableCommonMulti<T> & {
-	values: T[] | undefined;
-	setValues: (value: T[]) => void;
-	onClearAll?: () => void;
-	onClearOption?: (option: T) => void;
-	searchOptionKeys: T extends TObjectLikeDropdownOption
-		? Array<Extract<keyof T, string>>
-		: undefined;
-};
+export type TSearchableDropdownMulti<T extends TObjectLikeDropdownOption | TStringDropdownOption> =
+	T extends TObjectLikeDropdownOption
+		? TSearchableCommonMulti<T> & { searchOptionKeys: Array<Extract<keyof T, string>> }
+		: TSearchableCommonMulti<T> & { searchOptionKeys?: undefined };
