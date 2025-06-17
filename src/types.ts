@@ -32,9 +32,13 @@ export type TSearchableCommon<T extends TDropdownOption> = {
 	placeholder?: string;
 	value: T | undefined;
 	setValue: (option: T) => void;
+	searchQuery?: string | undefined;
+	onBlur?: () => void;
+	onSearchQueryChange?: (query: string | undefined) => void;
 	debounceDelay?: number;
 	filterType?: TSearchableDropdownFilterType;
 	dropdownOptionsHeight?: number;
+	dropdownNoOptionsLabel?: string;
 	createNewOptionIfNoMatch?: boolean;
 	dropdownOptionNoMatchLabel?: string;
 	disabled?: boolean;
@@ -63,6 +67,8 @@ export type TSearchableCommonMulti<T extends TDropdownOption> = {
 	placeholder?: string;
 	values: T[] | undefined;
 	setValues: (options: T[]) => void;
+	searchQuery?: string | undefined;
+	onSearchQueryChange?: (query: string | undefined) => void;
 	onClearAll?: () => void;
 	onClearOption?: (option: T) => void;
 	debounceDelay?: number;

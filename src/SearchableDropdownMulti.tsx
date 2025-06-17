@@ -5,6 +5,7 @@ import { ClearAllButton } from "./components/ClearAllButton";
 import { DropdownIconDefault } from "./components/DropdownIconDefault";
 import { DropdownOption } from "./components/DropdownOption";
 import { DropdownOptionNoMatch } from "./components/DropdownOptionNoMatch";
+import { NoOptionsProvided } from "./components/NoOptionsProvided";
 import { useClickOutside } from "./hooks/useClickOutside";
 import { useDebounce } from "./hooks/useDebounce";
 import { useDropdownOptions } from "./hooks/useDropdownOptions";
@@ -29,9 +30,12 @@ export function SearchableDropdownMulti<T extends TDropdownOption>({
 	disabled,
 	filterType = "CONTAINS",
 	debounceDelay = 0,
+	searchQuery: searchQueryProp,
+	onSearchQueryChange,
 	DropdownIcon,
 	dropdownOptionsHeight = 300,
 	dropdownOptionNoMatchLabel = "No Match",
+	dropdownNoOptionsLabel = "No options provided",
 	createNewOptionIfNoMatch = true,
 	classNameSearchableDropdownContainer = "multi-searchable-dropdown-container",
 	classNameSearchQueryInput = "multi-search-query-input",
@@ -54,9 +58,12 @@ export function SearchableDropdownMulti<T extends TDropdownOption>({
 	const dropdownOptionsContainerRef = useRef<HTMLDivElement>(null);
 	const virtuosoRef = useRef<VirtuosoHandle>(null);
 
-	const [searchQuery, setSearchQuery] = useState<string | undefined>(
+	const [searchQueryInternal, setSearchQueryInternal] = useState<string | undefined>(
 		getSearchQueryLabelFromOption(""),
 	);
+
+	const searchQuery = searchQueryProp ?? searchQueryInternal;
+	const setSearchQuery = onSearchQueryChange ?? setSearchQueryInternal;
 
 	const [debouncedSearchQuery, setDebouncedSearchQuery] = useDebounce(searchQuery, debounceDelay);
 
@@ -83,7 +90,6 @@ export function SearchableDropdownMulti<T extends TDropdownOption>({
 		);
 	}, [options, selectedValuesSet, searchOptionKeys]);
 
-	// The enhanceOptionsWithNewCreation callback for multi-select
 	const enhanceOptionsWithNewCreationCallback = useCallback(
 		(matchingOptions: TDropdownOption[], currentSearchQuery: string) => {
 			if (!createNewOptionIfNoMatch) {
@@ -115,33 +121,34 @@ export function SearchableDropdownMulti<T extends TDropdownOption>({
 			}
 			return undefined;
 		},
-		[createNewOptionIfNoMatch, selectedValuesSet, searchOptionKeys], // Add selectedValuesSet and searchOptionKeys to dependencies
+		[createNewOptionIfNoMatch, selectedValuesSet, searchOptionKeys],
 	);
 
 	const matchingOptions = useDropdownOptions(
-		availableOptions, // Pass the pre-filtered available options
+		availableOptions,
 		debouncedSearchQuery,
 		searchOptionKeys,
 		filterType,
-		enhanceOptionsWithNewCreationCallback, // Use the new multi-select specific callback
+		enhanceOptionsWithNewCreationCallback,
 	);
 
-	// to restore mouse option selection
 	useResetSuppressMouseEnterOption(
 		dropdownOptionNavigationIndex,
 		suppressMouseEnterOptionListener,
 		setSuppressMouseEnterOptionListener,
 	);
 
-	const handleOnChangeSearchQuery = useCallback((e: ChangeEvent<HTMLInputElement>) => {
-		const newSearchQuery = e.target.value;
-		setSearchQuery(newSearchQuery);
-		setShowDropdownOptions(true);
-		setDropdownOptionNavigationIndex(0);
-		setSuppressMouseEnterOptionListener(false);
-	}, []);
+	const handleOnChangeSearchQuery = useCallback(
+		(e: ChangeEvent<HTMLInputElement>) => {
+			const newSearchQuery = e.target.value;
+			setSearchQuery(newSearchQuery);
+			setShowDropdownOptions(true);
+			setDropdownOptionNavigationIndex(0);
+			setSuppressMouseEnterOptionListener(false);
+		},
+		[setSearchQuery],
+	);
 
-	// Scroll back to top when search query changes
 	useEffect(() => {
 		if (debouncedSearchQuery !== searchQuery) return;
 
@@ -162,7 +169,6 @@ export function SearchableDropdownMulti<T extends TDropdownOption>({
 				const newValueString = getValueStringFromOption(newValue, searchOptionKeys);
 
 				if (!selectedValuesSet.has(newValueString)) {
-					// Use selectedValuesSet for quick check
 					// @ts-expect-error - the union type messes up the type inference
 					setValues([...safeValues, newValue]);
 				}
@@ -187,7 +193,8 @@ export function SearchableDropdownMulti<T extends TDropdownOption>({
 			setDebouncedSearchQuery,
 			dropdownOptionsHeight,
 			selectedValuesSet,
-		], // Add selectedValuesSet to dependencies
+			setSearchQuery,
+		],
 	);
 
 	const onLeaveCallback = useCallback(() => {
@@ -196,7 +203,7 @@ export function SearchableDropdownMulti<T extends TDropdownOption>({
 		setSearchQuery("");
 		setDropdownOptionNavigationIndex(0);
 		setVirtuosoOptionsHeight(dropdownOptionsHeight);
-	}, [dropdownOptionsHeight]);
+	}, [dropdownOptionsHeight, setSearchQuery]);
 
 	const containerRef = useClickOutside(onLeaveCallback);
 
@@ -336,20 +343,27 @@ export function SearchableDropdownMulti<T extends TDropdownOption>({
 					/>
 				))}
 
-			{showDropdownOptions && (
-				<div ref={dropdownOptionsContainerRef} className={classNameDropdownOptions}>
-					<Virtuoso
-						ref={virtuosoRef}
-						style={{ height: `${heightOfDropdownOptionsContainer}px` }}
-						totalCount={matchingOptions.length}
-						itemContent={DropdownOptionCallback}
-						totalListHeightChanged={(height) => setVirtuosoOptionsHeight(height)}
-						components={{
-							Footer: dropdownOptionNoMatchCallback,
-						}}
+			{showDropdownOptions &&
+				(options.length > 0 ? (
+					<div ref={dropdownOptionsContainerRef} className={classNameDropdownOptions}>
+						<Virtuoso
+							ref={virtuosoRef}
+							style={{ height: `${heightOfDropdownOptionsContainer}px` }}
+							totalCount={matchingOptions.length}
+							itemContent={DropdownOptionCallback}
+							totalListHeightChanged={(height) => setVirtuosoOptionsHeight(height)}
+							components={{
+								Footer: dropdownOptionNoMatchCallback,
+							}}
+						/>
+					</div>
+				) : (
+					<NoOptionsProvided
+						classNameDropdownOptions={classNameDropdownOptions}
+						classNameDropdownOption={classNameDropdownOption}
+						dropdownNoOptionsLabel={dropdownNoOptionsLabel}
 					/>
-				</div>
-			)}
+				))}
 		</div>
 	);
 }
