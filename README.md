@@ -1,6 +1,6 @@
-[VIEW DEMO](https://react-searchable-dropdown.netlify.app/)
 
-# React Searchable Dropdown
+# React Searchable Dropdown [VIEW DEMO](https://react-searchable-dropdown.netlify.app/)
+
 
 <div align="center">
   <img src="https://raw.githubusercontent.com/luciodale/react-searchable-dropdown/main/dev/public/react-searchable-dropdown-logo.svg" alt="React Searchable Dropdown Logo" width="200" height="200" />
