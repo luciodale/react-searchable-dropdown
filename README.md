@@ -95,6 +95,8 @@ The `searchOptionKeys` array tells the component which fields to search through 
 
 ```tsx
 import { SearchableDropdown } from '@luciodale/react-searchable-dropdown';
+import "@luciodale/react-searchable-dropdown/dist/assets/single-style.css";
+
 
 const options = [
   { label: 'Option 1', value: '1' },
@@ -121,6 +123,8 @@ function MyComponent() {
 
 ```tsx
 import { SearchableDropdownMulti } from '@luciodale/react-searchable-dropdown';
+import "@luciodale/react-searchable-dropdown/dist/assets/multi-style.css";
+
 
 const options = [
   { label: 'Option 1', value: '1' },
