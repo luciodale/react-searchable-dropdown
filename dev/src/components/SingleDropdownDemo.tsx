@@ -1,8 +1,9 @@
 // dev/src/demos/FrostedEleganceDropdownDemo.tsx
 import React, { useState } from "react";
+// import { SearchableDropdown } from "@luciodale/react-searchable-dropdown";
+// import "@luciodale/react-searchable-dropdown/dist/assets/single-style.css";
 import "../../../src/assets/single-style.css";
 import { SearchableDropdown } from "../../../src/index";
-// import { SearchableDropdown, SearchableDropdownMulti } from "@luciodale/react-searchable-dropdown";
 import { sampleOptions } from "../mock";
 
 export function SingleDropdownDemo() {

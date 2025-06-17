@@ -1,6 +1,6 @@
 {
 	"name": "@luciodale/react-searchable-dropdown",
-	"version": "0.0.10",
+	"version": "0.0.12",
 	"description": "A reusable React searchable dropdown component.",
 	"keywords": ["react", "dropdown", "searchable", "component", "npm"],
 	"main": "dist/react-searchable-dropdown.umd.js",
@@ -22,7 +22,7 @@
 	"license": "MIT",
 	"devDependencies": {
 		"@biomejs/biome": "^1.9.4",
-		"@luciodale/react-searchable-dropdown": "^0.0.8",
+		"@luciodale/react-searchable-dropdown": "^0.0.12",
 		"@types/autosuggest-highlight": "^3.2.3",
 		"@types/node": "^24.0.0",
 		"@types/react": "^18.3.3",
@@ -31,7 +31,8 @@
 		"react": "^18.3.1",
 		"react-dom": "^18.3.1",
 		"vite": "^5.3.1",
-		"vite-plugin-dts": "^3.9.1"
+		"vite-plugin-dts": "^3.9.1",
+		"vite-plugin-static-copy": "^3.0.2"
 	},
 	"peerDependencies": {
 		"react": ">=16.9.0",

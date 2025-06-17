@@ -1,76 +1,64 @@
-/* dev/src/styles/slick-grey-elegance.css */
-/* No body styles here, applied to demo wrapper div */
-
 .slick-grey-dropdown-container {
     width: 350px;
-    background: rgba(44, 44, 44, 0.6);
-    border-radius: 8px; /* Less roundness */
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
-    padding: 18px;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
     gap: 12px;
-    color: #e0e0e0; /* Default text color for the container */
+    color: #e0e0e0; 
   }
   
   .slick-grey-search-query-input {
     width: 100%;
     padding: 14px 20px;
-    border: none;
-    border-radius: 6px; /* Less roundness */
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    border-radius: 6px; 
     font-size: 1.05rem;
-    color: #ffffff; /* White text for high contrast */
-    background: rgba(0, 0, 0, 0.3); /* Darker transparent background for input */
+    color: #ffffff; 
+    background: rgba(44, 44, 44, 0.95); 
     outline: none;
     box-shadow: inset 2px 2px 8px rgba(0, 0, 0, 0.2);
     transition: background 0.2s ease, box-shadow 0.2s ease;
   }
   
   .slick-grey-search-query-input:focus {
-    background: rgba(0, 0, 0, 0.4); /* Slightly darker on focus */
-    box-shadow: inset 2px 2px 8px rgba(0, 0, 0, 0.2), 0 0 0 2px rgba(255, 255, 255, 0.2); /* Subtle white border glow */
+    background: rgba(0, 0, 0, 0.6); 
+    box-shadow: inset 2px 2px 8px rgba(0, 0, 0, 0.2), 0 0 0 2px rgba(255, 255, 255, 0.2); 
   }
   
   .slick-grey-search-query-input::placeholder {
-    color: rgba(255, 255, 255, 0.6); /* Lighter placeholder for contrast on dark background */
+    color: rgba(255, 255, 255, 0.3); 
   }
   
   .slick-grey-dropdown-options {
     position: absolute;
     top: 100%;
+    margin-top: 15px;
     left: 0;
     right: 0;
-    margin-top: 15px;
-    background: rgba(44, 44, 44, 0.95); /* Dark, almost opaque background for options */
-    border-radius: 6px; /* Less roundness */
+    background: rgb(44, 44, 44); 
+    border-radius: 6px;
     border: 1px solid rgba(255, 255, 255, 0.15);
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
     z-index: 1000;
     overflow: hidden;
   }
-  
+
   .slick-grey-dropdown-option {
     padding: 14px 20px;
     cursor: pointer;
-    color: #e0e0e0; /* Light grey text */
+    color: #e0e0e0; 
     transition: background-color 0.2s ease, color 0.2s ease;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05); /* Very subtle separator */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1); 
   }
   
-  .slick-grey-dropdown-option:last-child {
-    border-bottom: none;
-  }
+
   
   .slick-grey-dropdown-option-focused {
-    background-color: rgba(90, 90, 90, 0.5); /* Slightly lighter dark grey for highlight */
-    color: #ffffff; /* White text on highlight */
+    background-color: rgba(90, 90, 90, 0.5); 
+    color: #ffffff; 
   }
   
   .slick-grey-dropdown-option-label {
@@ -80,7 +68,7 @@
   
   .slick-grey-dropdown-option-label-focused {
     font-weight: 600;
-    color: #ffffff; /* White text for focused label */
+    color: #ffffff; 
   }
   
   .slick-grey-dropdown-option-no-match {
@@ -93,15 +81,15 @@
   
   .slick-grey-trigger-icon {
     position: absolute;
-    right: 30px;
+    right: 20px;
     width: 24px;
     height: 24px;
     transition: transform 0.2s ease-in-out;
-    color: #bbbbbb; /* Light grey icon */
+    color: #bbbbbb; 
     pointer-events: none;
   }
   
   .slick-grey-trigger-icon-invert {
     transform: rotate(180deg);
-    color: #ffffff; /* White icon when toggled */
+    color: #ffffff; 
   }
