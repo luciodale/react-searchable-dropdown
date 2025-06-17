@@ -15,6 +15,9 @@ disabled?: boolean
 debounceDelay?: number
 filterType?: 'CASE_SENSITIVE_EQUAL' | 'EQUAL' | 'STARTS_WITH' | 'WORD_STARTS_WITH' | 'CONTAINS' | 'ACRONYM' | 'MATCHES' | 'NO_MATCH'
 dropdownOptionsHeight?: number
+searchQuery?: string | undefined
+onSearchQueryChange?: (query: string | undefined) => void
+dropdownNoOptionsLabel?: string
 createNewOptionIfNoMatch?: boolean
 dropdownOptionNoMatchLabel?: string
 classNameSearchableDropdownContainer?: string

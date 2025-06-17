@@ -1,4 +1,3 @@
-
 # React Searchable Dropdown [VIEW DEMO](https://react-searchable-dropdown.netlify.app/)
 
 
@@ -171,6 +170,10 @@ Both components share these common props:
 | `createNewOptionIfNoMatch` | `boolean` | `true` | Whether to allow creating new options |
 | `dropdownOptionNoMatchLabel` | `string` | `'No Match'` | Label shown when no matches are found |
 | `DropdownIcon` | `React.ComponentType<{ toggled: boolean }>` | - | Custom dropdown icon component |
+| `searchQuery` | `string \| undefined` | - | Controlled search query value |
+| `onSearchQueryChange` | `(query: string \| undefined) => void` | - | Callback when search query changes |
+| `dropdownNoOptionsLabel` | `string` | - | Label shown when there are no options |
+| `onBlur` | `() => void` | - | Callback when dropdown loses focus |
 
 ### Single Select Props
 
