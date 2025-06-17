@@ -76,6 +76,7 @@ export type TSearchableCommonMulti<T extends TDropdownOption> = {
 	dropdownOptionsHeight?: number;
 	createNewOptionIfNoMatch?: boolean;
 	dropdownOptionNoMatchLabel?: string;
+	dropdownNoOptionsLabel?: string;
 	disabled?: boolean;
 	classNameSearchableDropdownContainer?: string;
 	classNameSearchQueryInput?: string;

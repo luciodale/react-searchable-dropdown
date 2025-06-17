@@ -1,46 +1,46 @@
 {
-  "name": "@luciodale/react-searchable-dropdown",
-  "version": "0.0.13",
-  "description": "A reusable React searchable dropdown component.",
-  "keywords": ["react", "dropdown", "searchable", "component", "npm"],
-  "main": "dist/react-searchable-dropdown.umd.js",
-  "module": "dist/react-searchable-dropdown.es.js",
-  "types": "dist/index.d.ts",
-  "files": ["dist"],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/luciodale/react-searchable-dropdown"
-  },
-  "homepage": "https://react-searchable-dropdown.netlify.app/",
-  "scripts": {
-    "dev": "bun add -D @luciodale/react-searchable-dropdown@latest && vite -c dev.vite.config.mts",
-    "build:lib": "vite build",
-    "npm": "bun run build:lib && npm publish --access public",
-    "docs": "vite build -c dev.vite.config.mts"
-  },
-  "author": "Your Name Here",
-  "license": "MIT",
-  "devDependencies": {
-    "@biomejs/biome": "^1.9.4",
-    "@luciodale/react-searchable-dropdown": "^0.0.12",
-    "@types/autosuggest-highlight": "^3.2.3",
-    "@types/node": "^24.0.0",
-    "@types/react": "^18.3.3",
-    "@types/react-dom": "^18.3.0",
-    "@vitejs/plugin-react": "^4.3.1",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "vite": "^5.3.1",
-    "vite-plugin-dts": "^3.9.1",
-    "vite-plugin-static-copy": "^3.0.2"
-  },
-  "peerDependencies": {
-    "react": ">=16.9.0",
-    "react-dom": ">=16.9.0"
-  },
-  "dependencies": {
-    "autosuggest-highlight": "^3.3.4",
-    "match-sorter": "^8.0.2",
-    "react-virtuoso": "^4.12.8"
-  }
+	"name": "@luciodale/react-searchable-dropdown",
+	"version": "0.0.14",
+	"description": "A reusable React searchable dropdown component.",
+	"keywords": ["react", "dropdown", "searchable", "component", "npm"],
+	"main": "dist/react-searchable-dropdown.umd.js",
+	"module": "dist/react-searchable-dropdown.es.js",
+	"types": "dist/index.d.ts",
+	"files": ["dist"],
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/luciodale/react-searchable-dropdown"
+	},
+	"homepage": "https://react-searchable-dropdown.netlify.app/",
+	"scripts": {
+		"dev": "bun add -D @luciodale/react-searchable-dropdown@latest && vite -c dev.vite.config.mts",
+		"build:lib": "vite build",
+		"npm": "bun run build:lib && npm publish --access public",
+		"docs": "vite build -c dev.vite.config.mts"
+	},
+	"author": "Your Name Here",
+	"license": "MIT",
+	"devDependencies": {
+		"@biomejs/biome": "^1.9.4",
+		"@luciodale/react-searchable-dropdown": "^0.0.12",
+		"@types/autosuggest-highlight": "^3.2.3",
+		"@types/node": "^24.0.0",
+		"@types/react": "^18.3.3",
+		"@types/react-dom": "^18.3.0",
+		"@vitejs/plugin-react": "^4.3.1",
+		"react": "^18.3.1",
+		"react-dom": "^18.3.1",
+		"vite": "^5.3.1",
+		"vite-plugin-dts": "^3.9.1",
+		"vite-plugin-static-copy": "^3.0.2"
+	},
+	"peerDependencies": {
+		"react": ">=16.9.0",
+		"react-dom": ">=16.9.0"
+	},
+	"dependencies": {
+		"autosuggest-highlight": "^3.3.4",
+		"match-sorter": "^8.0.2",
+		"react-virtuoso": "^4.12.8"
+	}
 }
