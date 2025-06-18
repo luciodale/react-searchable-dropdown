@@ -5,12 +5,14 @@ import React, { useState } from "react";
 import "../../../src/assets/single-style.css";
 import { SearchableDropdown } from "../../../src/index";
 import { sampleOptions } from "../mock";
+import { FloatingUi } from "./FloatingUi";
 
 export function SingleDropdownDemo() {
 	const [value, setValue] = useState<string | undefined>(undefined);
 
 	return (
 		<div className="container">
+			<FloatingUi />
 			<div className="text-and-dropdown">
 				<h3>Default Theme</h3>
 				<p>City list length: {sampleOptions.length}</p>

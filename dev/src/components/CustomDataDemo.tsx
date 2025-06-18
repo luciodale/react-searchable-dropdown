@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { SearchableDropdown } from "../../../src/index";
+import { FloatingUi } from "./FloatingUi";
 
 export function CustomDataDemo() {
 	const [value, setValue] = useState<string | undefined>(undefined);

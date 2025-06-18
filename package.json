@@ -22,7 +22,7 @@
   "license": "MIT",
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",
-    "@luciodale/react-searchable-dropdown": "^0.0.12",
+    "@luciodale/react-searchable-dropdown": "^0.0.14",
     "@types/autosuggest-highlight": "^3.2.3",
     "@types/node": "^24.0.0",
     "@types/react": "^18.3.3",
@@ -39,6 +39,7 @@
     "react-dom": ">=16.9.0"
   },
   "dependencies": {
+    "@floating-ui/react": "^0.27.12",
     "autosuggest-highlight": "^3.3.4",
     "match-sorter": "^8.0.2",
     "react-virtuoso": "^4.12.8"
