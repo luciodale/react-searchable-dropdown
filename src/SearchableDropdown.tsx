@@ -1,3 +1,12 @@
+import {
+	FloatingPortal,
+	autoUpdate,
+	flip,
+	offset,
+	shift,
+	size,
+	useFloating,
+} from "@floating-ui/react";
 import { type ChangeEvent, useCallback, useEffect, useRef, useState } from "react";
 import { Virtuoso, type VirtuosoHandle } from "react-virtuoso";
 import { DropdownIconDefault } from "./components/DropdownIconDefault";
@@ -14,7 +23,6 @@ import type { TDropdownOption, TSearchableDropdown } from "./types";
 import {
 	getLabelFromOption,
 	getSearchQueryLabelFromOption,
-	getValueFromOption,
 	getValueStringFromOption,
 } from "./utils";
 
@@ -47,7 +55,24 @@ export function SearchableDropdown<T extends TDropdownOption>({
 	classNameTriggerIconInvert = "trigger-icon-invert",
 	classNameDisabled,
 }: TSearchableDropdown<T>) {
-	const searchQueryinputRef = useRef<HTMLInputElement>(null);
+	const { refs, floatingStyles } = useFloating({
+		placement: "bottom",
+		whileElementsMounted: autoUpdate,
+		middleware: [
+			offset(10),
+			flip(),
+			shift(),
+			size({
+				apply({ rects, elements }) {
+					Object.assign(elements.floating.style, {
+						width: `${rects.reference.width}px`,
+					});
+				},
+			}),
+		],
+	});
+
+	const searchQueryinputRef = refs.reference;
 	const dropdownOptionsContainerRef = useRef<HTMLDivElement>(null);
 	const virtuosoRef = useRef<VirtuosoHandle>(null);
 
@@ -249,7 +274,7 @@ export function SearchableDropdown<T extends TDropdownOption>({
 			matchingOptions,
 		],
 	);
-
+	console.log("floating styles", showDropdownOptions);
 	return (
 		<div
 			ref={containerRef}
@@ -257,7 +282,7 @@ export function SearchableDropdown<T extends TDropdownOption>({
 			onKeyDown={handleKeyDown}
 		>
 			<input
-				ref={searchQueryinputRef}
+				ref={refs.setReference}
 				type="text"
 				readOnly={disabled}
 				disabled={disabled}
@@ -289,18 +314,24 @@ export function SearchableDropdown<T extends TDropdownOption>({
 
 			{showDropdownOptions &&
 				(options.length > 0 ? (
-					<div ref={dropdownOptionsContainerRef} className={classNameDropdownOptions}>
-						<Virtuoso
-							ref={virtuosoRef}
-							style={{ height: `${heightOfDropdownOptionsContainer}px` }}
-							totalCount={matchingOptions.length}
-							itemContent={DropdownOptionCallback}
-							totalListHeightChanged={(height) => setVirtuosoOptionsHeight(height)}
-							components={{
-								Footer: dropdownOptionNoMatchCallback,
-							}}
-						/>
-					</div>
+					<FloatingPortal>
+						<div
+							ref={refs.setFloating}
+							style={floatingStyles}
+							className={`searchable-dropdown ${classNameDropdownOptions}`}
+						>
+							<Virtuoso
+								ref={virtuosoRef}
+								style={{ height: `${heightOfDropdownOptionsContainer}px` }}
+								totalCount={matchingOptions.length}
+								itemContent={DropdownOptionCallback}
+								totalListHeightChanged={(height) => setVirtuosoOptionsHeight(height)}
+								components={{
+									Footer: dropdownOptionNoMatchCallback,
+								}}
+							/>
+						</div>
+					</FloatingPortal>
 				) : (
 					<NoOptionsProvided
 						classNameDropdownOptions={classNameDropdownOptions}
