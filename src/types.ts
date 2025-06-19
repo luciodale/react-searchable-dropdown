@@ -42,6 +42,8 @@ export type TSearchableCommon<T extends TDropdownOption> = {
 	createNewOptionIfNoMatch?: boolean;
 	dropdownOptionNoMatchLabel?: string;
 	disabled?: boolean;
+	offset?: number;
+	strategy?: "absolute" | "fixed";
 	classNameSearchableDropdownContainer?: string;
 	classNameSearchQueryInput?: string;
 	classNameDropdownOptions?: string;
@@ -78,6 +80,8 @@ export type TSearchableCommonMulti<T extends TDropdownOption> = {
 	dropdownOptionNoMatchLabel?: string;
 	dropdownNoOptionsLabel?: string;
 	disabled?: boolean;
+	offset?: number;
+	strategy?: "absolute" | "fixed";
 	classNameSearchableDropdownContainer?: string;
 	classNameSearchQueryInput?: string;
 	classNameDropdownOptions?: string;

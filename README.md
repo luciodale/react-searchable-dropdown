@@ -169,6 +169,8 @@ Both components share these common props:
 | `dropdownOptionsHeight` | `number` | `300` | Height of the dropdown options container |
 | `createNewOptionIfNoMatch` | `boolean` | `true` | Whether to allow creating new options |
 | `dropdownOptionNoMatchLabel` | `string` | `'No Match'` | Label shown when no matches are found |
+| `offset` | `number` | `5` | Distance in pixels between the trigger and dropdown |
+| `strategy` | `'absolute' \| 'fixed'` | `'absolute'` | Positioning strategy for the dropdown |
 | `DropdownIcon` | `React.ComponentType<{ toggled: boolean }>` | - | Custom dropdown icon component |
 | `searchQuery` | `string \| undefined` | - | Controlled search query value |
 | `onSearchQueryChange` | `(query: string \| undefined) => void` | - | Callback when search query changes |
@@ -193,6 +195,32 @@ Both components share these common props:
 | `ClearAllIcon` | `React.ComponentType` | - | Custom clear all icon component |
 | `onClearAll` | `() => void` | - | Callback when all values are cleared |
 | `onClearOption` | `(option: string \| { label: string; value: string }) => void` | - | Callback when a single option is cleared |
+
+### Positioning
+
+The components use Floating UI for positioning and support two key props for customization:
+
+#### Offset
+The `offset` prop controls the distance in pixels between the trigger element and the dropdown. Default is `5`.
+
+```tsx
+<SearchableDropdown
+  offset={10} // 10px gap between trigger and dropdown
+  // ... other props
+/>
+```
+
+#### Strategy
+The `strategy` prop determines the positioning strategy:
+- `'absolute'` (default): Positions relative to the nearest positioned ancestor
+- `'fixed'`: Positions relative to the viewport, useful for modals or when breaking out of overflow containers
+
+```tsx
+<SearchableDropdown
+  strategy="fixed" // Use fixed positioning
+  // ... other props
+/>
+```
 
 ### Styling
 

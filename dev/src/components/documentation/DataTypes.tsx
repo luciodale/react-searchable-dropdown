@@ -20,6 +20,8 @@ onSearchQueryChange?: (query: string | undefined) => void
 dropdownNoOptionsLabel?: string
 createNewOptionIfNoMatch?: boolean
 dropdownOptionNoMatchLabel?: string
+offset?: number
+strategy?: 'absolute' | 'fixed'
 classNameSearchableDropdownContainer?: string
 classNameSearchQueryInput?: string
 classNameDropdownOptions?: string

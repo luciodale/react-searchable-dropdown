@@ -65,7 +65,7 @@
   transform: rotate(180deg);
 }
 
-.searchable-dropdown .multi-dropdown-options {
+.searchable-dropdown.multi-dropdown-options {
   position: absolute;
   top: calc(100% + var(--spacing-sm));
   left: 0;

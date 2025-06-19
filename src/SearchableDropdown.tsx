@@ -43,6 +43,8 @@ export function SearchableDropdown<T extends TDropdownOption>({
 	dropdownOptionNoMatchLabel = "No Match",
 	dropdownNoOptionsLabel = "No options provided",
 	createNewOptionIfNoMatch = true,
+	offset: offsetValue = 5,
+	strategy = "absolute",
 	classNameSearchableDropdownContainer = "searchable-dropdown-container",
 	classNameSearchQueryInput = "search-query-input",
 	classNameDropdownOptions = "dropdown-options",
@@ -58,9 +60,10 @@ export function SearchableDropdown<T extends TDropdownOption>({
 }: TSearchableDropdown<T>) {
 	const { refs, floatingStyles } = useFloating({
 		placement: "bottom",
+		strategy,
 		whileElementsMounted: autoUpdate,
 		middleware: [
-			offset(5),
+			offset(offsetValue),
 			flip(),
 			shift(),
 			size({
@@ -180,14 +183,16 @@ export function SearchableDropdown<T extends TDropdownOption>({
 	);
 
 	const onLeaveCallback = useCallback(() => {
+		if (!showDropdownOptions) return;
 		setShowDropdownOptions(false);
 		setSuppressMouseEnterOptionListener(false);
 		setSearchQuery(getLabelFromOption(value || ""));
 		setDropdownOptionNavigationIndex(0);
 		setVirtuosoOptionsHeight(dropdownOptionsHeight);
-	}, [value, dropdownOptionsHeight, setSearchQuery]);
+	}, [value, dropdownOptionsHeight, setSearchQuery, showDropdownOptions]);
 
-	const containerRef = useClickOutside(onLeaveCallback);
+	// @ts-expect-error - refs from floating ui are typed as VirtualElement
+	useClickOutside([refs.reference, refs.floating], onLeaveCallback);
 
 	const { handleKeyDown } = useKeyboardNavigation({
 		virtuosoRef,
@@ -277,7 +282,7 @@ export function SearchableDropdown<T extends TDropdownOption>({
 
 	return (
 		<div
-			ref={containerRef}
+			ref={refs.setReference}
 			className={`searchable-dropdown ${classNameSearchableDropdownContainer} ${disabled ? "disabled" : ""}`}
 			onKeyDown={handleKeyDown}
 		>
