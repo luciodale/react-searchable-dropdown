@@ -18,7 +18,7 @@ export function SingleDropdownDemo() {
 				<p>City list length: {sampleOptions.length}</p>
 
 				<SearchableDropdown
-					dropdownOptionsHeight={312}
+					dropdownOptionsHeight={320}
 					placeholder="Select an option"
 					options={sampleOptions}
 					value={value}

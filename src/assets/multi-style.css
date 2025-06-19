@@ -78,10 +78,6 @@
   overflow: hidden;
 }
 
-.searchable-dropdown .multi-dropdown-options.visible {
-  transform: translateY(0);
-}
-
 .searchable-dropdown .multi-dropdown-option {
   padding: var(--spacing-md) var(--spacing-lg);
   cursor: pointer;

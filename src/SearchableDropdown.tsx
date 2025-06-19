@@ -23,6 +23,7 @@ import type { TDropdownOption, TSearchableDropdown } from "./types";
 import {
 	getLabelFromOption,
 	getSearchQueryLabelFromOption,
+	getValueFromOption,
 	getValueStringFromOption,
 } from "./utils";
 
@@ -59,7 +60,7 @@ export function SearchableDropdown<T extends TDropdownOption>({
 		placement: "bottom",
 		whileElementsMounted: autoUpdate,
 		middleware: [
-			offset(10),
+			offset(5),
 			flip(),
 			shift(),
 			size({
@@ -72,8 +73,7 @@ export function SearchableDropdown<T extends TDropdownOption>({
 		],
 	});
 
-	const searchQueryinputRef = refs.reference;
-	const dropdownOptionsContainerRef = useRef<HTMLDivElement>(null);
+	const searchQueryinputRef = refs.reference as React.MutableRefObject<HTMLInputElement | null>;
 	const virtuosoRef = useRef<VirtuosoHandle>(null);
 
 	const [searchQueryInternal, setSearchQueryInternal] = useState<string | undefined>(
@@ -154,8 +154,8 @@ export function SearchableDropdown<T extends TDropdownOption>({
 		(option: TDropdownOption | undefined) => {
 			// option might be undefined when createNewOptionIfNoMatch is false
 			if (option) {
-				// @ts-expect-error - the union type messes up the type inference
-				setValue(getValueFromOption(option, searchOptionKeys));
+				// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+				setValue(getValueFromOption(option as any, searchOptionKeys));
 				setSearchQuery(getSearchQueryLabelFromOption(option));
 				// when undefined we restore the value as searchQuery
 			} else if (value) {
@@ -274,7 +274,7 @@ export function SearchableDropdown<T extends TDropdownOption>({
 			matchingOptions,
 		],
 	);
-	console.log("floating styles", showDropdownOptions);
+
 	return (
 		<div
 			ref={containerRef}
@@ -312,9 +312,9 @@ export function SearchableDropdown<T extends TDropdownOption>({
 				/>
 			)}
 
-			{showDropdownOptions &&
-				(options.length > 0 ? (
-					<FloatingPortal>
+			{showDropdownOptions && (
+				<FloatingPortal>
+					{options.length > 0 ? (
 						<div
 							ref={refs.setFloating}
 							style={floatingStyles}
@@ -331,14 +331,21 @@ export function SearchableDropdown<T extends TDropdownOption>({
 								}}
 							/>
 						</div>
-					</FloatingPortal>
-				) : (
-					<NoOptionsProvided
-						classNameDropdownOptions={classNameDropdownOptions}
-						classNameDropdownOption={classNameDropdownOption}
-						dropdownNoOptionsLabel={dropdownNoOptionsLabel}
-					/>
-				))}
+					) : (
+						<div
+							className={`searchable-dropdown ${classNameDropdownOptions}`}
+							ref={refs.setFloating}
+							style={floatingStyles}
+						>
+							<NoOptionsProvided
+								classNameDropdownOptions={classNameDropdownOptions}
+								classNameDropdownOption={classNameDropdownOption}
+								dropdownNoOptionsLabel={dropdownNoOptionsLabel}
+							/>
+						</div>
+					)}
+				</FloatingPortal>
+			)}
 		</div>
 	);
 }
