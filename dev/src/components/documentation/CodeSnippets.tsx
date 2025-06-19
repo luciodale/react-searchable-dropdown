@@ -1,4 +1,4 @@
-export function getComponentCode(activeTab: "single" | "multi" | "custom" | "styled" | "server") {
+export function getComponentCode(activeTab: string) {
 	if (activeTab === "single") {
 		return `
 import { SearchableDropdown } from "@luciodale/react-searchable-dropdown";

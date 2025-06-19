@@ -451,3 +451,27 @@ body {
 	white-space: nowrap;
 	border: 0;
 }
+
+.absolute-overflow-demo-container {
+  position: relative;
+  width: 340px;
+  height: 60px;
+  padding: 20px;
+  overflow: hidden;
+  background-color: var(--background-secondary);
+  border: 1px solid var(--border-color);
+}
+
+.absolute-overflow-demo {
+  top: 0;
+  left: 0;
+  width: 90%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+}

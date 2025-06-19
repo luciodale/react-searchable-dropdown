@@ -1,15 +1,16 @@
 import React, { useState } from "react";
+import { AbsoluteOverflowDemo } from "../AbsoluteOverflowDemo";
 import { CustomDataDemo } from "../CustomDataDemo";
 import { MultiDropdownDemo } from "../MultiDropdownDemo";
 import { ServerOptionsDropdownDemo } from "../ServerOptionsDropdownDemo";
 import { SingleDropdownDemo } from "../SingleDropdownDemo";
 import { SlickGreyEleganceDropdownDemo } from "../SlickGreyDropdownDemo";
-import { getComponentCode } from "./CodeSnippets";
+import { getComponentCode } from "../documentation/CodeSnippets";
 
 export function Examples() {
-	const [activeTab, setActiveTab] = useState<"single" | "multi" | "custom" | "styled" | "server">(
-		"single",
-	);
+	const [activeTab, setActiveTab] = useState<
+		"single" | "multi" | "custom" | "styled" | "server" | "absolute-overflow"
+	>("single");
 
 	const exampleSnippet = getComponentCode(activeTab);
 
@@ -52,6 +53,13 @@ export function Examples() {
 				>
 					Server-Side Search
 				</button>
+				<button
+					type="button"
+					className={`tab-button ${activeTab === "absolute-overflow" ? "active" : ""}`}
+					onClick={() => setActiveTab("absolute-overflow")}
+				>
+					Absolute Overflow
+				</button>
 			</div>
 
 			<div className="demo-container">
@@ -63,6 +71,8 @@ export function Examples() {
 					<CustomDataDemo />
 				) : activeTab === "styled" ? (
 					<SlickGreyEleganceDropdownDemo />
+				) : activeTab === "absolute-overflow" ? (
+					<AbsoluteOverflowDemo />
 				) : (
 					<ServerOptionsDropdownDemo />
 				)}

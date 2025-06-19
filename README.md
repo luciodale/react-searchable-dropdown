@@ -26,6 +26,8 @@ The good news? I built it! This library combines these essential features in a w
 
 - 🔍 Real-time search filtering
 - ⌨️ Keyboard navigation support
+- 🌐 Portal rendering for overflow handling
+- 🔄 Smart positioning handling scrolling and flipping
 - 🎯 Single and multi-select variants
 - 🎨 Fully customizable styling
 - 🚀 Virtualized list for performance
