@@ -2,7 +2,6 @@
 import React, { useState } from "react";
 import { SearchableDropdown } from "../../../src/index";
 import { sampleOptions } from "../mock";
-import "../styles/slick-grey.css";
 
 export function SlickGreyEleganceDropdownDemo() {
 	const [selectedValue, setSelectedValue] = useState<string | undefined>(undefined);

@@ -1,9 +1,7 @@
 import React, { useState } from "react";
+// import { SearchableDropdown } from "@luciodale/react-searchable-dropdown";
 import { SearchableDropdown } from "../../../src/SearchableDropdown";
 import { sampleOptions } from "../mock";
-
-// import { SearchableDropdown } from "@luciodale/react-searchable-dropdown";
-// import "@luciodale/react-searchable-dropdown/dist/assets/single-style.css";
 
 export function AbsoluteOverflowDemo() {
 	const [value, setValue] = useState<string | undefined>(undefined);

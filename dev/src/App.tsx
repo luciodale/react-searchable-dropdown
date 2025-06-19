@@ -7,6 +7,11 @@ import { Features } from "./components/Documentation/Features";
 import { Hero } from "./components/Documentation/Hero";
 import { Installation } from "./components/Documentation/Installation";
 import { Navigation } from "./components/Documentation/Navigation";
+// import "@luciodale/react-searchable-dropdown/dist/assets/single-style.css";
+// import "@luciodale/react-searchable-dropdown/dist/assets/multi-style.css";
+import "../../src/assets/multi-style.css";
+import "../../src/assets/single-style.css";
+import "./styles/slick-grey.css";
 
 function App() {
 	return (

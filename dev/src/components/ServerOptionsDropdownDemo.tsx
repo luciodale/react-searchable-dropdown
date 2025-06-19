@@ -1,9 +1,7 @@
 // dev/src/demos/FrostedEleganceDropdownDemo.tsx
 import React, { useEffect, useState } from "react";
 // import { SearchableDropdown } from "@luciodale/react-searchable-dropdown";
-// import "@luciodale/react-searchable-dropdown/dist/assets/single-style.css";
 import { SearchableDropdown } from "../../../src";
-import "../../../src/assets/single-style.css";
 import { useDebounce } from "../../../src/hooks/useDebounce";
 
 interface DictionaryEntry {

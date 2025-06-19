@@ -283,7 +283,6 @@ export function SearchableDropdown<T extends TDropdownOption>({
 
 	return (
 		<div
-			ref={refs.setReference}
 			className={`${BASE_CLASS} ${classNameSearchableDropdownContainer} ${disabled ? "disabled" : ""}`}
 			onKeyDown={handleKeyDown}
 		>
