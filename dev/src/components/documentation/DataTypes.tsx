@@ -20,6 +20,8 @@ onSearchQueryChange?: (query: string | undefined) => void
 dropdownNoOptionsLabel?: string
 createNewOptionIfNoMatch?: boolean
 dropdownOptionNoMatchLabel?: string
+offset?: number
+strategy?: 'absolute' | 'fixed'
 classNameSearchableDropdownContainer?: string
 classNameSearchQueryInput?: string
 classNameDropdownOptions?: string
@@ -59,7 +61,8 @@ ClearAllIcon?: React.ComponentType
 onClearAll?: () => void
 onClearOption?: (option: string | { label: string; value: string }) => void
 classNameMultiSelectedOption?: string
-classNameMultiSelectedOptionClose?: string`}</code>
+classNameMultiSelectedOptionClose?: string
+classNameClearAll?: string`}</code>
 				</pre>
 			</div>
 		</section>

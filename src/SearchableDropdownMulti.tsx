@@ -1,3 +1,12 @@
+import {
+	FloatingPortal,
+	autoUpdate,
+	flip,
+	offset,
+	shift,
+	size,
+	useFloating,
+} from "@floating-ui/react";
 import { type ChangeEvent, useCallback, useEffect, useMemo, useRef, useState } from "react"; // Added useMemo
 import { Virtuoso, type VirtuosoHandle } from "react-virtuoso";
 import { Chip } from "./components/Chip";
@@ -6,6 +15,7 @@ import { DropdownIconDefault } from "./components/DropdownIconDefault";
 import { DropdownOption } from "./components/DropdownOption";
 import { DropdownOptionNoMatch } from "./components/DropdownOptionNoMatch";
 import { NoOptionsProvided } from "./components/NoOptionsProvided";
+import { BASE_CLASS } from "./constants";
 import { useClickOutside } from "./hooks/useClickOutside";
 import { useDebounce } from "./hooks/useDebounce";
 import { useDropdownOptions } from "./hooks/useDropdownOptions";
@@ -37,25 +47,46 @@ export function SearchableDropdownMulti<T extends TDropdownOption>({
 	dropdownOptionNoMatchLabel = "No Match",
 	dropdownNoOptionsLabel = "No options provided",
 	createNewOptionIfNoMatch = true,
-	classNameSearchableDropdownContainer = "multi-searchable-dropdown-container",
-	classNameSearchQueryInput = "multi-search-query-input",
-	classNameDropdownOptions = "multi-dropdown-options",
-	classNameDropdownOption = "multi-dropdown-option",
-	classNameDropdownOptionFocused = "multi-dropdown-option-focused",
-	classNameDropdownOptionLabel = "multi-dropdown-option-label",
-	classNameDropdownOptionLabelFocused = "multi-dropdown-option-label-focused",
-	classNameDropdownOptionNoMatch = "multi-dropdown-option-no-match",
-	classNameTriggerIcon = "multi-trigger-icon",
-	classNameTriggerIconInvert = "multi-trigger-icon-invert",
-	classNameMultiSelectedOption = "multi-chip",
-	classNameMultiSelectedOptionClose = "multi-chip-close",
+	offset: offsetValue = 5,
+	strategy = "absolute",
+	classNameSearchableDropdownContainer = "lda-multi-dropdown-container",
+	classNameSearchQueryInput = "lda-multi-search-query-input",
+	classNameDropdownOptions = "lda-multi-dropdown-options",
+	classNameDropdownOption = "lda-multi-dropdown-option",
+	classNameDropdownOptionFocused = "lda-multi-dropdown-option-focused",
+	classNameDropdownOptionLabel = "lda-multi-dropdown-option-label",
+	classNameDropdownOptionLabelFocused = "lda-multi-dropdown-option-label-focused",
+	classNameDropdownOptionNoMatch = "lda-multi-dropdown-option-no-match",
+	classNameTriggerIcon = "lda-multi-trigger-icon",
+	classNameTriggerIconInvert = "lda-multi-trigger-icon-invert",
+	classNameMultiSelectedOption = "lda-multi-chip",
+	classNameMultiSelectedOptionClose = "lda-multi-chip-close",
+	classNameClearAll = "lda-multi-clear-all",
 	ClearAllIcon,
 	onClearAll,
 	onClearOption,
 	classNameDisabled,
 }: TSearchableDropdownMulti<T>) {
+	const { refs, floatingStyles } = useFloating({
+		placement: "bottom",
+		strategy,
+		whileElementsMounted: autoUpdate,
+		middleware: [
+			offset(offsetValue),
+			flip(),
+			shift(),
+			size({
+				apply({ rects, elements }) {
+					Object.assign(elements.floating.style, {
+						width: `${rects.reference.width}px`,
+					});
+				},
+			}),
+		],
+	});
+
 	const searchQueryinputRef = useRef<HTMLInputElement>(null);
-	const dropdownOptionsContainerRef = useRef<HTMLDivElement>(null);
+
 	const virtuosoRef = useRef<VirtuosoHandle>(null);
 
 	const [searchQueryInternal, setSearchQueryInternal] = useState<string | undefined>(
@@ -198,14 +229,16 @@ export function SearchableDropdownMulti<T extends TDropdownOption>({
 	);
 
 	const onLeaveCallback = useCallback(() => {
+		if (!showDropdownOptions) return;
 		setShowDropdownOptions(false);
 		setSuppressMouseEnterOptionListener(false);
 		setSearchQuery("");
 		setDropdownOptionNavigationIndex(0);
 		setVirtuosoOptionsHeight(dropdownOptionsHeight);
-	}, [dropdownOptionsHeight, setSearchQuery]);
+	}, [dropdownOptionsHeight, setSearchQuery, showDropdownOptions]);
 
-	const containerRef = useClickOutside(onLeaveCallback);
+	// @ts-expect-error - refs from floating ui are typed as VirtualElement
+	useClickOutside([refs.reference, refs.floating], onLeaveCallback);
 
 	const { handleKeyDown } = useKeyboardNavigation({
 		virtuosoRef,
@@ -264,25 +297,27 @@ export function SearchableDropdownMulti<T extends TDropdownOption>({
 
 	const dropdownOptionNoMatchCallback = useCallback(
 		() =>
-			!createNewOptionIfNoMatch &&
 			!matchingOptions.length && (
 				<DropdownOptionNoMatch
 					classNameDropdownOptionNoMatch={classNameDropdownOptionNoMatch}
 					dropdownOptionNoMatchLabel={dropdownOptionNoMatchLabel}
 				/>
 			),
-		[
-			classNameDropdownOptionNoMatch,
-			dropdownOptionNoMatchLabel,
-			createNewOptionIfNoMatch,
-			matchingOptions,
-		],
+		[classNameDropdownOptionNoMatch, dropdownOptionNoMatchLabel, matchingOptions],
 	);
+
+	const adjustHeightOfSearchQueryInput = useMemo(() => {
+		// if the dropdown is not shown and there are values selected, set the height to 0
+		if (!showDropdownOptions && values && values?.length > 0) {
+			return "0px";
+		}
+		return "inherit";
+	}, [showDropdownOptions, values]);
 
 	return (
 		<div
-			ref={containerRef}
-			className={`searchable-dropdown ${classNameSearchableDropdownContainer} ${disabled ? classNameDisabled || "disabled" : ""}`}
+			ref={refs.setReference}
+			className={`${BASE_CLASS} ${classNameSearchableDropdownContainer} ${disabled ? classNameDisabled || "disabled" : ""}`}
 			onKeyDown={handleKeyDown}
 			onMouseUp={() => searchQueryinputRef.current?.focus()}
 		>
@@ -304,6 +339,9 @@ export function SearchableDropdownMulti<T extends TDropdownOption>({
 			<input
 				ref={searchQueryinputRef}
 				type="text"
+				style={{
+					height: adjustHeightOfSearchQueryInput,
+				}}
 				readOnly={disabled}
 				disabled={disabled}
 				placeholder={values?.length ? "" : placeholder}
@@ -328,7 +366,7 @@ export function SearchableDropdownMulti<T extends TDropdownOption>({
 						onClearAll?.();
 					}}
 					inputRef={searchQueryinputRef}
-					className="multi-clear-all"
+					className={classNameClearAll}
 					Icon={ClearAllIcon}
 				/>
 			)}
@@ -343,27 +381,34 @@ export function SearchableDropdownMulti<T extends TDropdownOption>({
 					/>
 				))}
 
-			{showDropdownOptions &&
-				(options.length > 0 ? (
-					<div ref={dropdownOptionsContainerRef} className={classNameDropdownOptions}>
-						<Virtuoso
-							ref={virtuosoRef}
-							style={{ height: `${heightOfDropdownOptionsContainer}px` }}
-							totalCount={matchingOptions.length}
-							itemContent={DropdownOptionCallback}
-							totalListHeightChanged={(height) => setVirtuosoOptionsHeight(height)}
-							components={{
-								Footer: dropdownOptionNoMatchCallback,
-							}}
-						/>
+			{showDropdownOptions && (
+				<FloatingPortal>
+					<div
+						ref={refs.setFloating}
+						style={floatingStyles}
+						className={`${BASE_CLASS} ${classNameDropdownOptions}`}
+					>
+						{options.length > 0 ? (
+							<Virtuoso
+								ref={virtuosoRef}
+								style={{ height: `${heightOfDropdownOptionsContainer}px` }}
+								totalCount={matchingOptions.length}
+								itemContent={DropdownOptionCallback}
+								totalListHeightChanged={(height) => setVirtuosoOptionsHeight(height)}
+								components={{
+									Footer: dropdownOptionNoMatchCallback,
+								}}
+							/>
+						) : (
+							<NoOptionsProvided
+								classNameDropdownOptions={classNameDropdownOptions}
+								classNameDropdownOption={classNameDropdownOption}
+								dropdownNoOptionsLabel={dropdownNoOptionsLabel}
+							/>
+						)}
 					</div>
-				) : (
-					<NoOptionsProvided
-						classNameDropdownOptions={classNameDropdownOptions}
-						classNameDropdownOption={classNameDropdownOption}
-						dropdownNoOptionsLabel={dropdownNoOptionsLabel}
-					/>
-				))}
+				</FloatingPortal>
+			)}
 		</div>
 	);
 }

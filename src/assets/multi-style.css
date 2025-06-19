@@ -1,12 +1,11 @@
 @import './variables.css';
 
-.searchable-dropdown.multi-searchable-dropdown-container {
+.lda-multi-dropdown-container {
   position: relative;
   width: var(--width-container);
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: var(--spacing-sm);
   padding: var(--spacing-sm) var(--spacing-xxl) var(--spacing-sm) var(--spacing-sm);
   border: 1px solid var(--color-border);
   border-radius: var(--border-radius-md);
@@ -14,18 +13,18 @@
   background-color: var(--color-background);
 }
 
-.searchable-dropdown.multi-searchable-dropdown-container:focus-within {
+.lda-multi-dropdown-container:focus-within {
   border-color: var(--color-focus);
   box-shadow: 0 0 0 2px rgba(38, 132, 255, 0.2);
 }
 
-.searchable-dropdown.multi-searchable-dropdown-container.disabled {
+.lda-multi-dropdown-container.disabled {
   background-color: var(--color-disabled);
   opacity: 0.7;
   cursor: not-allowed;
 }
 
-.searchable-dropdown .multi-search-query-input { 
+.lda-multi-search-query-input { 
   width: 100%;
   border: none;
   outline: none;
@@ -35,17 +34,17 @@
   color: var(--color-text);
 }
 
-.searchable-dropdown .multi-search-query-input:disabled { 
+.lda-multi-search-query-input:disabled { 
   background-color: transparent;
   cursor: not-allowed;
 }
 
-.searchable-dropdown .multi-search-query-input:focus {
+.lda-multi-search-query-input:focus {
   outline: none;
   box-shadow: none;
 }
 
-.searchable-dropdown .multi-trigger-icon {
+.lda-multi-trigger-icon {
   width: 24px;
   height: 24px;
   position: absolute;
@@ -53,23 +52,19 @@
   opacity: 0.7;
 }
 
-.searchable-dropdown .multi-trigger-icon path {
+.lda-multi-trigger-icon path {
   stroke: var(--color-text);
 }
 
-.searchable-dropdown:hover .multi-trigger-icon {
+.lda-multi-dropdown-container:hover .lda-multi-trigger-icon {
   opacity: 1;
 }
 
-.searchable-dropdown .multi-trigger-icon-invert {
+.lda-multi-trigger-icon-invert {
   transform: rotate(180deg);
 }
 
-.searchable-dropdown .multi-dropdown-options {
-  position: absolute;
-  top: calc(100% + var(--spacing-sm));
-  left: 0;
-  right: 0;
+.lda-multi-dropdown-options {
   background-color: var(--color-background);
   border: 1px solid var(--color-border);
   border-radius: var(--border-radius-md);
@@ -78,29 +73,25 @@
   overflow: hidden;
 }
 
-.searchable-dropdown .multi-dropdown-options.visible {
-  transform: translateY(0);
-}
-
-.searchable-dropdown .multi-dropdown-option {
+.lda-multi-dropdown-option {
   padding: var(--spacing-md) var(--spacing-lg);
   cursor: pointer;
 }
 
-.searchable-dropdown .multi-dropdown-option-focused {
+.lda-multi-dropdown-option-focused {
   background-color: var(--color-option-hover);
 }
 
-.searchable-dropdown .multi-dropdown-option-label {
+.lda-multi-dropdown-option-label {
   font-size: var(--font-size-base);
 }
 
-.searchable-dropdown .multi-dropdown-option-label-focused {
+.lda-multi-dropdown-option-label-focused {
   font-weight: 500;
   color: var(--color-text);
 }
 
-.searchable-dropdown .multi-dropdown-option-no-match {
+.lda-multi-dropdown-option-no-match {
   padding: var(--spacing-md) var(--spacing-lg);
   cursor: pointer;
   color: var(--color-text-secondary);
@@ -108,7 +99,7 @@
 }
 
 /* Keep the multi-specific styles */
-.searchable-dropdown .multi-chip {
+.lda-multi-chip {
   display: inline-flex;
   align-items: center;
   background-color: var(--color-chip-bg);
@@ -120,11 +111,11 @@
   transition: background-color var(--transition-base) ease;
 }
 
-.searchable-dropdown .multi-chip:hover {
+.lda-multi-chip:hover {
   background-color: var(--color-chip-hover);
 }
 
-.searchable-dropdown .multi-chip-close {
+.lda-multi-chip-close {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -142,17 +133,17 @@
   transition: background-color var(--transition-base) ease, color var(--transition-base) ease;
 }
 
-.searchable-dropdown .multi-chip-close:hover {
+.lda-multi-chip-close:hover {
   background-color: var(--color-chip-close-hover-bg);
   color: var(--color-chip-close-hover-text);
 }
 
-.searchable-dropdown .multi-chip-close:focus {
+.lda-multi-chip-close:focus {
   outline: none;
   box-shadow: var(--shadow-button);
 }
 
-.searchable-dropdown .multi-clear-all {
+.lda-multi-clear-all {
   position: absolute;
   right: var(--spacing-md);
   top: 50%;
@@ -170,6 +161,6 @@
   font-size: var(--font-size-base);
 }
 
-.searchable-dropdown .multi-clear-all:hover {
+.lda-multi-clear-all:hover {
   opacity: 1;
 } 

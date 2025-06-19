@@ -1,9 +1,19 @@
+import {
+	FloatingPortal,
+	autoUpdate,
+	flip,
+	offset,
+	shift,
+	size,
+	useFloating,
+} from "@floating-ui/react";
 import { type ChangeEvent, useCallback, useEffect, useRef, useState } from "react";
 import { Virtuoso, type VirtuosoHandle } from "react-virtuoso";
 import { DropdownIconDefault } from "./components/DropdownIconDefault";
 import { DropdownOption } from "./components/DropdownOption";
 import { DropdownOptionNoMatch } from "./components/DropdownOptionNoMatch";
 import { NoOptionsProvided } from "./components/NoOptionsProvided";
+import { BASE_CLASS } from "./constants";
 import { useClickOutside } from "./hooks/useClickOutside";
 import { useDebounce } from "./hooks/useDebounce";
 import { useDropdownOptions } from "./hooks/useDropdownOptions";
@@ -34,21 +44,40 @@ export function SearchableDropdown<T extends TDropdownOption>({
 	dropdownOptionNoMatchLabel = "No Match",
 	dropdownNoOptionsLabel = "No options provided",
 	createNewOptionIfNoMatch = true,
-	classNameSearchableDropdownContainer = "searchable-dropdown-container",
-	classNameSearchQueryInput = "search-query-input",
-	classNameDropdownOptions = "dropdown-options",
-	classNameDropdownOption = "dropdown-option",
-	classNameDropdownOptionFocused = "dropdown-option-focused",
-	classNameDropdownOptionSelected = "dropdown-option-selected",
-	classNameDropdownOptionLabel = "dropdown-option-label",
-	classNameDropdownOptionLabelFocused = "dropdown-option-label-focused",
-	classNameDropdownOptionNoMatch = "dropdown-option-no-match",
-	classNameTriggerIcon = "trigger-icon",
-	classNameTriggerIconInvert = "trigger-icon-invert",
+	offset: offsetValue = 5,
+	strategy = "absolute",
+	classNameSearchableDropdownContainer = "lda-dropdown-container",
+	classNameSearchQueryInput = "lda-dropdown-search-query-input",
+	classNameDropdownOptions = "lda-dropdown-options",
+	classNameDropdownOption = "lda-dropdown-option",
+	classNameDropdownOptionFocused = "lda-dropdown-option-focused",
+	classNameDropdownOptionSelected = "lda-dropdown-option-selected",
+	classNameDropdownOptionLabel = "lda-dropdown-option-label",
+	classNameDropdownOptionLabelFocused = "lda-dropdown-option-label-focused",
+	classNameDropdownOptionNoMatch = "lda-dropdown-option-no-match",
+	classNameTriggerIcon = "lda-dropdown-trigger-icon",
+	classNameTriggerIconInvert = "lda-dropdown-trigger-icon-invert",
 	classNameDisabled,
 }: TSearchableDropdown<T>) {
-	const searchQueryinputRef = useRef<HTMLInputElement>(null);
-	const dropdownOptionsContainerRef = useRef<HTMLDivElement>(null);
+	const { refs, floatingStyles } = useFloating({
+		placement: "bottom",
+		strategy,
+		whileElementsMounted: autoUpdate,
+		middleware: [
+			offset(offsetValue),
+			flip(),
+			shift(),
+			size({
+				apply({ rects, elements }) {
+					Object.assign(elements.floating.style, {
+						width: `${rects.reference.width}px`,
+					});
+				},
+			}),
+		],
+	});
+
+	const searchQueryinputRef = refs.reference as React.MutableRefObject<HTMLInputElement | null>;
 	const virtuosoRef = useRef<VirtuosoHandle>(null);
 
 	const [searchQueryInternal, setSearchQueryInternal] = useState<string | undefined>(
@@ -129,8 +158,8 @@ export function SearchableDropdown<T extends TDropdownOption>({
 		(option: TDropdownOption | undefined) => {
 			// option might be undefined when createNewOptionIfNoMatch is false
 			if (option) {
-				// @ts-expect-error - the union type messes up the type inference
-				setValue(getValueFromOption(option, searchOptionKeys));
+				// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+				setValue(getValueFromOption(option as any, searchOptionKeys));
 				setSearchQuery(getSearchQueryLabelFromOption(option));
 				// when undefined we restore the value as searchQuery
 			} else if (value) {
@@ -155,14 +184,16 @@ export function SearchableDropdown<T extends TDropdownOption>({
 	);
 
 	const onLeaveCallback = useCallback(() => {
+		if (!showDropdownOptions) return;
 		setShowDropdownOptions(false);
 		setSuppressMouseEnterOptionListener(false);
 		setSearchQuery(getLabelFromOption(value || ""));
 		setDropdownOptionNavigationIndex(0);
 		setVirtuosoOptionsHeight(dropdownOptionsHeight);
-	}, [value, dropdownOptionsHeight, setSearchQuery]);
+	}, [value, dropdownOptionsHeight, setSearchQuery, showDropdownOptions]);
 
-	const containerRef = useClickOutside(onLeaveCallback);
+	// @ts-expect-error - refs from floating ui are typed as VirtualElement
+	useClickOutside([refs.reference, refs.floating], onLeaveCallback);
 
 	const { handleKeyDown } = useKeyboardNavigation({
 		virtuosoRef,
@@ -235,29 +266,22 @@ export function SearchableDropdown<T extends TDropdownOption>({
 
 	const dropdownOptionNoMatchCallback = useCallback(
 		() =>
-			!createNewOptionIfNoMatch &&
 			!matchingOptions.length && (
 				<DropdownOptionNoMatch
 					classNameDropdownOptionNoMatch={classNameDropdownOptionNoMatch}
 					dropdownOptionNoMatchLabel={dropdownOptionNoMatchLabel}
 				/>
 			),
-		[
-			classNameDropdownOptionNoMatch,
-			dropdownOptionNoMatchLabel,
-			createNewOptionIfNoMatch,
-			matchingOptions,
-		],
+		[classNameDropdownOptionNoMatch, dropdownOptionNoMatchLabel, matchingOptions],
 	);
 
 	return (
 		<div
-			ref={containerRef}
-			className={`searchable-dropdown ${classNameSearchableDropdownContainer} ${disabled ? "disabled" : ""}`}
+			className={`${BASE_CLASS} ${classNameSearchableDropdownContainer} ${disabled ? "disabled" : ""}`}
 			onKeyDown={handleKeyDown}
 		>
 			<input
-				ref={searchQueryinputRef}
+				ref={refs.setReference}
 				type="text"
 				readOnly={disabled}
 				disabled={disabled}
@@ -287,27 +311,34 @@ export function SearchableDropdown<T extends TDropdownOption>({
 				/>
 			)}
 
-			{showDropdownOptions &&
-				(options.length > 0 ? (
-					<div ref={dropdownOptionsContainerRef} className={classNameDropdownOptions}>
-						<Virtuoso
-							ref={virtuosoRef}
-							style={{ height: `${heightOfDropdownOptionsContainer}px` }}
-							totalCount={matchingOptions.length}
-							itemContent={DropdownOptionCallback}
-							totalListHeightChanged={(height) => setVirtuosoOptionsHeight(height)}
-							components={{
-								Footer: dropdownOptionNoMatchCallback,
-							}}
-						/>
+			{showDropdownOptions && (
+				<FloatingPortal>
+					<div
+						ref={refs.setFloating}
+						style={floatingStyles}
+						className={`${BASE_CLASS} ${classNameDropdownOptions}`}
+					>
+						{options.length > 0 ? (
+							<Virtuoso
+								ref={virtuosoRef}
+								style={{ height: `${heightOfDropdownOptionsContainer}px` }}
+								totalCount={matchingOptions.length}
+								itemContent={DropdownOptionCallback}
+								totalListHeightChanged={(height) => setVirtuosoOptionsHeight(height)}
+								components={{
+									Footer: dropdownOptionNoMatchCallback,
+								}}
+							/>
+						) : (
+							<NoOptionsProvided
+								classNameDropdownOptions={classNameDropdownOptions}
+								classNameDropdownOption={classNameDropdownOption}
+								dropdownNoOptionsLabel={dropdownNoOptionsLabel}
+							/>
+						)}
 					</div>
-				) : (
-					<NoOptionsProvided
-						classNameDropdownOptions={classNameDropdownOptions}
-						classNameDropdownOption={classNameDropdownOption}
-						dropdownNoOptionsLabel={dropdownNoOptionsLabel}
-					/>
-				))}
+				</FloatingPortal>
+			)}
 		</div>
 	);
 }

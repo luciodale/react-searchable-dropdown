@@ -33,17 +33,10 @@
   }
   
   .slick-grey-dropdown-options {
-    position: absolute;
-    top: 100%;
-    margin-top: 15px;
-    left: 0;
-    right: 0;
     background: rgb(44, 44, 44); 
     border-radius: 6px;
     border: 1px solid rgba(255, 255, 255, 0.15);
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-    z-index: 1000;
-    overflow: hidden;
   }
 
   .slick-grey-dropdown-option {

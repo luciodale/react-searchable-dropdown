@@ -1,8 +1,6 @@
 // dev/src/demos/FrostedEleganceDropdownDemo.tsx
 import React, { useState } from "react";
 // import { SearchableDropdown } from "@luciodale/react-searchable-dropdown";
-// import "@luciodale/react-searchable-dropdown/dist/assets/single-style.css";
-import "../../../src/assets/single-style.css";
 import { SearchableDropdown } from "../../../src/index";
 import { sampleOptions } from "../mock";
 
@@ -16,7 +14,7 @@ export function SingleDropdownDemo() {
 				<p>City list length: {sampleOptions.length}</p>
 
 				<SearchableDropdown
-					dropdownOptionsHeight={312}
+					dropdownOptionsHeight={320}
 					placeholder="Select an option"
 					options={sampleOptions}
 					value={value}

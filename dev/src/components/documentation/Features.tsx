@@ -14,8 +14,8 @@ export function Features() {
 					<p>Efficiently handle large option sets without performance degradation.</p>
 				</div>
 				<div className="feature-card">
-					<h3>✨ Optional Create New</h3>
-					<p>Toggle the ability for users to create new options when no match is found.</p>
+					<h3>✨ Portal Support Exclusively</h3>
+					<p>Use the dropdown in a portal to avoid issues with overflow: hidden.</p>
 				</div>
 				<div className="feature-card">
 					<h3>🎨 Easy Styling</h3>
