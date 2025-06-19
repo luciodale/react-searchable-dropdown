@@ -297,20 +297,22 @@ export function SearchableDropdownMulti<T extends TDropdownOption>({
 
 	const dropdownOptionNoMatchCallback = useCallback(
 		() =>
-			!createNewOptionIfNoMatch &&
 			!matchingOptions.length && (
 				<DropdownOptionNoMatch
 					classNameDropdownOptionNoMatch={classNameDropdownOptionNoMatch}
 					dropdownOptionNoMatchLabel={dropdownOptionNoMatchLabel}
 				/>
 			),
-		[
-			classNameDropdownOptionNoMatch,
-			dropdownOptionNoMatchLabel,
-			createNewOptionIfNoMatch,
-			matchingOptions,
-		],
+		[classNameDropdownOptionNoMatch, dropdownOptionNoMatchLabel, matchingOptions],
 	);
+
+	const adjustHeightOfSearchQueryInput = useMemo(() => {
+		// if the dropdown is not shown and there are values selected, set the height to 0
+		if (!showDropdownOptions && values && values?.length > 0) {
+			return "0px";
+		}
+		return "inherit";
+	}, [showDropdownOptions, values]);
 
 	return (
 		<div
@@ -337,6 +339,9 @@ export function SearchableDropdownMulti<T extends TDropdownOption>({
 			<input
 				ref={searchQueryinputRef}
 				type="text"
+				style={{
+					height: adjustHeightOfSearchQueryInput,
+				}}
 				readOnly={disabled}
 				disabled={disabled}
 				placeholder={values?.length ? "" : placeholder}

@@ -266,19 +266,13 @@ export function SearchableDropdown<T extends TDropdownOption>({
 
 	const dropdownOptionNoMatchCallback = useCallback(
 		() =>
-			!createNewOptionIfNoMatch &&
 			!matchingOptions.length && (
 				<DropdownOptionNoMatch
 					classNameDropdownOptionNoMatch={classNameDropdownOptionNoMatch}
 					dropdownOptionNoMatchLabel={dropdownOptionNoMatchLabel}
 				/>
 			),
-		[
-			classNameDropdownOptionNoMatch,
-			dropdownOptionNoMatchLabel,
-			createNewOptionIfNoMatch,
-			matchingOptions,
-		],
+		[classNameDropdownOptionNoMatch, dropdownOptionNoMatchLabel, matchingOptions],
 	);
 
 	return (
