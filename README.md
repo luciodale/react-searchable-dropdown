@@ -250,6 +250,7 @@ The multi-select variant includes additional class names for chips:
   // ... common class names ...
   classNameMultiSelectedOption="custom-chip"
   classNameMultiSelectedOptionClose="custom-chip-close"
+  classNameClearAll="custom-clear-all"
 />
 ```
 

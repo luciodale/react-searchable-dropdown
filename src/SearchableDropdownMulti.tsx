@@ -15,6 +15,7 @@ import { DropdownIconDefault } from "./components/DropdownIconDefault";
 import { DropdownOption } from "./components/DropdownOption";
 import { DropdownOptionNoMatch } from "./components/DropdownOptionNoMatch";
 import { NoOptionsProvided } from "./components/NoOptionsProvided";
+import { BASE_CLASS } from "./constants";
 import { useClickOutside } from "./hooks/useClickOutside";
 import { useDebounce } from "./hooks/useDebounce";
 import { useDropdownOptions } from "./hooks/useDropdownOptions";
@@ -48,18 +49,19 @@ export function SearchableDropdownMulti<T extends TDropdownOption>({
 	createNewOptionIfNoMatch = true,
 	offset: offsetValue = 5,
 	strategy = "absolute",
-	classNameSearchableDropdownContainer = "multi-searchable-dropdown-container",
-	classNameSearchQueryInput = "multi-search-query-input",
-	classNameDropdownOptions = "multi-dropdown-options",
-	classNameDropdownOption = "multi-dropdown-option",
-	classNameDropdownOptionFocused = "multi-dropdown-option-focused",
-	classNameDropdownOptionLabel = "multi-dropdown-option-label",
-	classNameDropdownOptionLabelFocused = "multi-dropdown-option-label-focused",
-	classNameDropdownOptionNoMatch = "multi-dropdown-option-no-match",
-	classNameTriggerIcon = "multi-trigger-icon",
-	classNameTriggerIconInvert = "multi-trigger-icon-invert",
-	classNameMultiSelectedOption = "multi-chip",
-	classNameMultiSelectedOptionClose = "multi-chip-close",
+	classNameSearchableDropdownContainer = "lda-multi-dropdown-container",
+	classNameSearchQueryInput = "lda-multi-search-query-input",
+	classNameDropdownOptions = "lda-multi-dropdown-options",
+	classNameDropdownOption = "lda-multi-dropdown-option",
+	classNameDropdownOptionFocused = "lda-multi-dropdown-option-focused",
+	classNameDropdownOptionLabel = "lda-multi-dropdown-option-label",
+	classNameDropdownOptionLabelFocused = "lda-multi-dropdown-option-label-focused",
+	classNameDropdownOptionNoMatch = "lda-multi-dropdown-option-no-match",
+	classNameTriggerIcon = "lda-multi-trigger-icon",
+	classNameTriggerIconInvert = "lda-multi-trigger-icon-invert",
+	classNameMultiSelectedOption = "lda-multi-chip",
+	classNameMultiSelectedOptionClose = "lda-multi-chip-close",
+	classNameClearAll = "lda-multi-clear-all",
 	ClearAllIcon,
 	onClearAll,
 	onClearOption,
@@ -313,7 +315,7 @@ export function SearchableDropdownMulti<T extends TDropdownOption>({
 	return (
 		<div
 			ref={refs.setReference}
-			className={`searchable-dropdown ${classNameSearchableDropdownContainer} ${disabled ? classNameDisabled || "disabled" : ""}`}
+			className={`${BASE_CLASS} ${classNameSearchableDropdownContainer} ${disabled ? classNameDisabled || "disabled" : ""}`}
 			onKeyDown={handleKeyDown}
 			onMouseUp={() => searchQueryinputRef.current?.focus()}
 		>
@@ -359,7 +361,7 @@ export function SearchableDropdownMulti<T extends TDropdownOption>({
 						onClearAll?.();
 					}}
 					inputRef={searchQueryinputRef}
-					className="multi-clear-all"
+					className={classNameClearAll}
 					Icon={ClearAllIcon}
 				/>
 			)}
@@ -376,12 +378,12 @@ export function SearchableDropdownMulti<T extends TDropdownOption>({
 
 			{showDropdownOptions && (
 				<FloatingPortal>
-					{options.length > 0 ? (
-						<div
-							ref={refs.setFloating}
-							style={floatingStyles}
-							className={`searchable-dropdown ${classNameDropdownOptions}`}
-						>
+					<div
+						ref={refs.setFloating}
+						style={floatingStyles}
+						className={`${BASE_CLASS} ${classNameDropdownOptions}`}
+					>
+						{options.length > 0 ? (
 							<Virtuoso
 								ref={virtuosoRef}
 								style={{ height: `${heightOfDropdownOptionsContainer}px` }}
@@ -392,20 +394,14 @@ export function SearchableDropdownMulti<T extends TDropdownOption>({
 									Footer: dropdownOptionNoMatchCallback,
 								}}
 							/>
-						</div>
-					) : (
-						<div
-							className={`searchable-dropdown ${classNameDropdownOptions}`}
-							ref={refs.setFloating}
-							style={floatingStyles}
-						>
+						) : (
 							<NoOptionsProvided
 								classNameDropdownOptions={classNameDropdownOptions}
 								classNameDropdownOption={classNameDropdownOption}
 								dropdownNoOptionsLabel={dropdownNoOptionsLabel}
 							/>
-						</div>
-					)}
+						)}
+					</div>
 				</FloatingPortal>
 			)}
 		</div>

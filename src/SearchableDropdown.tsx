@@ -13,6 +13,7 @@ import { DropdownIconDefault } from "./components/DropdownIconDefault";
 import { DropdownOption } from "./components/DropdownOption";
 import { DropdownOptionNoMatch } from "./components/DropdownOptionNoMatch";
 import { NoOptionsProvided } from "./components/NoOptionsProvided";
+import { BASE_CLASS } from "./constants";
 import { useClickOutside } from "./hooks/useClickOutside";
 import { useDebounce } from "./hooks/useDebounce";
 import { useDropdownOptions } from "./hooks/useDropdownOptions";
@@ -45,17 +46,17 @@ export function SearchableDropdown<T extends TDropdownOption>({
 	createNewOptionIfNoMatch = true,
 	offset: offsetValue = 5,
 	strategy = "absolute",
-	classNameSearchableDropdownContainer = "searchable-dropdown-container",
-	classNameSearchQueryInput = "search-query-input",
-	classNameDropdownOptions = "dropdown-options",
-	classNameDropdownOption = "dropdown-option",
-	classNameDropdownOptionFocused = "dropdown-option-focused",
-	classNameDropdownOptionSelected = "dropdown-option-selected",
-	classNameDropdownOptionLabel = "dropdown-option-label",
-	classNameDropdownOptionLabelFocused = "dropdown-option-label-focused",
-	classNameDropdownOptionNoMatch = "dropdown-option-no-match",
-	classNameTriggerIcon = "trigger-icon",
-	classNameTriggerIconInvert = "trigger-icon-invert",
+	classNameSearchableDropdownContainer = "lda-dropdown-container",
+	classNameSearchQueryInput = "lda-dropdown-search-query-input",
+	classNameDropdownOptions = "lda-dropdown-options",
+	classNameDropdownOption = "lda-dropdown-option",
+	classNameDropdownOptionFocused = "lda-dropdown-option-focused",
+	classNameDropdownOptionSelected = "lda-dropdown-option-selected",
+	classNameDropdownOptionLabel = "lda-dropdown-option-label",
+	classNameDropdownOptionLabelFocused = "lda-dropdown-option-label-focused",
+	classNameDropdownOptionNoMatch = "lda-dropdown-option-no-match",
+	classNameTriggerIcon = "lda-dropdown-trigger-icon",
+	classNameTriggerIconInvert = "lda-dropdown-trigger-icon-invert",
 	classNameDisabled,
 }: TSearchableDropdown<T>) {
 	const { refs, floatingStyles } = useFloating({
@@ -283,7 +284,7 @@ export function SearchableDropdown<T extends TDropdownOption>({
 	return (
 		<div
 			ref={refs.setReference}
-			className={`searchable-dropdown ${classNameSearchableDropdownContainer} ${disabled ? "disabled" : ""}`}
+			className={`${BASE_CLASS} ${classNameSearchableDropdownContainer} ${disabled ? "disabled" : ""}`}
 			onKeyDown={handleKeyDown}
 		>
 			<input
@@ -319,12 +320,12 @@ export function SearchableDropdown<T extends TDropdownOption>({
 
 			{showDropdownOptions && (
 				<FloatingPortal>
-					{options.length > 0 ? (
-						<div
-							ref={refs.setFloating}
-							style={floatingStyles}
-							className={`searchable-dropdown ${classNameDropdownOptions}`}
-						>
+					<div
+						ref={refs.setFloating}
+						style={floatingStyles}
+						className={`${BASE_CLASS} ${classNameDropdownOptions}`}
+					>
+						{options.length > 0 ? (
 							<Virtuoso
 								ref={virtuosoRef}
 								style={{ height: `${heightOfDropdownOptionsContainer}px` }}
@@ -335,20 +336,14 @@ export function SearchableDropdown<T extends TDropdownOption>({
 									Footer: dropdownOptionNoMatchCallback,
 								}}
 							/>
-						</div>
-					) : (
-						<div
-							className={`searchable-dropdown ${classNameDropdownOptions}`}
-							ref={refs.setFloating}
-							style={floatingStyles}
-						>
+						) : (
 							<NoOptionsProvided
 								classNameDropdownOptions={classNameDropdownOptions}
 								classNameDropdownOption={classNameDropdownOption}
 								dropdownNoOptionsLabel={dropdownNoOptionsLabel}
 							/>
-						</div>
-					)}
+						)}
+					</div>
 				</FloatingPortal>
 			)}
 		</div>

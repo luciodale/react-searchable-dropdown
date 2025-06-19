@@ -1,6 +1,6 @@
 @import './variables.css';
 
-.searchable-dropdown.searchable-dropdown-container {
+.lda-dropdown-container {
   position: relative;
   width: var(--width-container);
   display: flex;
@@ -8,13 +8,13 @@
   justify-content: center;
 }
 
-.searchable-dropdown.searchable-dropdown-container.disabled {
+.lda-dropdown-container.disabled {
   background-color: var(--color-disabled);
   opacity: 0.7;
   cursor: not-allowed;
 }
 
-.searchable-dropdown .search-query-input { 
+.lda-dropdown-search-query-input { 
   width: 100%;
   border: 1px solid var(--color-border);
   padding: var(--spacing-md) var(--spacing-lg);
@@ -25,17 +25,17 @@
   background-color: var(--color-background);
 }
 
-.searchable-dropdown .search-query-input:disabled { 
+.lda-dropdown-search-query-input:disabled { 
   background-color: var(--color-disabled);
   cursor: not-allowed;
 }
 
-.searchable-dropdown .search-query-input:focus {
+.lda-dropdown-search-query-input:focus {
   border-color: var(--color-focus);
   box-shadow: 0 0 0 2px rgba(38, 132, 255, 0.2);
 }
 
-.searchable-dropdown .trigger-icon {
+.lda-dropdown-trigger-icon {
   width: 24px;
   height: 24px;
   position: absolute;
@@ -43,19 +43,22 @@
   opacity: 0.7;
 }
 
-.searchable-dropdown .trigger-icon path {
+.lda-dropdown-trigger-icon path {
   stroke: var(--color-text);
 }
 
-.searchable-dropdown:hover .trigger-icon {
+.lda-dropdown-container:hover .lda-dropdown-trigger-icon {
   opacity: 1;
 }
 
-.searchable-dropdown .trigger-icon-invert {
+.lda-dropdown-trigger-icon-invert {
   transform: rotate(180deg);
 }
 
-.searchable-dropdown.dropdown-options {
+/* These classes are siblings because dropdown-options is a portal!
+   So watch other for the missing space between the two classes.
+*/
+.lda-dropdown-options {
   background-color: var(--color-background);
   border: 1px solid var(--color-border);
   border-radius: var(--border-radius-md);
@@ -64,29 +67,29 @@
   overflow: hidden;
 }
 
-.searchable-dropdown .dropdown-option {
+.lda-dropdown-option {
   padding: var(--spacing-md) var(--spacing-lg);
   cursor: pointer;
 }
 
-.searchable-dropdown .dropdown-option-focused {
+.lda-dropdown-option-focused {
   background-color: var(--color-option-hover);
 }
 
-.searchable-dropdown .dropdown-option-selected {
+.lda-dropdown-option-selected {
   background-color: var(--color-option-selected);
 }
 
-.searchable-dropdown .dropdown-option-label {
+.lda-dropdown-option-label {
   font-size: var(--font-size-base);
 }
 
-.searchable-dropdown .dropdown-option-label-focused {
+.lda-dropdown-option-label-focused {
   font-weight: 500;
   color: var(--color-text);
 }
 
-.searchable-dropdown .dropdown-option-no-match {
+.lda-dropdown-option-no-match {
   padding: var(--spacing-md) var(--spacing-lg);
   cursor: pointer;
   color: var(--color-text-secondary);

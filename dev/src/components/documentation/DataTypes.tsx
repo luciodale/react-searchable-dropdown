@@ -61,7 +61,8 @@ ClearAllIcon?: React.ComponentType
 onClearAll?: () => void
 onClearOption?: (option: string | { label: string; value: string }) => void
 classNameMultiSelectedOption?: string
-classNameMultiSelectedOptionClose?: string`}</code>
+classNameMultiSelectedOptionClose?: string
+classNameClearAll?: string`}</code>
 				</pre>
 			</div>
 		</section>
