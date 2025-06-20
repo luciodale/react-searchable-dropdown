@@ -121,5 +121,67 @@ function MyComponent() {
 }`;
 	}
 
+	if (activeTab === "groups") {
+		return `
+    import { SearchableDropdown, SearchableDropdownMulti } from "@luciodale/react-searchable-dropdown";
+    import "@luciodale/react-searchable-dropdown/dist/assets/single-style.css";
+    import "@luciodale/react-searchable-dropdown/dist/assets/multi-style.css";
+
+    // Define your data with categories
+    const foods = [
+      { label: "pork", value: "pork", category: "meat" },
+      { label: "chicken", value: "chicken", category: "meat" },
+      { label: "carrots", value: "carrots", category: "veggies" },
+      { label: "broccoli", value: "broccoli", category: "veggies" },
+      { label: "tuna", value: "tuna", category: "fish" },
+      { label: "apple", value: "apple", category: "fruit" },
+    ];
+    
+    // Create the handleGroups function
+    function handleGroups(matchingOptions) {
+      const groupedCategories = matchingOptions.reduce((coll, entry) => {
+        if (entry.category) {
+          coll[entry.category] = (coll[entry.category] || 0) + 1;
+        } else {
+          coll["No category"] = 1;
+        }
+        return coll;
+      }, {});
+    
+      return {
+        groupCategories: Object.keys(groupedCategories),
+        groupCounts: Object.values(groupedCategories),
+      };
+    }
+    
+    // Use with SearchableDropdown (Single Select)
+    <SearchableDropdown
+      options={foods}
+      value={value}
+      setValue={setValue}
+      searchOptionKeys={["label"]}
+      handleGroups={handleGroups}
+      groupContent={(index, categories) => (
+        <div className="lda-dropdown-group">
+          {categories[index]}
+        </div>
+      )}
+    />
+    
+    // Use with SearchableDropdownMulti (Multi Select)
+    <SearchableDropdownMulti
+      options={foods}
+      values={values}
+      setValues={setValues}
+      searchOptionKeys={["label"]}
+      handleGroups={handleGroups}
+      groupContent={(index, categories) => (
+        <div className="lda-multi-dropdown-group">
+          {categories[index]}
+        </div>
+      )}
+    />`;
+	}
+
 	return "";
 }

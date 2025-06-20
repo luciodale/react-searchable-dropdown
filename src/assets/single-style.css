@@ -55,9 +55,6 @@
   transform: rotate(180deg);
 }
 
-/* These classes are siblings because dropdown-options is a portal!
-   So watch other for the missing space between the two classes.
-*/
 .lda-dropdown-options {
   background-color: var(--color-background);
   border: 1px solid var(--color-border);
@@ -65,6 +62,14 @@
   z-index: var(--z-dropdown);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   overflow: hidden;
+}
+
+.lda-dropdown-group {
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 12px;
+  background-color: var(--color-option-group);
+  padding: var(--spacing-md) var(--spacing-lg);
 }
 
 .lda-dropdown-option {

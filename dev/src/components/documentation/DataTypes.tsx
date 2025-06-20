@@ -34,7 +34,10 @@ classNameDropdownOptionNoMatch?: string
 classNameTriggerIcon?: string
 classNameTriggerIconInvert?: string
 classNameDisabled?: string
-DropdownIcon?: React.ComponentType<{ toggled: boolean }>`}</code>
+DropdownIcon?: React.ComponentType<{ toggled: boolean }>
+context?: any
+handleGroups?: (matchingOptions: TDropdownOption[]) => { groupCounts: number[]; groupCategories: string[] }
+groupContent?: (index: number, groupCategories: string[], context: any) => React.ReactNode`}</code>
 				</pre>
 			</div>
 

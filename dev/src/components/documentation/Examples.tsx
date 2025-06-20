@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { AbsoluteOverflowDemo } from "../AbsoluteOverflowDemo";
 import { CustomDataDemo } from "../CustomDataDemo";
+import { GroupsDropdownDemo } from "../GroupsDropdownDemo";
 import { MultiDropdownDemo } from "../MultiDropdownDemo";
 import { ServerOptionsDropdownDemo } from "../ServerOptionsDropdownDemo";
 import { SingleDropdownDemo } from "../SingleDropdownDemo";
@@ -9,7 +10,7 @@ import { getComponentCode } from "../documentation/CodeSnippets";
 
 export function Examples() {
 	const [activeTab, setActiveTab] = useState<
-		"single" | "multi" | "custom" | "styled" | "server" | "absolute-overflow"
+		"single" | "multi" | "custom" | "styled" | "server" | "absolute-overflow" | "groups"
 	>("single");
 
 	const exampleSnippet = getComponentCode(activeTab);
@@ -31,6 +32,13 @@ export function Examples() {
 					onClick={() => setActiveTab("multi")}
 				>
 					Multi Select
+				</button>
+				<button
+					type="button"
+					className={`tab-button ${activeTab === "groups" ? "active" : ""}`}
+					onClick={() => setActiveTab("groups")}
+				>
+					Groups
 				</button>
 				<button
 					type="button"
@@ -73,6 +81,8 @@ export function Examples() {
 					<SlickGreyEleganceDropdownDemo />
 				) : activeTab === "absolute-overflow" ? (
 					<AbsoluteOverflowDemo />
+				) : activeTab === "groups" ? (
+					<GroupsDropdownDemo />
 				) : (
 					<ServerOptionsDropdownDemo />
 				)}

@@ -73,6 +73,14 @@
   overflow: hidden;
 }
 
+.lda-multi-dropdown-group {
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 12px;
+  background-color: var(--color-option-group);
+  padding: var(--spacing-md) var(--spacing-lg);
+}
+
 .lda-multi-dropdown-option {
   padding: var(--spacing-md) var(--spacing-lg);
   cursor: pointer;
@@ -98,7 +106,6 @@
   font-style: italic;
 }
 
-/* Keep the multi-specific styles */
 .lda-multi-chip {
   display: inline-flex;
   align-items: center;

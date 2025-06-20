@@ -8,7 +8,7 @@ import {
 	useFloating,
 } from "@floating-ui/react";
 import { type ChangeEvent, useCallback, useEffect, useRef, useState } from "react";
-import { Virtuoso, type VirtuosoHandle } from "react-virtuoso";
+import { GroupedVirtuoso, Virtuoso, type VirtuosoHandle } from "react-virtuoso";
 import { DropdownIconDefault } from "./components/DropdownIconDefault";
 import { DropdownOption } from "./components/DropdownOption";
 import { DropdownOptionNoMatch } from "./components/DropdownOptionNoMatch";
@@ -17,6 +17,7 @@ import { BASE_CLASS } from "./constants";
 import { useClickOutside } from "./hooks/useClickOutside";
 import { useDebounce } from "./hooks/useDebounce";
 import { useDropdownOptions } from "./hooks/useDropdownOptions";
+import { useGroups } from "./hooks/useGroups";
 import { useKeyboardNavigation } from "./hooks/useKeyboardNavigation";
 import { useOnMouseEnterOptionHandler } from "./hooks/useOnMouseEnterOptionHandler";
 import { useResetSuppressMouseEnterOption } from "./hooks/useResetSuppressMouseEnterOption";
@@ -28,7 +29,7 @@ import {
 	getValueStringFromOption,
 } from "./utils";
 
-export function SearchableDropdown<T extends TDropdownOption>({
+export function SearchableDropdown<T extends TDropdownOption, G>({
 	options,
 	placeholder,
 	value,
@@ -46,6 +47,10 @@ export function SearchableDropdown<T extends TDropdownOption>({
 	createNewOptionIfNoMatch = true,
 	offset: offsetValue = 5,
 	strategy = "absolute",
+
+	groupContent = undefined,
+	handleGroups = undefined,
+	context,
 	classNameSearchableDropdownContainer = "lda-dropdown-container",
 	classNameSearchQueryInput = "lda-dropdown-search-query-input",
 	classNameDropdownOptions = "lda-dropdown-options",
@@ -58,7 +63,7 @@ export function SearchableDropdown<T extends TDropdownOption>({
 	classNameTriggerIcon = "lda-dropdown-trigger-icon",
 	classNameTriggerIconInvert = "lda-dropdown-trigger-icon-invert",
 	classNameDisabled,
-}: TSearchableDropdown<T>) {
+}: TSearchableDropdown<T, G>) {
 	const { refs, floatingStyles } = useFloating({
 		placement: "bottom",
 		strategy,
@@ -123,6 +128,14 @@ export function SearchableDropdown<T extends TDropdownOption>({
 		searchOptionKeys,
 		filterType,
 		enhanceOptionsWithNewCreationCallback, // Use the new single-select specific callback
+	);
+
+	// Use the groups hook
+	const { groupCounts, groupContentCallback, hasGroups } = useGroups(
+		matchingOptions,
+		// @ts-expect-error - matchingOptions arg is a union represented by TDropdownOption
+		handleGroups,
+		groupContent,
 	);
 
 	// to restore mouse option selection
@@ -319,16 +332,32 @@ export function SearchableDropdown<T extends TDropdownOption>({
 						className={`${BASE_CLASS} ${classNameDropdownOptions}`}
 					>
 						{options.length > 0 ? (
-							<Virtuoso
-								ref={virtuosoRef}
-								style={{ height: `${heightOfDropdownOptionsContainer}px` }}
-								totalCount={matchingOptions.length}
-								itemContent={DropdownOptionCallback}
-								totalListHeightChanged={(height) => setVirtuosoOptionsHeight(height)}
-								components={{
-									Footer: dropdownOptionNoMatchCallback,
-								}}
-							/>
+							hasGroups ? (
+								<GroupedVirtuoso
+									context={context}
+									ref={virtuosoRef}
+									style={{ height: `${heightOfDropdownOptionsContainer}px` }}
+									groupCounts={groupCounts}
+									groupContent={groupContentCallback}
+									itemContent={DropdownOptionCallback}
+									totalListHeightChanged={(height) => setVirtuosoOptionsHeight(height)}
+									components={{
+										Footer: dropdownOptionNoMatchCallback,
+									}}
+								/>
+							) : (
+								<Virtuoso
+									context={context}
+									ref={virtuosoRef}
+									style={{ height: `${heightOfDropdownOptionsContainer}px` }}
+									totalCount={matchingOptions.length}
+									itemContent={DropdownOptionCallback}
+									totalListHeightChanged={(height) => setVirtuosoOptionsHeight(height)}
+									components={{
+										Footer: dropdownOptionNoMatchCallback,
+									}}
+								/>
+							)
 						) : (
 							<NoOptionsProvided
 								classNameDropdownOptions={classNameDropdownOptions}

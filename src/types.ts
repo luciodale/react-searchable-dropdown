@@ -27,7 +27,17 @@ export type TSearchOptionKeys<T extends TDropdownOption> = T extends {
 	? Array<Extract<keyof T, string>>
 	: never;
 
-export type TSearchableCommon<T extends TDropdownOption> = {
+export type TGroups<T extends TDropdownOption, G> =
+	| {
+			handleGroups: (matchingOptions: T[]) => { groupCounts: number[]; groupCategories: string[] };
+			groupContent: (index: number, groupCategories: string[], context: G) => React.ReactNode;
+	  }
+	| {
+			handleGroups?: undefined;
+			groupContent?: undefined;
+	  };
+
+export type TSearchableCommon<T extends TDropdownOption, G> = {
 	options: T[];
 	placeholder?: string;
 	value: T | undefined;
@@ -57,14 +67,17 @@ export type TSearchableCommon<T extends TDropdownOption> = {
 	classNameTriggerIconInvert?: string;
 	classNameDisabled?: string;
 	DropdownIcon?: FunctionComponent<{ toggled: boolean }>;
-};
+	context?: G;
+} & TGroups<T, G>;
 
-export type TSearchableDropdown<T extends TObjectLikeDropdownOption | TStringDropdownOption> =
-	T extends TObjectLikeDropdownOption
-		? TSearchableCommon<T> & { searchOptionKeys: Array<Extract<keyof T, string>> }
-		: TSearchableCommon<T> & { searchOptionKeys?: undefined };
+export type TSearchableDropdown<
+	T extends TObjectLikeDropdownOption | TStringDropdownOption,
+	G,
+> = T extends TObjectLikeDropdownOption
+	? TSearchableCommon<T, G> & { searchOptionKeys: Array<Extract<keyof T, string>> }
+	: TSearchableCommon<T, G> & { searchOptionKeys?: undefined };
 
-export type TSearchableCommonMulti<T extends TDropdownOption> = {
+export type TSearchableCommonMulti<T extends TDropdownOption, G> = {
 	options: T[];
 	placeholder?: string;
 	values: T[] | undefined;
@@ -98,9 +111,12 @@ export type TSearchableCommonMulti<T extends TDropdownOption> = {
 	classNameDisabled?: string;
 	DropdownIcon?: FunctionComponent<{ toggled: boolean }>;
 	ClearAllIcon?: FunctionComponent;
-};
+	context?: G;
+} & TGroups<T, G>;
 
-export type TSearchableDropdownMulti<T extends TObjectLikeDropdownOption | TStringDropdownOption> =
-	T extends TObjectLikeDropdownOption
-		? TSearchableCommonMulti<T> & { searchOptionKeys: Array<Extract<keyof T, string>> }
-		: TSearchableCommonMulti<T> & { searchOptionKeys?: undefined };
+export type TSearchableDropdownMulti<
+	T extends TObjectLikeDropdownOption | TStringDropdownOption,
+	G,
+> = T extends TObjectLikeDropdownOption
+	? TSearchableCommonMulti<T, G> & { searchOptionKeys: Array<Extract<keyof T, string>> }
+	: TSearchableCommonMulti<T, G> & { searchOptionKeys?: undefined };

@@ -11,7 +11,8 @@
   --color-chip-close-hover-bg: #bdbdbd;
   --color-chip-close-hover-text: #333;
   --color-option-hover: rgb(55, 55, 55);
-  --color-option-selected: rgb(131, 131, 131);
+  --color-option-selected: rgb(155 163 99);
+  --color-option-group: #803f48;
 
   /* Spacing */
   --spacing-xs: 2px;

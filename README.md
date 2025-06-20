@@ -29,22 +29,13 @@ The good news? I built it! This library combines these essential features in a w
 - 🌐 Portal rendering for overflow handling
 - 🔄 Smart positioning handling scrolling and flipping
 - 🎯 Single and multi-select variants
+- 📦 Optionally grouped dropdown options
 - 🎨 Fully customizable styling
 - 🚀 Virtualized list for performance
 - ✨ Create new options on the fly
 - ♿ Accessibility support
 - 🎭 Custom icons support
 - 🔒 Disabled state support
-
-## COMING UP
-
-- 🎯 Headless search dropdown utilities for seamless customization
-  - Core hooks and utilities exposed for building custom UI
-
-- 📦 Grouped dropdown options
-  - Support for hierarchical/grouped data structures
-  - Integration with react-virtuoso's grouping capabilities
-  - Custom group headers and styling
 
 ## Installation
 
@@ -167,6 +158,7 @@ Both components share these common props:
 | `placeholder` | `string` | - | Placeholder text when no value is selected |
 | `disabled` | `boolean` | `false` | Whether the dropdown is disabled |
 | `debounceDelay` | `number` | `0` | Delay in ms before filtering options |
+| `searchOptionKeys` | `string[]` | Required for object options | Keys to search in object options |
 | `filterType` | `'CASE_SENSITIVE_EQUAL' \| 'EQUAL' \| 'STARTS_WITH' \| 'WORD_STARTS_WITH' \| 'CONTAINS' \| 'ACRONYM' \| 'MATCHES' \| 'NO_MATCH'` | `'CONTAINS'` | Type of search filtering |
 | `dropdownOptionsHeight` | `number` | `300` | Height of the dropdown options container |
 | `createNewOptionIfNoMatch` | `boolean` | `true` | Whether to allow creating new options |
@@ -178,6 +170,10 @@ Both components share these common props:
 | `onSearchQueryChange` | `(query: string \| undefined) => void` | - | Callback when search query changes |
 | `dropdownNoOptionsLabel` | `string` | - | Label shown when there are no options |
 | `onBlur` | `() => void` | - | Callback when dropdown loses focus |
+| `context` | `any` | - | Context value passed to react-virtuoso for grouped options |
+| `handleGroups` | `(matchingOptions: TDropdownOption[]) => { groupCounts: number[]; groupCategories: string[] }` | - | Function to group options and return counts and categories |
+| `groupContent` | `(index: number, groupCategories: string[], context: any) => React.ReactNode` | - | Function to render group headers |
+
 
 ### Single Select Props
 
@@ -185,7 +181,6 @@ Both components share these common props:
 |------|------|---------|-------------|
 | `value` | `string \| { label: string; value: string } \| undefined` | Required | Currently selected value |
 | `setValue` | `(value: string \| { label: string; value: string } \| undefined) => void` | Required | Callback when value changes |
-| `searchOptionKeys` | `string[]` | Required for object options | Keys to search in object options |
 
 ### Multi Select Props
 
@@ -193,7 +188,6 @@ Both components share these common props:
 |------|------|---------|-------------|
 | `values` | `(string \| { label: string; value: string })[] \| undefined` | Required | Currently selected values |
 | `setValues` | `(values: (string \| { label: string; value: string })[]) => void` | Required | Callback when values change |
-| `searchOptionKeys` | `string[]` | Required for object options | Keys to search in object options |
 | `ClearAllIcon` | `React.ComponentType` | - | Custom clear all icon component |
 | `onClearAll` | `() => void` | - | Callback when all values are cleared |
 | `onClearOption` | `(option: string \| { label: string; value: string }) => void` | - | Callback when a single option is cleared |
