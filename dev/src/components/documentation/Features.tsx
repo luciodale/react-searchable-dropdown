@@ -18,7 +18,7 @@ export function Features() {
 					<p>Use the dropdown in a portal to avoid issues with overflow: hidden.</p>
 				</div>
 				<div className="feature-card">
-					<h3>🎨 Easy Styling</h3>
+					<h3>🎨 Easy Styling and Groups</h3>
 					<p>Customize the appearance to match your project's design.</p>
 				</div>
 				<div className="feature-card">
