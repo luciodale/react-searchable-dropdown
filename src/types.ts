@@ -95,6 +95,7 @@ export type TSearchableCommonMulti<T extends TDropdownOption, G> = {
 	disabled?: boolean;
 	offset?: number;
 	strategy?: "absolute" | "fixed";
+	deleteLastChipOnBackspace?: boolean;
 	classNameSearchableDropdownContainer?: string;
 	classNameSearchQueryInput?: string;
 	classNameDropdownOptions?: string;

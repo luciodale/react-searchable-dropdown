@@ -1,6 +1,6 @@
 {
 	"name": "@luciodale/react-searchable-dropdown",
-	"version": "0.0.17",
+	"version": "0.0.18",
 	"description": "A reusable React searchable dropdown component.",
 	"keywords": ["react", "dropdown", "searchable", "component", "npm"],
 	"main": "dist/react-searchable-dropdown.umd.js",

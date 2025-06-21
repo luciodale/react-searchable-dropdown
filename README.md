@@ -191,7 +191,7 @@ Both components share these common props:
 | `ClearAllIcon` | `React.ComponentType` | - | Custom clear all icon component |
 | `onClearAll` | `() => void` | - | Callback when all values are cleared |
 | `onClearOption` | `(option: string \| { label: string; value: string }) => void` | - | Callback when a single option is cleared |
-
+| `deleteLastChipOnBackspace` | `boolean` | - | Remove last Chip when pressing backspace and the searchQuery is empty
 ### Positioning
 
 The components use Floating UI for positioning and support two key props for customization:

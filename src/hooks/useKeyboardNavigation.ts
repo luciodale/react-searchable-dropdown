@@ -14,6 +14,10 @@ export function useKeyboardNavigation<T extends TDropdownOption>({
 	setSuppressMouseEnterOptionListener,
 	onLeaveCallback,
 	isMultiSelect = false,
+	values,
+	setValues,
+	deleteLastChipOnBackspace = false,
+	onClearOption,
 }: {
 	virtuosoRef: React.RefObject<VirtuosoHandle>;
 	searchQueryinputRef: React.RefObject<HTMLInputElement>;
@@ -26,6 +30,10 @@ export function useKeyboardNavigation<T extends TDropdownOption>({
 	setSuppressMouseEnterOptionListener: (suppress: boolean) => void;
 	onLeaveCallback: () => void;
 	isMultiSelect?: boolean;
+	values?: TDropdownOption[];
+	setValues?: (options: TDropdownOption[]) => void;
+	deleteLastChipOnBackspace?: boolean;
+	onClearOption?: (option: TDropdownOption) => void;
 }) {
 	const handleKeyDown = useCallback(
 		(e: KeyboardEvent<HTMLInputElement>) => {
@@ -71,6 +79,16 @@ export function useKeyboardNavigation<T extends TDropdownOption>({
 			} else if (e.key === "Escape") {
 				onLeaveCallback();
 				searchQueryinputRef.current?.blur();
+			} else if (e.key === "Backspace" && isMultiSelect && deleteLastChipOnBackspace) {
+				// Check if search query is empty and there are values to delete
+				const currentSearchQuery = searchQueryinputRef.current?.value || "";
+				if (currentSearchQuery === "" && values && values.length > 0 && setValues) {
+					e.preventDefault();
+					const lastChip = values[values.length - 1];
+					const newValues = values.slice(0, -1);
+					setValues(newValues);
+					onClearOption?.(lastChip);
+				}
 			}
 		},
 		[
@@ -85,6 +103,10 @@ export function useKeyboardNavigation<T extends TDropdownOption>({
 			onLeaveCallback,
 			virtuosoRef,
 			isMultiSelect,
+			values,
+			setValues,
+			deleteLastChipOnBackspace,
+			onClearOption,
 		],
 	);
 

@@ -65,6 +65,7 @@ onClearAll?: () => void
 onClearOption?: (option: T) => void
 classNameMultiSelectedOption?: string
 classNameMultiSelectedOptionClose?: string
+deleteLastChipOnBackspace?: boolean
 classNameClearAll?: string`}</code>
 				</pre>
 			</div>

@@ -20,6 +20,7 @@ export function MultiDropdownDemo() {
 					values={values}
 					setValues={setValues}
 					debounceDelay={0}
+					deleteLastChipOnBackspace={true}
 				/>
 			</div>
 			<p className="info-text">

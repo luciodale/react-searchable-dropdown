@@ -53,6 +53,7 @@ export function SearchableDropdownMulti<T extends TDropdownOption, G>({
 	createNewOptionIfNoMatch = true,
 	offset: offsetValue = 5,
 	strategy = "absolute",
+	deleteLastChipOnBackspace = false,
 	classNameSearchableDropdownContainer = "lda-multi-dropdown-container",
 	classNameSearchQueryInput = "lda-multi-search-query-input",
 	classNameDropdownOptions = "lda-multi-dropdown-options",
@@ -264,6 +265,12 @@ export function SearchableDropdownMulti<T extends TDropdownOption, G>({
 		setSuppressMouseEnterOptionListener,
 		onLeaveCallback,
 		isMultiSelect: true,
+		values,
+		// @ts-expect-error - from generic to TDropdownOption
+		setValues,
+		deleteLastChipOnBackspace,
+		// @ts-expect-error - from generic to TDropdownOption
+		onClearOption,
 	});
 
 	const handleMouseEnterOptionCallback = useOnMouseEnterOptionHandler(
