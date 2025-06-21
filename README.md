@@ -146,6 +146,8 @@ function MyComponent() {
 }
 ```
 
+[VIEW THE DEMO](https://react-searchable-dropdown.netlify.app/) for more examples.
+
 ## API
 
 ### Common Props
