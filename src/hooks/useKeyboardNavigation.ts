@@ -57,17 +57,16 @@ export function useKeyboardNavigation<T extends TDropdownOption>({
 					align: "center",
 					behavior: "auto",
 				});
-			} else if (
-				(e.key === "Tab" || e.key === "Enter") &&
-				showDropdownOptions &&
-				dropdownOptionNavigationIndex >= 0
-			) {
+			} else if (e.key === "Tab" || e.key === "Enter") {
 				e.preventDefault();
-				handleOnSelectDropdownOption(matchingOptions[dropdownOptionNavigationIndex]);
-				if (isMultiSelect) {
-					searchQueryinputRef.current?.focus();
-				} else {
-					searchQueryinputRef.current?.blur();
+
+				if (showDropdownOptions && dropdownOptionNavigationIndex >= 0 && matchingOptions.length) {
+					handleOnSelectDropdownOption(matchingOptions[dropdownOptionNavigationIndex]);
+					if (isMultiSelect) {
+						searchQueryinputRef.current?.focus();
+					} else {
+						searchQueryinputRef.current?.blur();
+					}
 				}
 			} else if (e.key === "Escape") {
 				onLeaveCallback();
