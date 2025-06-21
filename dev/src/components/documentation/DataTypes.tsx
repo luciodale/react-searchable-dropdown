@@ -36,7 +36,7 @@ classNameTriggerIconInvert?: string
 classNameDisabled?: string
 DropdownIcon?: React.ComponentType<{ toggled: boolean }>
 context?: any
-handleGroups?: (matchingOptions: TDropdownOption[]) => { groupCounts: number[]; groupCategories: string[] }
+handleGroups?: (matchingOptions: T[]) => { groupCounts: number[]; groupCategories: string[] }
 groupContent?: (index: number, groupCategories: string[], context: any) => React.ReactNode`}</code>
 				</pre>
 			</div>
@@ -46,8 +46,8 @@ groupContent?: (index: number, groupCategories: string[], context: any) => React
 				<div className="code-block-header">Single Select Props</div>
 				<pre>
 					<code>{`// Single select specific props
-value: string | { label: string; value: string } | undefined
-setValue: (value: string | { label: string; value: string } | undefined) => void
+value: T
+setValue: (value: T) => void
 searchOptionKeys?: string[] // Required for object options`}</code>
 				</pre>
 			</div>
@@ -57,12 +57,12 @@ searchOptionKeys?: string[] // Required for object options`}</code>
 				<div className="code-block-header">Multi Select Props</div>
 				<pre>
 					<code>{`// Multi select specific props
-values: (string | { label: string; value: string })[] | undefined
-setValues: (values: (string | { label: string; value: string })[]) => void
+values: T[] | undefined
+setValues: (values: T[]) => void
 searchOptionKeys?: string[] // Required for object options
 ClearAllIcon?: React.ComponentType
 onClearAll?: () => void
-onClearOption?: (option: string | { label: string; value: string }) => void
+onClearOption?: (option: T) => void
 classNameMultiSelectedOption?: string
 classNameMultiSelectedOptionClose?: string
 classNameClearAll?: string`}</code>
