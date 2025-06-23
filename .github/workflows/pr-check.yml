@@ -1,0 +1,39 @@
+name: PR Check
+
+on:
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  test:
+    name: Run Tests
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+          
+      - name: Install dependencies
+        run: bun install
+        
+      - name: Install Playwright browsers
+        run: bunx playwright install --with-deps
+        
+      - name: Run unit tests
+        run: bun run unit-tests:ci
+        
+      - name: Build dev server
+        run: bun run docs
+        
+      - name: Start dev server and run E2E tests
+        run: |
+          bun run dev &
+          echo "Waiting for server to start..."
+          timeout 30 bash -c 'until curl -s http://localhost:3000 > /dev/null; do sleep 1; done'
+          echo "Server is ready!"
+          bun run e2e-tests:ci 

@@ -19,9 +19,14 @@
 		"docs": "vite build -c dev.vite.config.mts",
 		"unit-tests": "vitest",
 		"unit-tests:ui": "vitest --ui",
+		"unit-tests:coverage": "vitest --coverage",
+		"unit-tests:ci": "vitest run --coverage",
 		"e2e-tests": "playwright test",
 		"e2e-tests:ui": "playwright test --ui",
-		"e2e-tests:headed": "playwright test --headed"
+		"e2e-tests:headed": "playwright test --headed",
+		"e2e-tests:ci": "playwright test --reporter=line",
+		"test": "bun run unit-tests:ci && bun run e2e-tests:ci",
+		"test:ci": "bun run unit-tests:ci && bun run e2e-tests:ci"
 	},
 	"author": "Your Name Here",
 	"license": "MIT",
