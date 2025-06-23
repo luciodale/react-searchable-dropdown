@@ -367,6 +367,7 @@ export function SearchableDropdownMulti<T extends TDropdownOption, G>({
 				className={`${classNameSearchQueryInput}`}
 				value={searchQuery}
 				onChange={handleOnChangeSearchQuery}
+				data-testid={classNameSearchQueryInput}
 				onMouseUp={() => {
 					if (!showDropdownOptions) {
 						searchQueryinputRef.current?.focus();

@@ -23,6 +23,7 @@ export function Examples() {
 					type="button"
 					className={`tab-button ${activeTab === "single" ? "active" : ""}`}
 					onClick={() => setActiveTab("single")}
+					data-testid="tab-single-select"
 				>
 					Single Select
 				</button>
@@ -30,6 +31,7 @@ export function Examples() {
 					type="button"
 					className={`tab-button ${activeTab === "multi" ? "active" : ""}`}
 					onClick={() => setActiveTab("multi")}
+					data-testid="tab-multi-select"
 				>
 					Multi Select
 				</button>
@@ -37,6 +39,7 @@ export function Examples() {
 					type="button"
 					className={`tab-button ${activeTab === "groups" ? "active" : ""}`}
 					onClick={() => setActiveTab("groups")}
+					data-testid="tab-groups"
 				>
 					Groups
 				</button>
@@ -44,6 +47,7 @@ export function Examples() {
 					type="button"
 					className={`tab-button ${activeTab === "custom" ? "active" : ""}`}
 					onClick={() => setActiveTab("custom")}
+					data-testid="tab-custom-data"
 				>
 					Use Your Data
 				</button>
@@ -51,6 +55,7 @@ export function Examples() {
 					type="button"
 					className={`tab-button ${activeTab === "styled" ? "active" : ""}`}
 					onClick={() => setActiveTab("styled")}
+					data-testid="tab-custom-style"
 				>
 					Custom Style
 				</button>
@@ -58,6 +63,7 @@ export function Examples() {
 					type="button"
 					className={`tab-button ${activeTab === "server" ? "active" : ""}`}
 					onClick={() => setActiveTab("server")}
+					data-testid="tab-server-search"
 				>
 					Server-Side Search
 				</button>
@@ -65,12 +71,13 @@ export function Examples() {
 					type="button"
 					className={`tab-button ${activeTab === "absolute-overflow" ? "active" : ""}`}
 					onClick={() => setActiveTab("absolute-overflow")}
+					data-testid="tab-absolute-overflow"
 				>
 					Absolute Overflow
 				</button>
 			</div>
 
-			<div className="demo-container">
+			<div className="demo-container" data-testid="demo-container">
 				{activeTab === "single" ? (
 					<SingleDropdownDemo />
 				) : activeTab === "multi" ? (

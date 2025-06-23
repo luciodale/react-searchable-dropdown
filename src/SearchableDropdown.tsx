@@ -302,6 +302,7 @@ export function SearchableDropdown<T extends TDropdownOption, G>({
 				className={`${classNameSearchQueryInput} ${disabled ? (classNameDisabled ?? "") : ""}`}
 				value={searchQuery}
 				onChange={handleOnChangeSearchQuery}
+				data-testid={classNameSearchQueryInput}
 				onMouseUp={() => {
 					if (!showDropdownOptions) {
 						searchQueryinputRef.current?.focus();

@@ -12,6 +12,7 @@ export function ClearAllButton({ onClear, inputRef, className, Icon }: TClearAll
 		<button
 			type="button"
 			className={className}
+			data-testid="clear-all"
 			onClick={() => {
 				onClear();
 				inputRef.current?.focus();

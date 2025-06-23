@@ -1,7 +1,7 @@
 import type { RefObject } from "react";
 import { useCallback } from "react";
 import type { TDropdownOption } from "../types";
-import { getLabelFromOption, getValueStringFromOption } from "../utils";
+import { getLabelFromOption, getValueStringFromOption, sanitizeForTestId } from "../utils";
 
 type TChip = {
 	selectedOption: TDropdownOption;
@@ -42,6 +42,7 @@ export function Chip({
 			<button
 				type="button"
 				className={classNameChipClose}
+				data-testid={`chip-remove-${sanitizeForTestId(getLabelFromOption(selectedOption))}`}
 				onMouseUp={() => {
 					setValues(listWithRemovedItem(values, selectedOption));
 					onClearOption?.(selectedOption);

@@ -45,6 +45,7 @@ export function DropdownOption({
 			className={`${classNameDropdownOption} ${optionIsSelected ? classNameDropdownOptionSelected : dropdownOptionNavigationIndex === currentOptionIndex ? classNameDropdownOptionFocused : ""}`}
 			onMouseUp={() => handleDropdownOptionSelect(currentOption)}
 			onMouseEnter={() => onMouseEnter?.(currentOptionIndex)}
+			data-testid={`dropdown-option-${currentOptionIndex}`}
 		>
 			<DropdownOptionLabel
 				optionLabel={optionLabel}

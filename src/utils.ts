@@ -55,3 +55,11 @@ export function getValueStringFromOption<T extends TDropdownOption>(
 	if (typeof value === "string") return value;
 	return value.value;
 }
+
+export function sanitizeForTestId(str: string): string {
+	return str
+		.replace(/[^a-zA-Z0-9]/g, "-") // Replace special chars with hyphens
+		.replace(/-+/g, "-") // Replace multiple consecutive hyphens with single hyphen
+		.replace(/^-|-$/g, "") // Remove leading and trailing hyphens
+		.toLowerCase();
+}
