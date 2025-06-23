@@ -4,3 +4,4 @@ dist
 docs
 playwright-report
 test-results
+coverage

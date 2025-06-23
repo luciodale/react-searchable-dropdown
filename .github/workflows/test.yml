@@ -25,14 +25,6 @@ jobs:
         
       - name: Run unit tests
         run: bun run unit-tests:ci
-        
-      - name: Upload coverage reports
-        uses: codecov/codecov-action@v4
-        if: always()
-        with:
-          file: ./coverage/lcov.info
-          flags: unittests
-          name: codecov-umbrella
 
   e2e-tests:
     name: E2E Tests
@@ -55,14 +47,6 @@ jobs:
         
       - name: Run E2E tests
         run: bun run e2e-tests:ci
-        
-      - name: Upload test results
-        uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: playwright-report
-          path: playwright-report/
-          retention-days: 30
 
   build:
     name: Build
