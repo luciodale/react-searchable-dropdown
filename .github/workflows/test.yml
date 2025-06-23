@@ -53,16 +53,6 @@ jobs:
       - name: Install Playwright browsers
         run: bunx playwright install --with-deps
         
-      - name: Build dev server
-        run: bun run docs
-        
-      - name: Start dev server
-        run: |
-          bun run dev &
-          echo "Waiting for server to start..."
-          timeout 30 bash -c 'until curl -s http://localhost:3000 > /dev/null; do sleep 1; done'
-          echo "Server is ready!"
-        
       - name: Run E2E tests
         run: bun run e2e-tests:ci
         
