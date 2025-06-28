@@ -6,6 +6,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  background-color: var(--color-background);
+  cursor: text;
 }
 
 .lda-dropdown-container.disabled {
@@ -22,7 +24,8 @@
   font-size: var(--font-size-base);
   outline: none;
   color: var(--color-text);
-  background-color: var(--color-background);
+  background-color: transparent;
+  z-index: 2;
 }
 
 .lda-dropdown-search-query-input:disabled { 
@@ -41,6 +44,7 @@
   position: absolute;
   right: var(--spacing-lg);
   opacity: 0.7;
+  z-index: 1;
 }
 
 .lda-dropdown-trigger-icon path {
