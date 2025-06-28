@@ -13,7 +13,7 @@ export function GroupsDropdownDemo() {
 	>(undefined);
 
 	const foods = [
-		{ label: "pork", value: "pork", category: "meat" },
+		{ label: "pork", value: "pork", category: "meat", disabled: true },
 		{ label: "chicken", value: "chicken", category: "meat" },
 		{ label: "turkey", value: "turkey", category: "meat" },
 		{ label: "veal", value: "veal", category: "meat" },

@@ -37,6 +37,22 @@ export type TGroups<T extends TDropdownOption, G> =
 			groupContent?: undefined;
 	  };
 
+type TCommonClasses = {
+	classNameSearchableDropdownContainer?: string;
+	classNameSearchQueryInput?: string;
+	classNameDropdownOptions?: string;
+	classNameDropdownOption?: string;
+	classNameDropdownOptionFocused?: string;
+	classNameDropdownOptionSelected?: string;
+	classNameDropdownOptionDisabled?: string;
+	classNameDropdownOptionLabel?: string;
+	classNameDropdownOptionLabelFocused?: string;
+	classNameDropdownOptionNoMatch?: string;
+	classNameTriggerIcon?: string;
+	classNameTriggerIconInvert?: string;
+	classNameDisabled?: string;
+};
+
 export type TSearchableCommon<T extends TDropdownOption, G> = {
 	options: T[];
 	placeholder?: string;
@@ -54,21 +70,10 @@ export type TSearchableCommon<T extends TDropdownOption, G> = {
 	disabled?: boolean;
 	offset?: number;
 	strategy?: "absolute" | "fixed";
-	classNameSearchableDropdownContainer?: string;
-	classNameSearchQueryInput?: string;
-	classNameDropdownOptions?: string;
-	classNameDropdownOption?: string;
-	classNameDropdownOptionFocused?: string;
-	classNameDropdownOptionSelected?: string;
-	classNameDropdownOptionLabel?: string;
-	classNameDropdownOptionLabelFocused?: string;
-	classNameDropdownOptionNoMatch?: string;
-	classNameTriggerIcon?: string;
-	classNameTriggerIconInvert?: string;
-	classNameDisabled?: string;
 	DropdownIcon?: FunctionComponent<{ toggled: boolean }>;
 	context?: G;
-} & TGroups<T, G>;
+} & TCommonClasses &
+	TGroups<T, G>;
 
 export type TSearchableDropdown<
 	T extends TObjectLikeDropdownOption | TStringDropdownOption,
@@ -96,24 +101,14 @@ export type TSearchableCommonMulti<T extends TDropdownOption, G> = {
 	offset?: number;
 	strategy?: "absolute" | "fixed";
 	deleteLastChipOnBackspace?: boolean;
-	classNameSearchableDropdownContainer?: string;
-	classNameSearchQueryInput?: string;
-	classNameDropdownOptions?: string;
-	classNameDropdownOption?: string;
-	classNameDropdownOptionFocused?: string;
-	classNameDropdownOptionLabel?: string;
-	classNameDropdownOptionLabelFocused?: string;
-	classNameDropdownOptionNoMatch?: string;
-	classNameTriggerIcon?: string;
-	classNameTriggerIconInvert?: string;
 	classNameMultiSelectedOption?: string;
 	classNameMultiSelectedOptionClose?: string;
 	classNameClearAll?: string;
-	classNameDisabled?: string;
 	DropdownIcon?: FunctionComponent<{ toggled: boolean }>;
 	ClearAllIcon?: FunctionComponent;
 	context?: G;
-} & TGroups<T, G>;
+} & TCommonClasses &
+	TGroups<T, G>;
 
 export type TSearchableDropdownMulti<
 	T extends TObjectLikeDropdownOption | TStringDropdownOption,

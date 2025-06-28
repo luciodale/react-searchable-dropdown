@@ -85,6 +85,12 @@
   background-color: var(--color-option-selected);
 }
 
+.lda-dropdown-option-disabled {
+  background-color: var(--color-option-disabled);
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
 .lda-dropdown-option-label {
   font-size: var(--font-size-base);
 }

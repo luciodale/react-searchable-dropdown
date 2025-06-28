@@ -12,7 +12,6 @@ export function SingleDropdownDemo() {
 			<div className="text-and-dropdown">
 				<h3>Default Theme</h3>
 				<p>City list length: {sampleOptions.length}</p>
-
 				<SearchableDropdown
 					dropdownOptionsHeight={320}
 					placeholder="Select an option"

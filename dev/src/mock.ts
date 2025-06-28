@@ -1,4 +1,3 @@
-// Auto-generated from cities.json
 export const sampleOptions = [
  "El Tarter, AD" ,
  "Sant Julià de Lòria, AD" ,

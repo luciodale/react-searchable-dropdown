@@ -57,6 +57,7 @@ export function SearchableDropdown<T extends TDropdownOption, G>({
 	classNameDropdownOption = "lda-dropdown-option",
 	classNameDropdownOptionFocused = "lda-dropdown-option-focused",
 	classNameDropdownOptionSelected = "lda-dropdown-option-selected",
+	classNameDropdownOptionDisabled = "lda-dropdown-option-disabled",
 	classNameDropdownOptionLabel = "lda-dropdown-option-label",
 	classNameDropdownOptionLabelFocused = "lda-dropdown-option-label-focused",
 	classNameDropdownOptionNoMatch = "lda-dropdown-option-no-match",
@@ -254,6 +255,7 @@ export function SearchableDropdown<T extends TDropdownOption, G>({
 					classNameDropdownOptionSelected={classNameDropdownOptionSelected}
 					classNameDropdownOptionLabel={classNameDropdownOptionLabel}
 					classNameDropdownOptionLabelFocused={classNameDropdownOptionLabelFocused}
+					classNameDropdownOptionDisabled={classNameDropdownOptionDisabled}
 				/>
 			);
 		},
@@ -269,6 +271,7 @@ export function SearchableDropdown<T extends TDropdownOption, G>({
 			classNameDropdownOptionLabel,
 			classNameDropdownOptionLabelFocused,
 			classNameDropdownOptionSelected,
+			classNameDropdownOptionDisabled,
 		],
 	);
 

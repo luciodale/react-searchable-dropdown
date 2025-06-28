@@ -90,6 +90,12 @@
   background-color: var(--color-option-hover);
 }
 
+.lda-multi-dropdown-option-disabled {
+  background-color: var(--color-option-disabled);
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
 .lda-multi-dropdown-option-label {
   font-size: var(--font-size-base);
 }

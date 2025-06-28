@@ -232,6 +232,7 @@ Both components support extensive styling customization through className props:
   classNameDropdownOption="custom-option"
   classNameDropdownOptionFocused="custom-option-focused"
   classNameDropdownOptionSelected="custom-option-selected"
+  classNameDropdownOptionDisabled="custom-option-disabled"
   classNameDropdownOptionLabel="custom-option-label"
   classNameDropdownOptionLabelFocused="custom-option-label-focused"
   classNameDropdownOptionNoMatch="custom-option-no-match"

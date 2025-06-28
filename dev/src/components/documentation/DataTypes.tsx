@@ -22,12 +22,14 @@ createNewOptionIfNoMatch?: boolean
 dropdownOptionNoMatchLabel?: string
 offset?: number
 strategy?: 'absolute' | 'fixed'
+searchOptionKeys?: string[] // Required for object options
 classNameSearchableDropdownContainer?: string
 classNameSearchQueryInput?: string
 classNameDropdownOptions?: string
 classNameDropdownOption?: string
 classNameDropdownOptionFocused?: string
 classNameDropdownOptionSelected?: string
+classNameDropdownOptionDisabled?: string
 classNameDropdownOptionLabel?: string
 classNameDropdownOptionLabelFocused?: string
 classNameDropdownOptionNoMatch?: string
@@ -47,8 +49,7 @@ groupContent?: (index: number, groupCategories: string[], context: any) => React
 				<pre>
 					<code>{`// Single select specific props
 value: T
-setValue: (value: T) => void
-searchOptionKeys?: string[] // Required for object options`}</code>
+setValue: (value: T) => void`}</code>
 				</pre>
 			</div>
 
@@ -59,7 +60,6 @@ searchOptionKeys?: string[] // Required for object options`}</code>
 					<code>{`// Multi select specific props
 values: T[] | undefined
 setValues: (values: T[]) => void
-searchOptionKeys?: string[] // Required for object options
 ClearAllIcon?: React.ComponentType
 onClearAll?: () => void
 onClearOption?: (option: T) => void

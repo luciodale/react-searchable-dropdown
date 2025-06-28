@@ -61,6 +61,7 @@ export function SearchableDropdownMulti<T extends TDropdownOption, G>({
 	classNameDropdownOptionFocused = "lda-multi-dropdown-option-focused",
 	classNameDropdownOptionLabel = "lda-multi-dropdown-option-label",
 	classNameDropdownOptionLabelFocused = "lda-multi-dropdown-option-label-focused",
+	classNameDropdownOptionDisabled = "lda-multi-dropdown-option-disabled",
 	classNameDropdownOptionNoMatch = "lda-multi-dropdown-option-no-match",
 	classNameTriggerIcon = "lda-multi-trigger-icon",
 	classNameTriggerIconInvert = "lda-multi-trigger-icon-invert",
@@ -293,6 +294,7 @@ export function SearchableDropdownMulti<T extends TDropdownOption, G>({
 					classNameDropdownOptionFocused={classNameDropdownOptionFocused}
 					classNameDropdownOptionLabel={classNameDropdownOptionLabel}
 					classNameDropdownOptionLabelFocused={classNameDropdownOptionLabelFocused}
+					classNameDropdownOptionDisabled={classNameDropdownOptionDisabled}
 				/>
 			);
 		},
@@ -306,6 +308,7 @@ export function SearchableDropdownMulti<T extends TDropdownOption, G>({
 			classNameDropdownOptionFocused,
 			classNameDropdownOptionLabel,
 			classNameDropdownOptionLabelFocused,
+			classNameDropdownOptionDisabled,
 		],
 	);
 

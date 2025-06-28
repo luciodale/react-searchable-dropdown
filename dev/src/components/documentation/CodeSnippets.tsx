@@ -129,7 +129,7 @@ function MyComponent() {
 
     // Define your data with categories
     const foods = [
-      { label: "pork", value: "pork", category: "meat" },
+      { label: "pork", value: "pork", category: "meat", disabled: true },
       { label: "chicken", value: "chicken", category: "meat" },
       { label: "carrots", value: "carrots", category: "veggies" },
       { label: "broccoli", value: "broccoli", category: "veggies" },

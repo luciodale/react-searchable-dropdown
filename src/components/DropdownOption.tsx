@@ -17,7 +17,38 @@ type DropdownOptionProps = {
 	classNameDropdownOptionLabel?: string;
 	classNameDropdownOptionLabelFocused?: string;
 	classNameDropdownOptionSelected?: string;
+	classNameDropdownOptionDisabled?: string;
 };
+
+function getDropdownOptionClassName({
+	baseClassName,
+	optionIsDisabled,
+	optionIsSelected,
+	optionIsFocused,
+	selectedClassName,
+	focusedClassName,
+	disabledClassName,
+}: {
+	baseClassName?: string;
+	optionIsDisabled: boolean;
+	optionIsSelected: boolean;
+	optionIsFocused: boolean;
+	selectedClassName?: string;
+	focusedClassName?: string;
+	disabledClassName?: string;
+}) {
+	const classes = [baseClassName];
+
+	if (optionIsDisabled) {
+		classes.push(disabledClassName);
+	} else if (optionIsSelected) {
+		classes.push(selectedClassName);
+	} else if (optionIsFocused) {
+		classes.push(focusedClassName);
+	}
+
+	return classes.filter(Boolean).join(" ");
+}
 
 export function DropdownOption({
 	currentOption,
@@ -33,18 +64,36 @@ export function DropdownOption({
 	classNameDropdownOptionLabel,
 	classNameDropdownOptionLabelFocused,
 	classNameDropdownOptionSelected,
+	classNameDropdownOptionDisabled,
 }: DropdownOptionProps) {
 	const dropdownOptionRef = useRef<HTMLDivElement>(null);
 	const optionLabel = getLabelFromOption(currentOption);
-	const optionIsSelected =
-		classNameDropdownOptionSelected && currentOptionIsSelected?.(currentOption);
+
+	const optionIsSelected = Boolean(currentOptionIsSelected?.(currentOption));
+
+	const optionIsDisabled =
+		typeof currentOption === "object" &&
+		"disabled" in currentOption &&
+		currentOption.disabled === true;
+
+	const optionIsFocused = dropdownOptionNavigationIndex === currentOptionIndex;
+
+	const className = getDropdownOptionClassName({
+		baseClassName: classNameDropdownOption,
+		optionIsDisabled,
+		optionIsSelected,
+		optionIsFocused,
+		selectedClassName: classNameDropdownOptionSelected,
+		focusedClassName: classNameDropdownOptionFocused,
+		disabledClassName: classNameDropdownOptionDisabled,
+	});
 
 	return (
 		<div
 			ref={dropdownOptionRef}
-			className={`${classNameDropdownOption} ${optionIsSelected ? classNameDropdownOptionSelected : dropdownOptionNavigationIndex === currentOptionIndex ? classNameDropdownOptionFocused : ""}`}
-			onMouseUp={() => handleDropdownOptionSelect(currentOption)}
-			onMouseEnter={() => onMouseEnter?.(currentOptionIndex)}
+			className={className}
+			onMouseUp={() => !optionIsDisabled && handleDropdownOptionSelect(currentOption)}
+			onMouseEnter={() => !optionIsDisabled && onMouseEnter?.(currentOptionIndex)}
 			data-testid={`dropdown-option-${currentOptionIndex}`}
 		>
 			<DropdownOptionLabel
