@@ -7,6 +7,7 @@
   align-items: center;
   justify-content: center;
   background-color: var(--color-background);
+  border-radius: var(--border-radius-md);
   cursor: text;
 }
 
