@@ -28,7 +28,7 @@
 		"test": "bun run unit-tests:ci && bun run e2e-tests:ci",
 		"test:ci": "bun run unit-tests:ci && bun run e2e-tests:ci"
 	},
-	"author": "Your Name Here",
+	"author": "Lucio D'Alessandro",
 	"license": "MIT",
 	"devDependencies": {
 		"@biomejs/biome": "^1.9.4",
