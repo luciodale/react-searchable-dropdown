@@ -91,7 +91,7 @@ export function SearchableDropdownMulti<T extends TDropdownOption, G>({
 		],
 	});
 
-	const searchQueryinputRef = useRef<HTMLInputElement>(null);
+	const searchQueryinputRef = useRef<HTMLInputElement | null>(null);
 
 	const virtuosoRef = useRef<VirtuosoHandle>(null);
 

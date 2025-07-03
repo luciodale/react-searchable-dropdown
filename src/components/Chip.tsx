@@ -8,7 +8,7 @@ type TChip = {
 	searchOptionKeys: string[] | undefined;
 	values: TDropdownOption[] | undefined;
 	setValues: (value: TDropdownOption[]) => void;
-	inputRef: RefObject<HTMLInputElement>;
+	inputRef: RefObject<HTMLInputElement | null>;
 	classNameChip?: string;
 	classNameChipClose?: string;
 	onClearOption?: (option: TDropdownOption) => void;

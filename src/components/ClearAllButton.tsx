@@ -2,7 +2,7 @@ import type { FunctionComponent, RefObject } from "react";
 
 type TClearAllButton = {
 	onClear: () => void;
-	inputRef: RefObject<HTMLInputElement>;
+	inputRef: RefObject<HTMLInputElement | null>;
 	className?: string;
 	Icon?: FunctionComponent;
 };

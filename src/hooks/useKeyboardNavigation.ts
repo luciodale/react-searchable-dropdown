@@ -19,8 +19,8 @@ export function useKeyboardNavigation<T extends TDropdownOption>({
 	deleteLastChipOnBackspace = false,
 	onClearOption,
 }: {
-	virtuosoRef: React.RefObject<VirtuosoHandle>;
-	searchQueryinputRef: React.RefObject<HTMLInputElement>;
+	virtuosoRef: React.RefObject<VirtuosoHandle | null>;
+	searchQueryinputRef: React.RefObject<HTMLInputElement | null>;
 	matchingOptions: T[];
 	showDropdownOptions: boolean;
 	setShowDropdownOptions: (show: boolean) => void;

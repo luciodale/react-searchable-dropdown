@@ -6,7 +6,7 @@ export function useResetSuppressMouseEnterOption(
 	setSuppressMouseEnterOptionListener: (suppress: boolean) => void,
 	delay = 250,
 ) {
-	const debounceRef = useRef<ReturnType<typeof setTimeout>>();
+	const debounceRef = useRef<ReturnType<typeof setTimeout>>(null);
 
 	useEffect(() => {
 		// If suppression is activated, set up debounce to turn it off
