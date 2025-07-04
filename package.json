@@ -1,6 +1,6 @@
 {
 	"name": "@luciodale/react-searchable-dropdown",
-	"version": "0.0.24",
+	"version": "0.0.25",
 	"description": "A reusable React searchable dropdown component.",
 	"keywords": ["react", "dropdown", "searchable", "component", "npm"],
 	"main": "dist/react-searchable-dropdown.umd.js",
@@ -53,8 +53,8 @@
 		"vitest": "^3.2.4"
 	},
 	"peerDependencies": {
-		"react": "^18.0.0 || ^19.0.0",
-		"react-dom": "^18.0.0 || ^19.0.0"
+		"react": ">=16 || >=17 || >= 18 || >= 19",
+		"react-dom": ">=16 || >=17 || >= 18 || >=19"
 	},
 	"dependencies": {
 		"@floating-ui/react": "^0.27.12",
