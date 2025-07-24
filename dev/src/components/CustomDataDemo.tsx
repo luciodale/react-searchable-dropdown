@@ -64,7 +64,7 @@ export function CustomDataDemo() {
 					options={options}
 					value={value}
 					setValue={setValue}
-					debounceDelay={0}
+					debounceDelay={100}
 				/>
 			</div>
 		</div>

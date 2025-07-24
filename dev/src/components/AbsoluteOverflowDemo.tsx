@@ -9,7 +9,6 @@ export function AbsoluteOverflowDemo() {
 		<div className="container">
 			<div className="text-and-dropdown">
 				<h3>Overflow Hidden - No Problem</h3>
-				<p>City list length: {sampleOptions.length}</p>
 				<div>This container has overflow: hidden</div>
 				<div className="absolute-overflow-demo-container">
 					<div className="absolute-overflow-demo">

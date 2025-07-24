@@ -108,6 +108,7 @@ export function SearchableDropdownMulti<T extends TDropdownOption, G>({
 	const [dropdownOptionNavigationIndex, setDropdownOptionNavigationIndex] = useState(0);
 	const [suppressMouseEnterOptionListener, setSuppressMouseEnterOptionListener] = useState(false);
 	const [virtuosoOptionsHeight, setVirtuosoOptionsHeight] = useState<number | null>(null);
+	const [hasMeasuredHeight, setHasMeasuredHeight] = useState(false);
 
 	// Create a Set of selected values for O(1) average time lookups
 	const selectedValuesSet = useMemo(() => {
@@ -245,6 +246,7 @@ export function SearchableDropdownMulti<T extends TDropdownOption, G>({
 	const onLeaveCallback = useCallback(() => {
 		if (!showDropdownOptions) return;
 		setShowDropdownOptions(false);
+		setHasMeasuredHeight(false);
 		setSuppressMouseEnterOptionListener(false);
 		setSearchQuery("");
 		setDropdownOptionNavigationIndex(0);
@@ -311,6 +313,11 @@ export function SearchableDropdownMulti<T extends TDropdownOption, G>({
 			classNameDropdownOptionDisabled,
 		],
 	);
+
+	const handleTotalListHeightChanged = useCallback((height: number) => {
+		setVirtuosoOptionsHeight(height);
+		setHasMeasuredHeight(true);
+	}, []);
 
 	const heightOfDropdownOptionsContainer =
 		virtuosoOptionsHeight !== null
@@ -408,7 +415,10 @@ export function SearchableDropdownMulti<T extends TDropdownOption, G>({
 				<FloatingPortal>
 					<div
 						ref={refs.setFloating}
-						style={floatingStyles}
+						style={{
+							...floatingStyles,
+							visibility: hasMeasuredHeight ? "visible" : "hidden",
+						}}
 						className={`${BASE_CLASS} ${classNameDropdownOptions}`}
 					>
 						{options.length > 0 ? (
@@ -420,7 +430,7 @@ export function SearchableDropdownMulti<T extends TDropdownOption, G>({
 									groupCounts={groupCounts}
 									groupContent={groupContentCallback}
 									itemContent={DropdownOptionCallback}
-									totalListHeightChanged={(height) => setVirtuosoOptionsHeight(height)}
+									totalListHeightChanged={handleTotalListHeightChanged}
 									components={{
 										Footer: dropdownOptionNoMatchCallback,
 									}}
@@ -432,7 +442,7 @@ export function SearchableDropdownMulti<T extends TDropdownOption, G>({
 									style={{ height: `${heightOfDropdownOptionsContainer}px` }}
 									totalCount={matchingOptions.length}
 									itemContent={DropdownOptionCallback}
-									totalListHeightChanged={(height) => setVirtuosoOptionsHeight(height)}
+									totalListHeightChanged={handleTotalListHeightChanged}
 									components={{
 										Footer: dropdownOptionNoMatchCallback,
 									}}

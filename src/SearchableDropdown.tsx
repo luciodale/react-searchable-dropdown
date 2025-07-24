@@ -99,6 +99,7 @@ export function SearchableDropdown<T extends TDropdownOption, G>({
 	const [dropdownOptionNavigationIndex, setDropdownOptionNavigationIndex] = useState(0);
 	const [suppressMouseEnterOptionListener, setSuppressMouseEnterOptionListener] = useState(false);
 	const [virtuosoOptionsHeight, setVirtuosoOptionsHeight] = useState<number | null>(null);
+	const [hasMeasuredHeight, setHasMeasuredHeight] = useState(false);
 
 	const enhanceOptionsWithNewCreationCallback = useCallback(
 		(matchingOptions: TDropdownOption[], currentSearchQuery: string) => {
@@ -184,6 +185,7 @@ export function SearchableDropdown<T extends TDropdownOption, G>({
 				setDebouncedSearchQuery("");
 			}
 			setShowDropdownOptions(false);
+			setHasMeasuredHeight(false);
 			setDropdownOptionNavigationIndex(0);
 			setVirtuosoOptionsHeight(dropdownOptionsHeight);
 		},
@@ -200,6 +202,7 @@ export function SearchableDropdown<T extends TDropdownOption, G>({
 	const onLeaveCallback = useCallback(() => {
 		if (!showDropdownOptions) return;
 		setShowDropdownOptions(false);
+		setHasMeasuredHeight(false);
 		setSuppressMouseEnterOptionListener(false);
 		setSearchQuery(getLabelFromOption(value || ""));
 		setDropdownOptionNavigationIndex(0);
@@ -275,6 +278,11 @@ export function SearchableDropdown<T extends TDropdownOption, G>({
 		],
 	);
 
+	const handleTotalListHeightChanged = useCallback((height: number) => {
+		setVirtuosoOptionsHeight(height);
+		setHasMeasuredHeight(true);
+	}, []);
+
 	const heightOfDropdownOptionsContainer =
 		virtuosoOptionsHeight !== null
 			? Math.min(virtuosoOptionsHeight, dropdownOptionsHeight)
@@ -332,7 +340,10 @@ export function SearchableDropdown<T extends TDropdownOption, G>({
 				<FloatingPortal>
 					<div
 						ref={refs.setFloating}
-						style={floatingStyles}
+						style={{
+							...floatingStyles,
+							visibility: hasMeasuredHeight ? "visible" : "hidden",
+						}}
 						className={`${BASE_CLASS} ${classNameDropdownOptions}`}
 					>
 						{options.length > 0 ? (
@@ -344,7 +355,7 @@ export function SearchableDropdown<T extends TDropdownOption, G>({
 									groupCounts={groupCounts}
 									groupContent={groupContentCallback}
 									itemContent={DropdownOptionCallback}
-									totalListHeightChanged={(height) => setVirtuosoOptionsHeight(height)}
+									totalListHeightChanged={handleTotalListHeightChanged}
 									components={{
 										Footer: dropdownOptionNoMatchCallback,
 									}}
@@ -356,7 +367,7 @@ export function SearchableDropdown<T extends TDropdownOption, G>({
 									style={{ height: `${heightOfDropdownOptionsContainer}px` }}
 									totalCount={matchingOptions.length}
 									itemContent={DropdownOptionCallback}
-									totalListHeightChanged={(height) => setVirtuosoOptionsHeight(height)}
+									totalListHeightChanged={handleTotalListHeightChanged}
 									components={{
 										Footer: dropdownOptionNoMatchCallback,
 									}}

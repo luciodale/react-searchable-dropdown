@@ -1,6 +1,6 @@
 {
 	"name": "@luciodale/react-searchable-dropdown",
-	"version": "0.0.25",
+	"version": "0.0.26",
 	"description": "A reusable React searchable dropdown component.",
 	"keywords": ["react", "dropdown", "searchable", "component", "npm"],
 	"main": "dist/react-searchable-dropdown.umd.js",
@@ -13,7 +13,7 @@
 	},
 	"homepage": "https://react-searchable-dropdown.netlify.app/",
 	"scripts": {
-		"dev": "bun add -D @luciodale/react-searchable-dropdown@latest && vite -c dev.vite.config.mts",
+		"dev": "vite -c dev.vite.config.mts",
 		"build:lib": "vite build",
 		"npm": "bun run build:lib && npm publish --access public",
 		"docs": "vite build -c dev.vite.config.mts",

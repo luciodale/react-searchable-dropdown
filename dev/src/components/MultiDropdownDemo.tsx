@@ -19,7 +19,7 @@ export function MultiDropdownDemo() {
 					options={sampleOptions}
 					values={values}
 					setValues={setValues}
-					debounceDelay={0}
+					debounceDelay={100}
 					deleteLastChipOnBackspace={true}
 				/>
 			</div>

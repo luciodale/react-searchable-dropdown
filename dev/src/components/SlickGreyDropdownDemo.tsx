@@ -9,7 +9,7 @@ export function SlickGreyEleganceDropdownDemo() {
 	return (
 		<div className="container">
 			<div className="text-and-dropdown">
-				<h3>Slick Grey Elegance Theme</h3>
+				<h3>Custom Theme</h3>
 				<p> List length: {sampleOptions.length}</p>
 				<SearchableDropdown
 					dropdownOptionsHeight={52 * 6}
@@ -17,7 +17,7 @@ export function SlickGreyEleganceDropdownDemo() {
 					value={selectedValue}
 					debounceDelay={100}
 					setValue={setSelectedValue}
-					placeholder="Search elegantly..."
+					placeholder="Search..."
 					classNameSearchableDropdownContainer="slick-grey-dropdown-container"
 					classNameSearchQueryInput="slick-grey-search-query-input"
 					classNameDropdownOptions="slick-grey-dropdown-options"

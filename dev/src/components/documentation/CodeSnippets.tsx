@@ -14,7 +14,7 @@ function MyComponent() {
       options={sampleOptions}
       value={value}
       setValue={setValue}
-      debounceDelay={0}
+      debounceDelay={100}
     />
   );
 }`;
@@ -35,7 +35,7 @@ function MyComponent() {
       options={sampleOptions}
       values={values}
       setValues={setValues}
-      debounceDelay={0}
+      debounceDelay={100}
     />
   );
 }`;
@@ -52,11 +52,11 @@ function MyComponent() {
   return (
     <SearchableDropdown
       dropdownOptionsHeight={312}
-      placeholder="Search elegantly..."
+      placeholder="Search..."
       options={sampleOptions}
       value={value}
       setValue={setValue}
-      debounceDelay={0}
+      debounceDelay={100}
       classNameSearchableDropdownContainer="slick-grey-dropdown-container"
       classNameSearchQueryInput="slick-grey-search-query-input"
       classNameDropdownOptions="slick-grey-dropdown-options"
