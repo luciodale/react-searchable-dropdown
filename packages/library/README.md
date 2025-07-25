@@ -2,7 +2,7 @@
 
 
 <div align="center">
-  <img src="https://raw.githubusercontent.com/luciodale/react-searchable-dropdown/main/dev/public/react-searchable-dropdown-logo.svg" alt="React Searchable Dropdown Logo" width="200" height="200" />
+  <img src="https://raw.githubusercontent.com/luciodale/react-searchable-dropdown/main/packages/docs/public/react-searchable-dropdown-logo.svg" alt="React Searchable Dropdown Logo" width="200" height="200" />
 </div>
 
 A modern, accessible, and customizable dropdown component for React applications.
