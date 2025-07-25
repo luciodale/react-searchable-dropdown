@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 // import { SearchableDropdown } from "@luciodale/react-searchable-dropdown";
-import { SearchableDropdown } from "../../../src/SearchableDropdown";
+import { SearchableDropdown } from "react-searchable-dropdown";
 import { sampleOptions } from "../mock";
 
 export function AbsoluteOverflowDemo() {

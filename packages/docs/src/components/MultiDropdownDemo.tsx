@@ -1,7 +1,7 @@
 // dev/src/demos/FrostedEleganceDropdownDemo.tsx
 import React, { useState } from "react";
 // import { SearchableDropdownMulti } from "@luciodale/react-searchable-dropdown";
-import { SearchableDropdownMulti } from "../../../src/index";
+import { SearchableDropdownMulti } from "react-searchable-dropdown";
 import { sampleOptions } from "../mock";
 
 export function MultiDropdownDemo() {

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { SearchableDropdown } from "../../../src/index";
+import { SearchableDropdown } from "react-searchable-dropdown";
 
 export function CustomDataDemo() {
 	const [value, setValue] = useState<string | undefined>(undefined);

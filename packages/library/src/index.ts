@@ -1,5 +1,6 @@
 export { SearchableDropdown } from "./SearchableDropdown";
 export { SearchableDropdownMulti } from "./SearchableDropdownMulti";
+export { useDebounce } from "./hooks/useDebounce";
 
 export type {
 	TDropdownOption,

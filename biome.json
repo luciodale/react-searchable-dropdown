@@ -1,5 +1,16 @@
 {
 	"$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
+	"files": {
+		"ignore": [
+			"**/dist/**",
+			"**/node_modules/**",
+			"**/coverage/**",
+			"**/build/**",
+			"packages/docs/src/mock.ts",
+			"*.min.js",
+			"*.d.ts"
+		]
+	},
 	"organizeImports": {
 		"enabled": true
 	},

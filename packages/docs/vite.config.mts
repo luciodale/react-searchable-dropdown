@@ -1,12 +1,12 @@
-import react from "@vitejs/plugin-react";
 import { resolve } from "node:path";
+import react from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
 
 export default defineConfig({
 	plugins: [react()],
-	root: "dev",
 	build: {
-		outDir: "../docs",
+		outDir: "dist",
+		emptyOutDir: true,
 	},
 	server: {
 		port: 3000,
@@ -14,7 +14,7 @@ export default defineConfig({
 	},
 	resolve: {
 		alias: {
-			"react-searchable-dropdown": resolve(__dirname, "src"),
+			"react-searchable-dropdown": resolve(__dirname, "../library/src"),
 		},
 	},
 });

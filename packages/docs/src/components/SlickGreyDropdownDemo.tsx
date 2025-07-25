@@ -1,6 +1,6 @@
 // dev/src/demos/FrostedEleganceDropdownDemo.tsx
 import React, { useState } from "react";
-import { SearchableDropdown } from "../../../src/index";
+import { SearchableDropdown } from "react-searchable-dropdown";
 import { sampleOptions } from "../mock";
 
 export function SlickGreyEleganceDropdownDemo() {

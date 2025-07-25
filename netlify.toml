@@ -1,0 +1,17 @@
+[build]
+  # Build command for Netlify
+  command = "bun run build:docs"
+  
+  # Directory where the built docs site is located
+  publish = "packages/docs/dist"
+
+[build.environment]
+  # Use Bun as the package manager
+  NODE_VERSION = "18"
+  BUN_VERSION = "1.2.4"
+
+# Optional: redirect for SPA routing if needed
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200 
