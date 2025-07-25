@@ -6,7 +6,7 @@
 	"main": "dist/react-searchable-dropdown.umd.js",
 	"module": "dist/react-searchable-dropdown.es.js",
 	"types": "dist/index.d.ts",
-	"files": ["dist"],
+	"files": ["dist", "README.md"],
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/luciodale/react-searchable-dropdown"

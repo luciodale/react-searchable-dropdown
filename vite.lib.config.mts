@@ -14,18 +14,22 @@ export default defineConfig({
     viteStaticCopy({
       targets: [
         {
-          src: 'packages/library/src/assets/variables.css',
-          dest: 'packages/library/dist/assets'
+          src: "packages/library/src/assets/multi-style.css",
+          dest: "assets",
         },
         {
-          src: 'packages/library/src/assets/single-style.css',
-          dest: 'packages/library/dist/assets'
+          src: "packages/library/src/assets/single-style.css",
+          dest: "assets",
         },
         {
-          src: 'packages/library/src/assets/multi-style.css',
-          dest: 'packages/library/dist/assets'
-        }
-      ]
+          src: "packages/library/src/assets/variables.css",
+          dest: "assets",
+        },
+        				{
+					src: "./README.md",
+					dest: ".",
+				},
+      ],
     })
   ],
 	build: {
