@@ -14,6 +14,7 @@
 		"dev": "bun run --filter react-searchable-dropdown-docs dev",
 		"build": "bun run build:lib && bun run build:docs",
 		"build:lib": "vite build -c vite.lib.config.mts",
+		"build:lib:watch": "vite build -c vite.lib.config.mts --watch",
 		"build:docs": "bun run --filter react-searchable-dropdown-docs build",
 		"npm": "bun run build:lib && cd packages/library && npm publish --access public",
 		"npm:test": "bun run build:lib && cd packages/library && npm pack --dry-run",
