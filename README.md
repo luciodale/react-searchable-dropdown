@@ -5,6 +5,8 @@
   <img src="https://raw.githubusercontent.com/luciodale/react-searchable-dropdown/main/packages/docs/public/react-searchable-dropdown-logo.svg" alt="React Searchable Dropdown Logo" width="200" height="200" />
 </div>
 
+FOR REACT 18 use version: 0.0.43-react-18
+
 A modern, accessible, and customizable dropdown component for React applications.
 
 I created this library because I was tired of piecing together different dropdown components to get the features I needed. You know the drill - one library has virtualization but looks terrible, another looks great but can't handle large lists, and yet another has a nice API but no way to create new options.
