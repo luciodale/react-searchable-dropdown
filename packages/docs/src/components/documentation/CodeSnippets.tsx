@@ -129,12 +129,12 @@ function MyComponent() {
 
     // Define your data with categories
     const foods = [
-      { label: "pork", value: "pork", category: "meat", disabled: true },
-      { label: "chicken", value: "chicken", category: "meat" },
-      { label: "carrots", value: "carrots", category: "veggies" },
-      { label: "broccoli", value: "broccoli", category: "veggies" },
-      { label: "tuna", value: "tuna", category: "fish" },
-      { label: "apple", value: "apple", category: "fruit" },
+      { label: "Pork", value: "pork", category: "meat", disabled: true },
+      { label: "Chicken", value: "chicken", category: "meat" },
+      { label: "Carrots", value: "carrots", category: "veggies" },
+      { label: "Broccoli", value: "broccoli", category: "veggies" },
+      { label: "Tuna", value: "tuna", category: "fish" },
+      { label: "Apple", value: "apple", category: "fruit" },
     ];
     
     // Create the handleGroups function
