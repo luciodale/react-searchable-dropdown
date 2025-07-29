@@ -8,7 +8,7 @@ export default defineConfig({
   plugins: [
     react(),
     dts({
-      outDir: "packages/library/dist",
+      entryRoot: "packages/library/src",
       include: ["packages/library/src/**/*"],
       exclude: [
         "packages/library/src/**/*.test.ts",
@@ -57,11 +57,4 @@ export default defineConfig({
       },
     },
   },
-  // to build with other react versions and test for compatibility
-  // resolve: {
-  //   alias: {
-  //     react: '/Users/lda/Desktop/test-react18-dropdown/node_modules/react',
-  //     "react-dom": '/Users/lda/Desktop/test-react18-dropdown/node_modules/react-dom',
-  //   },
-  // },
 });
