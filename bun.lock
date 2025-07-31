@@ -39,7 +39,7 @@
     },
     "packages/library": {
       "name": "@luciodale/react-searchable-dropdown",
-      "version": "0.0.44",
+      "version": "0.0.45-react-18",
       "dependencies": {
         "@floating-ui/react": "^0.27.12",
         "autosuggest-highlight": "^3.3.4",

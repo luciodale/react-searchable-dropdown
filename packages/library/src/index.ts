@@ -9,4 +9,10 @@ export type {
 	TSearchableDropdown,
 	TSearchableDropdownFilterType,
 	TSearchOptionKeys,
+	TObjectLikeDropdownOption,
+	TGroups,
+	TSearchableCommon,
+	TSearchableCommonMulti,
+	TSearchableDropdownMulti,
+	TStringDropdownOption,
 } from "./types";
