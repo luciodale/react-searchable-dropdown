@@ -4,3 +4,4 @@ dist
 playwright-report
 test-results
 coverage
+packages/library/README.md

@@ -31,7 +31,7 @@ export default defineConfig({
           dest: "assets",
         },
         {
-          src: "./README.md",
+          src: "README.md",
           dest: "../",
         },
       ],
