@@ -32,7 +32,7 @@ export default defineConfig({
         },
         {
           src: "./README.md",
-          dest: ".",
+          dest: "../",
         },
       ],
     }),
