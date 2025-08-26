@@ -51,6 +51,7 @@ type TCommonClasses = {
 	classNameTriggerIcon?: string;
 	classNameTriggerIconInvert?: string;
 	classNameDisabled?: string;
+	inputId?: string;
 };
 
 export type TSearchableCommon<T extends TDropdownOption, G> = {

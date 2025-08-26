@@ -72,6 +72,7 @@ export function SearchableDropdownMulti<T extends TDropdownOption, G>({
 	onClearAll,
 	onClearOption,
 	classNameDisabled,
+	inputId,
 }: TSearchableDropdownMulti<T, G>) {
 	const { refs, floatingStyles } = useFloating({
 		placement: "bottom",
@@ -377,7 +378,7 @@ export function SearchableDropdownMulti<T extends TDropdownOption, G>({
 				className={`${classNameSearchQueryInput}`}
 				value={searchQuery}
 				onChange={handleOnChangeSearchQuery}
-				data-testid={classNameSearchQueryInput}
+				data-testid={inputId ?? classNameSearchQueryInput}
 				onMouseUp={() => {
 					if (!showDropdownOptions) {
 						searchQueryinputRef.current?.focus();

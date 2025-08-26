@@ -64,6 +64,7 @@ export function SearchableDropdown<T extends TDropdownOption, G>({
 	classNameTriggerIcon = "lda-dropdown-trigger-icon",
 	classNameTriggerIconInvert = "lda-dropdown-trigger-icon-invert",
 	classNameDisabled,
+	inputId,
 }: TSearchableDropdown<T, G>) {
 	const { refs, floatingStyles } = useFloating({
 		placement: "bottom",
@@ -313,7 +314,7 @@ export function SearchableDropdown<T extends TDropdownOption, G>({
 				className={`${classNameSearchQueryInput} ${disabled ? (classNameDisabled ?? "") : ""}`}
 				value={searchQuery}
 				onChange={handleOnChangeSearchQuery}
-				data-testid={classNameSearchQueryInput}
+				data-testid={inputId ?? classNameSearchQueryInput}
 				onMouseUp={() => {
 					if (!showDropdownOptions) {
 						searchQueryinputRef.current?.focus();

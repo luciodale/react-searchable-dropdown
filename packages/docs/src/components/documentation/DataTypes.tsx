@@ -1,5 +1,3 @@
-import React from "react";
-
 export function DataTypes() {
 	return (
 		<section className="docs-section">
@@ -23,6 +21,7 @@ dropdownOptionNoMatchLabel?: string
 offset?: number
 strategy?: 'absolute' | 'fixed'
 searchOptionKeys?: string[] // Required for object options
+inputId?: string
 classNameSearchableDropdownContainer?: string
 classNameSearchQueryInput?: string
 classNameDropdownOptions?: string
