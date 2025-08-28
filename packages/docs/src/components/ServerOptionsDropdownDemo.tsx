@@ -1,16 +1,7 @@
 // dev/src/demos/FrostedEleganceDropdownDemo.tsx
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 // import { SearchableDropdown } from "@luciodale/react-searchable-dropdown";
 import { SearchableDropdown, useDebounce } from "react-searchable-dropdown";
-
-interface DictionaryEntry {
-	word: string;
-	meanings: Array<{
-		definitions: Array<{
-			definition: string;
-		}>;
-	}>;
-}
 
 let words: string[] = [];
 

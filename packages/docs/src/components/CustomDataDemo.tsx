@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { SearchableDropdown } from "react-searchable-dropdown";
 
 export function CustomDataDemo() {

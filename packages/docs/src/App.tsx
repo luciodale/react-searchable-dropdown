@@ -1,5 +1,3 @@
-// dev/src/App.tsx
-import React from "react";
 import "./App.css";
 import { DataTypes } from "./components/documentation/DataTypes";
 import { Examples } from "./components/documentation/Examples";

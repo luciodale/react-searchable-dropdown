@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { AbsoluteOverflowDemo } from "../AbsoluteOverflowDemo";
 import { CustomDataDemo } from "../CustomDataDemo";
 import { GroupsDropdownDemo } from "../GroupsDropdownDemo";

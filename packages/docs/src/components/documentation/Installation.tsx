@@ -1,5 +1,3 @@
-import React from "react";
-
 export function Installation() {
 	return (
 		<section className="docs-section">

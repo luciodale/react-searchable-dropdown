@@ -26,6 +26,5 @@
 			"react-searchable-dropdown": ["../library/src"]
 		}
 	},
-	"include": ["src"],
-	"references": [{ "path": "../library" }]
+	"include": ["src"]
 }

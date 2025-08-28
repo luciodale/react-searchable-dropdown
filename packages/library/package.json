@@ -1,19 +1,13 @@
 {
 	"name": "@luciodale/react-searchable-dropdown",
 	"version": "0.0.481",
-	"description": "A reusable React searchable dropdown component.",
-	"keywords": ["react", "dropdown", "searchable", "component", "npm"],
-	"main": "dist/react-searchable-dropdown.umd.js",
-	"module": "dist/react-searchable-dropdown.es.js",
-	"types": "dist/index.d.ts",
-	"files": ["dist", "README.md"],
+	"author": "Lucio D'Alessandro",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/luciodale/react-searchable-dropdown"
 	},
-	"homepage": "https://react-searchable-dropdown.netlify.app/",
-	"author": "Lucio D'Alessandro",
-	"license": "MIT",
+	"main": "dist/react-searchable-dropdown.umd.js",
+	"module": "dist/react-searchable-dropdown.es.js",
 	"dependencies": {
 		"@floating-ui/react": "^0.27.12",
 		"autosuggest-highlight": "^3.3.4",
@@ -23,5 +17,11 @@
 	"peerDependencies": {
 		"react": ">=16 || >=17 || >= 18 || >= 19",
 		"react-dom": ">=16 || >=17 || >= 18 || >=19"
-	}
+	},
+	"description": "A reusable React searchable dropdown component.",
+	"files": ["dist", "README.md"],
+	"homepage": "https://react-searchable-dropdown.netlify.app/",
+	"keywords": ["react", "dropdown", "searchable", "component", "npm"],
+	"license": "MIT",
+	"types": "dist/index.d.ts"
 }
