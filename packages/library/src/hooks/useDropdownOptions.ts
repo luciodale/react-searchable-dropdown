@@ -1,5 +1,5 @@
 import { matchSorter } from "match-sorter";
-import { useMemo } from "react";
+import { useDeferredValue, useMemo } from "react";
 import type {
 	TDropdownOption,
 	TNewValueDropdownOption,
@@ -19,15 +19,17 @@ export function useDropdownOptions(
 		searchOptionKeys?: string[],
 	) => TNewValueDropdownOption | undefined,
 ) {
+	const searchQueryDeferred = useDeferredValue(searchQuery);
+
 	return useMemo(() => {
-		if (!searchQuery) return options;
+		if (!searchQueryDeferred) return options;
 
 		const threshold = matchSorter.rankings[filterType];
 
 		// Perform the initial match-sorter filtering
 		const matchingOptions = matchSorter(
 			options,
-			searchQuery,
+			searchQueryDeferred,
 			searchOptionKeys?.length
 				? {
 						keys: searchOptionKeys,
@@ -38,7 +40,7 @@ export function useDropdownOptions(
 
 		const generatedOption = enhanceOptionsWithNewCreation(
 			matchingOptions,
-			searchQuery,
+			searchQueryDeferred,
 			undefined,
 			searchOptionKeys,
 		);
@@ -48,5 +50,5 @@ export function useDropdownOptions(
 		}
 
 		return matchingOptions;
-	}, [options, searchQuery, searchOptionKeys, filterType, enhanceOptionsWithNewCreation]);
+	}, [options, searchQueryDeferred, searchOptionKeys, filterType, enhanceOptionsWithNewCreation]);
 }

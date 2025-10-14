@@ -17,7 +17,7 @@ export function SingleDropdownDemo() {
 					options={sampleOptions}
 					value={value}
 					setValue={setValue}
-					debounceDelay={100}
+					debounceDelay={0}
 				/>
 			</div>
 
