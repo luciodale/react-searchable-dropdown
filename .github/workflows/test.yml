@@ -43,6 +43,7 @@ jobs:
         run: bun install
         
       - name: Install Playwright browsers
+        working-directory: packages/docs
         run: bunx playwright install --with-deps
         
       - name: Run E2E tests
