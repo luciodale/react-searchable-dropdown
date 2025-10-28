@@ -5,6 +5,8 @@
   <img src="https://raw.githubusercontent.com/luciodale/react-searchable-dropdown/main/packages/docs/public/react-searchable-dropdown-logo.svg" alt="React Searchable Dropdown Logo" width="200" height="200" />
 </div>
 
+[NPM Package](https://www.npmjs.com/package/@luciodale/react-searchable-dropdown)
+
 FOR REACT 18 (last supported version) use version: 0.0.48-react-18
 
 A modern, accessible, and customizable dropdown component for React applications.
