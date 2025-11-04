@@ -1,6 +1,6 @@
 {
 	"name": "@luciodale/react-searchable-dropdown",
-	"version": "0.0.51",
+	"version": "1.0.0",
 	"author": "Lucio D'Alessandro",
 	"repository": {
 		"type": "git",
@@ -21,7 +21,17 @@
 	"description": "A reusable React searchable dropdown component.",
 	"files": ["dist", "README.md"],
 	"homepage": "https://react-searchable-dropdown.netlify.app/",
-	"keywords": ["react", "dropdown", "searchable", "component", "npm"],
+	"keywords": [
+		"multi selection",
+		"searchable list",
+		"multi list",
+		"multi selection",
+		"multi select dropdown",
+		"searchable-dropdown",
+		"react auto search dropdown",
+		"react search select",
+		"react dropdown component"
+	],
 	"license": "MIT",
 	"types": "dist/index.d.ts"
 }
