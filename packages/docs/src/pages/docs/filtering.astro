@@ -1,0 +1,201 @@
+---
+import Callout from "@luciodale/docs-ui-kit/components/Callout.astro";
+import CodeBlock from "@luciodale/docs-ui-kit/components/CodeBlock.astro";
+import ContentSection from "@luciodale/docs-ui-kit/components/ContentSection.astro";
+import PropsTable from "@luciodale/docs-ui-kit/components/PropsTable.astro";
+import DocsPage from "../../layouts/DocsPage.astro";
+import { href } from "../../lib/link";
+
+export const prerender = true;
+---
+
+<DocsPage
+	title="Filtering"
+	description="How search filtering works: match strategies, search keys, and debouncing."
+>
+	<ContentSection label="The problem" id="the-problem">
+		<p class="text-white/60 mb-4">
+			Search filtering sounds simple until you have real users. Some type the exact name. Some
+			type the first few letters. Some type a word from the middle. Some type acronyms. A
+			rigid exact-match filter breaks for most of them.
+		</p>
+		<p class="text-white/60 mb-4">
+			On the performance side, filtering 100k+ items on every keystroke can freeze the UI if
+			you are not careful. The library handles both problems: flexible match strategies via
+			match-sorter and optional debouncing to keep things smooth.
+		</p>
+	</ContentSection>
+
+	<ContentSection label="Filter types" id="filter-types">
+		<p class="text-white/60 mb-4">
+			The <code>filterType</code> prop controls how aggressively the search matches. It maps
+			directly to match-sorter ranking thresholds. The default is <code>CONTAINS</code>, which
+			matches anywhere in the string.
+		</p>
+
+		<PropsTable
+			title="Available filter types"
+			rows={[
+				{ name: "CASE_SENSITIVE_EQUAL", type: "Ranking", description: "Exact match, case-sensitive. 'London' matches 'London' but not 'london'." },
+				{ name: "EQUAL", type: "Ranking", description: "Exact match, case-insensitive. 'london' matches 'London'." },
+				{ name: "STARTS_WITH", type: "Ranking", description: "Matches from the start. 'lon' matches 'London' but not 'Babylon'." },
+				{ name: "WORD_STARTS_WITH", type: "Ranking", description: "Any word can match from its start. 'yor' matches 'New York'." },
+				{ name: "CONTAINS", type: "Ranking", description: "Matches anywhere in the string. 'ond' matches 'London'. This is the default." },
+				{ name: "ACRONYM", type: "Ranking", description: "Matches against first letters of words. 'ny' matches 'New York'." },
+				{ name: "MATCHES", type: "Ranking", description: "Most permissive. Matches individual characters in order." },
+				{ name: "NO_MATCH", type: "Ranking", description: "Nothing matches. Useful to disable filtering temporarily." },
+			]}
+		/>
+
+		<CodeBlock
+			code={`<SearchableDropdown
+  options={cities}
+  value={city}
+  setValue={setCity}
+  filterType="STARTS_WITH"
+  placeholder="Type the first letters..."
+/>`}
+			language="tsx"
+			filename="StartsWithExample.tsx"
+		/>
+
+		<Callout type="tip" title="Choosing a filter type">
+			<p>
+				Start with <code>CONTAINS</code> (the default). It works well for most cases. Switch
+				to <code>STARTS_WITH</code> if your list has many similar items and you want more
+				precise results. Use <code>ACRONYM</code> for lists where users commonly use
+				abbreviations.
+			</p>
+		</Callout>
+	</ContentSection>
+
+	<ContentSection label="Search option keys" id="search-option-keys">
+		<p class="text-white/60 mb-4">
+			When your options are objects, <code>searchOptionKeys</code> tells the filter which
+			fields to search against. The match-sorter library searches each key independently and
+			combines results.
+		</p>
+
+		<CodeBlock
+			code={`type Product = {
+  label: string;
+  value: string;
+  category: string;
+  sku: string;
+};
+
+// Search by name and category, but not by SKU
+<SearchableDropdown
+  options={products}
+  value={product}
+  setValue={setProduct}
+  searchOptionKeys={["label", "category"]}
+  placeholder="Search products..."
+/>`}
+			language="tsx"
+			filename="SearchKeysExample.tsx"
+		/>
+
+		<p class="text-white/60 mt-4 mb-4">
+			The type system ensures <code>searchOptionKeys</code> only accepts keys that exist on
+			your option type. If you add a field to your type later, it becomes available as a
+			search key automatically. If you remove one that's referenced, TypeScript catches it.
+		</p>
+	</ContentSection>
+
+	<ContentSection label="Debouncing" id="debouncing">
+		<p class="text-white/60 mb-4">
+			For small option lists (under a few thousand), filtering is instant and debouncing is
+			unnecessary. For very large lists (100k+), debouncing prevents the filter from running
+			on every keystroke.
+		</p>
+
+		<CodeBlock
+			code={`// No debounce (default) — good for small lists
+<SearchableDropdown
+  options={smallList}
+  value={value}
+  setValue={setValue}
+  debounceDelay={0}
+/>
+
+// 100ms debounce — good for large lists
+<SearchableDropdown
+  options={hugeList}
+  value={value}
+  setValue={setValue}
+  debounceDelay={100}
+/>`}
+			language="tsx"
+			filename="DebounceExample.tsx"
+		/>
+
+		<Callout type="info" title="useDeferredValue">
+			<p>
+				The library also uses React's <code>useDeferredValue</code> internally to keep the
+				search input responsive even during heavy filtering. This means typing never lags,
+				even with large lists and zero debounce.
+			</p>
+		</Callout>
+	</ContentSection>
+
+	<ContentSection label="Controlled search query" id="controlled-search">
+		<p class="text-white/60 mb-4">
+			By default, the search input is uncontrolled. If you need to read or set the search
+			query from outside the component, use <code>searchQuery</code> and
+			<code>onSearchQueryChange</code>.
+		</p>
+
+		<CodeBlock
+			code={`function ControlledSearch() {
+  const [value, setValue] = useState<string | undefined>(undefined);
+  const [query, setQuery] = useState<string | undefined>(undefined);
+
+  return (
+    <>
+      <p>Current search: {query ?? "none"}</p>
+      <SearchableDropdown
+        options={cities}
+        value={value}
+        setValue={setValue}
+        searchQuery={query}
+        onSearchQueryChange={setQuery}
+        placeholder="Search..."
+      />
+    </>
+  );
+}`}
+			language="tsx"
+			filename="ControlledSearchExample.tsx"
+		/>
+	</ContentSection>
+
+	<ContentSection label="Create new option" id="create-new">
+		<p class="text-white/60 mb-4">
+			When the search query doesn't match any option, the dropdown shows a "no match" entry
+			by default. If <code>createNewOptionIfNoMatch</code> is true (the default), selecting
+			that entry creates a new option from the search text.
+		</p>
+
+		<CodeBlock
+			code={`// Disable new option creation
+<SearchableDropdown
+  options={cities}
+  value={city}
+  setValue={setCity}
+  createNewOptionIfNoMatch={false}
+  dropdownOptionNoMatchLabel="Nothing found"
+/>`}
+			language="tsx"
+			filename="NoCreateExample.tsx"
+		/>
+	</ContentSection>
+
+	<ContentSection label="Next steps" id="next-steps">
+		<ul class="text-white/60 space-y-2 list-disc list-inside">
+			<li><a href={href("/docs/styling")} class="text-accent hover:underline">Styling</a> — customize the look and feel</li>
+			<li><a href={href("/docs/multi-select")} class="text-accent hover:underline">Multi Select</a> — multi-select specific behavior</li>
+			<li><a href={href("/demo/single-select")} class="text-accent hover:underline">Live demo</a> — try filtering on 100k+ options</li>
+		</ul>
+	</ContentSection>
+</DocsPage>

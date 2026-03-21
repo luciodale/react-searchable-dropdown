@@ -1,0 +1,36 @@
+---
+import HeroSection from "@luciodale/docs-ui-kit/components/HeroSection.astro";
+import PageLayout from "@luciodale/docs-ui-kit/components/PageLayout.astro";
+import { siteConfig } from "../config";
+import Base from "../layouts/Base.astro";
+import { href } from "../lib/link";
+
+export const prerender = true;
+---
+
+<Base title={siteConfig.title} description={siteConfig.description}>
+	<PageLayout config={siteConfig} currentPath="/">
+		<HeroSection
+			title={siteConfig.title}
+			description={siteConfig.description}
+			installCommand={siteConfig.installCommand}
+			logoSrc={siteConfig.logoSrc}
+			logoAlt={siteConfig.logoAlt}
+		>
+			<div class="flex gap-4 mt-6">
+				<a
+					href={href("/docs/getting-started")}
+					class="px-6 py-3 bg-accent text-white font-semibold rounded-lg hover:bg-accent-hover transition-colors"
+				>
+					Get Started
+				</a>
+				<a
+					href={href("/demo/single-select")}
+					class="px-6 py-3 border border-white/20 text-white/80 font-semibold rounded-lg hover:border-white/40 hover:text-white transition-colors"
+				>
+					Examples
+				</a>
+			</div>
+		</HeroSection>
+	</PageLayout>
+</Base>

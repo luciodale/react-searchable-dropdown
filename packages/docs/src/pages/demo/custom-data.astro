@@ -1,0 +1,31 @@
+---
+import Callout from "@luciodale/docs-ui-kit/components/Callout.astro";
+import ContentSection from "@luciodale/docs-ui-kit/components/ContentSection.astro";
+import { CustomDataDemo } from "../../components/demos/CustomDataDemo";
+import DocsPage from "../../layouts/DocsPage.astro";
+import "@luciodale/react-searchable-dropdown/src/assets/single-style.css";
+
+export const prerender = true;
+---
+
+<DocsPage
+	title="Custom Data Demo"
+	description="Fetch your own data from any URL and use it as dropdown options."
+>
+	<ContentSection label="Custom Data" id="custom-data">
+		<p class="text-white/60 mb-4">
+			Enter a URL that returns a JSON array of strings. The dropdown will populate with
+			the fetched data. You can target localhost too.
+		</p>
+
+		<CustomDataDemo client:load />
+
+		<Callout type="info">
+			<p>
+				This demo expects the endpoint to return a plain JSON array of strings. The
+				library also supports object arrays with <code>label</code>/<code>value</code>
+				fields.
+			</p>
+		</Callout>
+	</ContentSection>
+</DocsPage>

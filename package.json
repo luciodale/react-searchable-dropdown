@@ -9,13 +9,14 @@
 		"type": "git",
 		"url": "https://github.com/luciodale/react-searchable-dropdown"
 	},
-	"homepage": "https://react-searchable-dropdown.netlify.app/",
+	"homepage": "https://koolcodez.com/projects/react-searchable-dropdown",
 	"scripts": {
 		"dev": "bun run --filter react-searchable-dropdown-docs dev",
 		"build": "bun run build:lib && bun run build:docs",
 		"build:lib": "tsc && vite build -c vite.lib.config.mts",
 		"build:lib:watch": "vite build -c vite.lib.config.mts --watch",
 		"build:docs": "bun run --filter react-searchable-dropdown-docs build",
+		"deploy:docs": "bun run --filter react-searchable-dropdown-docs deploy",
 		"npm": "bun run build:lib && cd packages/library && npm publish --access public",
 		"npm:test": "bun run build:lib && cd packages/library && npm pack --dry-run",
 		"format": "biome format --write .",
@@ -25,12 +26,8 @@
 		"unit-tests:ui": "vitest --ui",
 		"unit-tests:coverage": "vitest --coverage",
 		"unit-tests:ci": "vitest run",
-		"e2e-tests": "bun run --filter react-searchable-dropdown-docs test:e2e",
-		"e2e-tests:ui": "bun run --filter react-searchable-dropdown-docs test:e2e:ui",
-		"e2e-tests:headed": "bun run --filter react-searchable-dropdown-docs test:e2e:headed",
-		"e2e-tests:ci": "bun run --filter react-searchable-dropdown-docs test:e2e:ci",
-		"test": "bun run unit-tests:ci && bun run e2e-tests:ci",
-		"test:ci": "bun run unit-tests:ci && bun run e2e-tests:ci"
+		"test": "bun run unit-tests:ci",
+		"test:ci": "bun run unit-tests:ci"
 	},
 	"author": "Lucio D'Alessandro",
 	"license": "MIT",

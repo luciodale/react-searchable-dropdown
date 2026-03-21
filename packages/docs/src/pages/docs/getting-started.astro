@@ -1,0 +1,195 @@
+---
+import Callout from "@luciodale/docs-ui-kit/components/Callout.astro";
+import CodeBlock from "@luciodale/docs-ui-kit/components/CodeBlock.astro";
+import ContentSection from "@luciodale/docs-ui-kit/components/ContentSection.astro";
+import FeatureList from "@luciodale/docs-ui-kit/components/FeatureList.astro";
+import PackageInfo from "@luciodale/docs-ui-kit/components/PackageInfo.astro";
+import DocsPage from "../../layouts/DocsPage.astro";
+import { href } from "../../lib/link";
+
+export const prerender = true;
+---
+
+<DocsPage
+	title="Getting Started"
+	description="Install and use react-searchable-dropdown in your React project."
+>
+	<ContentSection label="What is react-searchable-dropdown?" id="what-is-it">
+		<p class="text-white/60 mb-4">
+			Dropdowns look easy until you actually try to build one properly. The basic select
+			takes ten minutes. Then you spend a week handling keyboard navigation, virtual scrolling
+			for large lists, portal rendering so it doesn't clip inside overflow containers, search
+			filtering that doesn't lag on 100k items, and multi-select with chip management.
+		</p>
+		<p class="text-white/60 mb-4">
+			<code>react-searchable-dropdown</code> handles all of that. It gives you two components
+			(<code>SearchableDropdown</code> and <code>SearchableDropdownMulti</code>) that work out of
+			the box with zero configuration beyond passing your options and a state setter.
+		</p>
+
+		<PackageInfo
+			packageName="@luciodale/react-searchable-dropdown"
+			githubRepo="luciodale/react-searchable-dropdown"
+		/>
+	</ContentSection>
+
+	<ContentSection label="Why this library" id="why">
+		<p class="text-white/60 mb-4">
+			Most dropdown libraries fall into two camps. The heavyweight ones ship their own styling
+			system, state management layer, and opinions about how your form should work. The
+			lightweight ones give you a bare listbox and leave keyboard nav, virtualization, and
+			positioning entirely on your plate.
+		</p>
+		<p class="text-white/60 mb-4">
+			This library sits between those two extremes. It handles the hard parts (virtual scrolling
+			via Virtuoso, portal positioning via Floating UI, fuzzy search via match-sorter, full
+			keyboard navigation) and stays out of your state management, styling system, and form library.
+		</p>
+
+		<h3 class="text-white font-semibold mt-6 mb-3">What you get</h3>
+		<FeatureList
+			features={[
+				{ highlight: "Virtualized rendering", description: "handles hundreds of thousands of options without breaking a sweat" },
+				{ highlight: "Portal positioning", description: "works inside overflow:hidden containers, modals, and scrollable areas" },
+				{ highlight: "Fuzzy search filtering", description: "configurable match strategies including exact, starts-with, contains, and acronym" },
+				{ highlight: "Full keyboard navigation", description: "arrow keys, enter, escape, tab, backspace for multi-select" },
+				{ highlight: "Single and multi-select", description: "two variants with the same API surface" },
+				{ highlight: "Grouped options", description: "dynamic category headers that recalculate as the user searches" },
+				{ highlight: "TypeScript generics", description: "types flow through your option types, catching config mistakes at compile time" },
+			]}
+		/>
+
+		<h3 class="text-white font-semibold mt-6 mb-3">What you control</h3>
+		<FeatureList
+			color="green"
+			features={[
+				{ highlight: "All styling", description: "CSS class props or CSS variables, no specificity battles" },
+				{ highlight: "Your own state", description: "just pass value/setValue, no stores or providers" },
+				{ highlight: "Custom icons", description: "dropdown toggle, clear buttons, and option labels" },
+				{ highlight: "New option creation", description: "optionally let users create options when nothing matches" },
+			]}
+		/>
+	</ContentSection>
+
+	<ContentSection label="Installation" id="installation">
+		<CodeBlock
+			code="npm install @luciodale/react-searchable-dropdown"
+			language="bash"
+			filename="terminal"
+		/>
+
+		<Callout type="info" title="Peer dependencies">
+			<p>React 16+ and ReactDOM 16+ are required as peer dependencies. The library supports React 16 through 19.</p>
+		</Callout>
+	</ContentSection>
+
+	<ContentSection label="Quick start" id="quick-start">
+		<p class="text-white/60 mb-4">
+			The simplest possible dropdown. String options, single select, no configuration beyond
+			the essentials.
+		</p>
+
+		<CodeBlock
+			code={`import { useState } from "react";
+import { SearchableDropdown } from "@luciodale/react-searchable-dropdown";
+import "@luciodale/react-searchable-dropdown/dist/single-style.css";
+
+const cities = ["London", "Paris", "Berlin", "Madrid", "Rome", "Amsterdam"];
+
+function CityPicker() {
+  const [city, setCity] = useState<string | undefined>(undefined);
+
+  return (
+    <SearchableDropdown
+      options={cities}
+      value={city}
+      setValue={setCity}
+      placeholder="Pick a city"
+    />
+  );
+}`}
+			language="tsx"
+			filename="CityPicker.tsx"
+		/>
+
+		<p class="text-white/60 mt-4 mb-4">
+			That's it. You get search filtering, keyboard navigation, virtual scrolling, and portal
+			positioning for free. The default stylesheet gives you a clean dark theme that you can
+			override or replace entirely.
+		</p>
+	</ContentSection>
+
+	<ContentSection label="Object options" id="object-options">
+		<p class="text-white/60 mb-4">
+			When your options are objects instead of strings, you tell the dropdown which keys to
+			search against. TypeScript enforces that <code>searchOptionKeys</code> only accepts keys
+			that actually exist on your option type.
+		</p>
+
+		<CodeBlock
+			code={`import { useState } from "react";
+import { SearchableDropdown } from "@luciodale/react-searchable-dropdown";
+import "@luciodale/react-searchable-dropdown/dist/single-style.css";
+
+type User = {
+  label: string;
+  value: string;
+  department: string;
+};
+
+const users: User[] = [
+  { label: "Alice", value: "alice", department: "Engineering" },
+  { label: "Bob", value: "bob", department: "Design" },
+  { label: "Carol", value: "carol", department: "Engineering" },
+];
+
+function UserPicker() {
+  const [user, setUser] = useState<User | undefined>(undefined);
+
+  return (
+    <SearchableDropdown
+      options={users}
+      value={user}
+      setValue={setUser}
+      searchOptionKeys={["label", "department"]}
+      placeholder="Search by name or department"
+    />
+  );
+}`}
+			language="tsx"
+			filename="UserPicker.tsx"
+		/>
+
+		<Callout type="tip" title="Type safety">
+			<p>
+				If you rename <code>department</code> to <code>team</code> in the User type,
+				TypeScript will flag <code>searchOptionKeys</code> immediately. The types flow
+				through the generics so nothing gets out of sync.
+			</p>
+		</Callout>
+	</ContentSection>
+
+	<ContentSection label="TypeScript all the way down" id="typescript">
+		<p class="text-white/60 mb-4">
+			The library uses conditional types and generics throughout. When you pass string options,
+			<code>searchOptionKeys</code> is not available (it would be meaningless). When you pass
+			object options, <code>searchOptionKeys</code> becomes required and only accepts keys from
+			your object type.
+		</p>
+		<p class="text-white/60 mb-4">
+			This means TypeScript catches configuration mistakes at compile time rather than runtime.
+			If you pass an object array but forget <code>searchOptionKeys</code>, you get a type
+			error. If you misspell a key, you get a type error.
+		</p>
+	</ContentSection>
+
+	<ContentSection label="Next steps" id="next-steps">
+		<ul class="text-white/60 space-y-2 list-disc list-inside">
+			<li><a href={href("/docs/configuration")} class="text-accent hover:underline">Configuration</a> — all available props at a glance</li>
+			<li><a href={href("/docs/filtering")} class="text-accent hover:underline">Filtering</a> — match strategies, debouncing, and search keys</li>
+			<li><a href={href("/docs/multi-select")} class="text-accent hover:underline">Multi Select</a> — chips, clear all, backspace deletion</li>
+			<li><a href={href("/docs/styling")} class="text-accent hover:underline">Styling</a> — CSS classes, variables, and custom themes</li>
+			<li><a href={href("/demo/single-select")} class="text-accent hover:underline">Live demo</a> — see it working with 100k+ options</li>
+		</ul>
+	</ContentSection>
+</DocsPage>

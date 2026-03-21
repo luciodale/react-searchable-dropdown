@@ -1,0 +1,239 @@
+---
+import Callout from "@luciodale/docs-ui-kit/components/Callout.astro";
+import CodeBlock from "@luciodale/docs-ui-kit/components/CodeBlock.astro";
+import ContentSection from "@luciodale/docs-ui-kit/components/ContentSection.astro";
+import DocsPage from "../../layouts/DocsPage.astro";
+import { href } from "../../lib/link";
+
+export const prerender = true;
+---
+
+<DocsPage
+	title="Styling"
+	description="Customize the dropdown appearance with CSS classes, CSS variables, or fully custom themes."
+>
+	<ContentSection label="The problem" id="the-problem">
+		<p class="text-white/60 mb-4">
+			Dropdown styling is either too rigid (component ships with opinions you can't override)
+			or too barebones (you write every single style from scratch). Neither is great when
+			you just want a dropdown that looks like the rest of your app.
+		</p>
+		<p class="text-white/60 mb-4">
+			This library ships two optional CSS files (one for single, one for multi) that give you
+			a working dark theme out of the box. You can use them as-is, override specific pieces
+			with CSS variables, or skip them entirely and pass your own class names.
+		</p>
+	</ContentSection>
+
+	<ContentSection label="Default styles" id="default-styles">
+		<p class="text-white/60 mb-4">
+			Import the stylesheets from the package to get the default dark theme.
+		</p>
+
+		<CodeBlock
+			code={`// Single select
+import "@luciodale/react-searchable-dropdown/dist/single-style.css";
+
+// Multi select
+import "@luciodale/react-searchable-dropdown/dist/multi-style.css";`}
+			language="tsx"
+			filename="imports.ts"
+		/>
+
+		<Callout type="info">
+			<p>
+				The styles are shipped separately from the components. If you don't import them,
+				the components render unstyled. This is intentional: it keeps the bundle lean and
+				lets you use your own styling approach without fighting specificity battles.
+			</p>
+		</Callout>
+	</ContentSection>
+
+	<ContentSection label="CSS variables" id="css-variables">
+		<p class="text-white/60 mb-4">
+			The default stylesheets use CSS custom properties scoped to the
+			<code>.lda-searchable-dropdown</code> class for all colors, spacing, and sizes.
+			Override any variable to match your design system without rewriting the entire
+			stylesheet. Here are all the defaults:
+		</p>
+
+		<CodeBlock
+			code={`.lda-searchable-dropdown {
+  /* Colors */
+  --color-background: rgb(0, 0, 0);
+  --color-disabled: rgb(20, 20, 20);
+  --color-border: rgba(255, 255, 255, 0.1);
+  --color-focus: #ef4723;
+  --color-text: rgba(255, 255, 255, 0.9);
+  --color-text-secondary: rgba(255, 255, 255, 0.4);
+  --color-chip-bg: rgba(255, 255, 255, 0.1);
+  --color-chip-hover: rgba(255, 255, 255, 0.15);
+  --color-chip-close-hover-bg: rgba(255, 255, 255, 0.2);
+  --color-chip-close-hover-text: rgba(255, 255, 255, 0.9);
+  --color-option-hover: rgba(255, 255, 255, 0.05);
+  --color-option-selected: rgba(239, 71, 35, 0.15);
+  --color-option-group: rgba(239, 71, 35, 0.12);
+  --color-option-disabled: rgba(255, 255, 255, 0.02);
+
+  /* Sizing */
+  --width-container: 300px;
+  --height-input: 36px;
+
+  /* Spacing */
+  --spacing-xs: 2px;
+  --spacing-sm: 4px;
+  --spacing-md: 8px;
+  --spacing-lg: 12px;
+  --spacing-xl: 16px;
+  --spacing-xxl: 20px;
+
+  /* Borders */
+  --border-radius-sm: 4px;
+  --border-radius-md: 8px;
+  --border-radius-circle: 50%;
+
+  /* Typography */
+  --font-size-sm: 12px;
+  --font-size-base: 14px;
+}`}
+			language="css"
+			filename="variables.css (defaults)"
+		/>
+	</ContentSection>
+
+	<ContentSection label="Custom class names" id="custom-classes">
+		<p class="text-white/60 mb-4">
+			For full control, skip the default stylesheet entirely and pass your own CSS classes
+			via the class name props. Every visual element has its own prop.
+		</p>
+
+		<CodeBlock
+			code={`<SearchableDropdown
+  options={options}
+  value={value}
+  setValue={setValue}
+  classNameSearchableDropdownContainer="my-dropdown"
+  classNameSearchQueryInput="my-input"
+  classNameDropdownOptions="my-options-list"
+  classNameDropdownOption="my-option"
+  classNameDropdownOptionFocused="my-option--focused"
+  classNameDropdownOptionSelected="my-option--selected"
+  classNameDropdownOptionLabel="my-option-label"
+  classNameDropdownOptionLabelFocused="my-option-label--focused"
+  classNameDropdownOptionNoMatch="my-no-match"
+  classNameTriggerIcon="my-icon"
+  classNameTriggerIconInvert="my-icon--open"
+  placeholder="Search..."
+/>`}
+			language="tsx"
+			filename="CustomClassesExample.tsx"
+		/>
+
+		<p class="text-white/60 mt-4 mb-4">
+			When you pass custom class names, they replace the defaults entirely (not merge). This
+			means no specificity issues. Your classes are the only classes applied.
+		</p>
+	</ContentSection>
+
+	<ContentSection label="Custom icon" id="custom-icon">
+		<p class="text-white/60 mb-4">
+			The default dropdown icon is a simple chevron. Pass a <code>DropdownIcon</code> component
+			to replace it. It receives a <code>toggled</code> prop indicating whether the dropdown is
+			open.
+		</p>
+
+		<CodeBlock
+			code={`function ChevronIcon({ toggled }: { toggled: boolean }) {
+  return (
+    <svg
+      className={\`my-icon \${toggled ? "my-icon--rotated" : ""}\`}
+      viewBox="0 0 24 24"
+      fill="currentColor"
+    >
+      <title>Toggle</title>
+      <path d="M7 10l5 5 5-5H7z" />
+    </svg>
+  );
+}
+
+<SearchableDropdown
+  options={options}
+  value={value}
+  setValue={setValue}
+  DropdownIcon={ChevronIcon}
+/>`}
+			language="tsx"
+			filename="CustomIconExample.tsx"
+		/>
+	</ContentSection>
+
+	<ContentSection label="Full custom theme example" id="full-custom">
+		<p class="text-white/60 mb-4">
+			Here's a complete custom theme that replaces all default styles with a "slick grey"
+			aesthetic. This is the same approach used in the Custom Theme demo.
+		</p>
+
+		<CodeBlock
+			code={`.slick-grey-dropdown-container {
+  width: 350px;
+  backdrop-filter: blur(12px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 12px;
+  color: #e0e0e0;
+}
+
+.slick-grey-search-query-input {
+  width: 100%;
+  padding: 14px 20px;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 6px;
+  font-size: 1.05rem;
+  color: #ffffff;
+  background: rgba(44, 44, 44, 0.95);
+  outline: none;
+  box-shadow: inset 2px 2px 8px rgba(0, 0, 0, 0.2);
+  transition: background 0.2s ease, box-shadow 0.2s ease;
+}
+
+.slick-grey-search-query-input:focus {
+  background: rgba(0, 0, 0, 0.6);
+  box-shadow:
+    inset 2px 2px 8px rgba(0, 0, 0, 0.2),
+    0 0 0 2px rgba(255, 255, 255, 0.2);
+}
+
+.slick-grey-dropdown-options {
+  background: rgb(44, 44, 44);
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.slick-grey-dropdown-option {
+  padding: 14px 20px;
+  cursor: pointer;
+  color: #e0e0e0;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.slick-grey-dropdown-option-focused {
+  background-color: rgba(90, 90, 90, 0.5);
+  color: #ffffff;
+}`}
+			language="css"
+			filename="slick-grey.css"
+		/>
+	</ContentSection>
+
+	<ContentSection label="Next steps" id="next-steps">
+		<ul class="text-white/60 space-y-2 list-disc list-inside">
+			<li><a href={href("/docs/multi-select")} class="text-accent hover:underline">Multi Select</a> — chip styling and multi-select CSS</li>
+			<li><a href={href("/docs/grouping")} class="text-accent hover:underline">Grouping</a> — style group headers</li>
+			<li><a href={href("/docs/configuration")} class="text-accent hover:underline">Configuration</a> — full list of CSS class props</li>
+		</ul>
+	</ContentSection>
+</DocsPage>

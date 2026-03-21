@@ -1,0 +1,204 @@
+---
+import Callout from "@luciodale/docs-ui-kit/components/Callout.astro";
+import CodeBlock from "@luciodale/docs-ui-kit/components/CodeBlock.astro";
+import ContentSection from "@luciodale/docs-ui-kit/components/ContentSection.astro";
+import PropsTable from "@luciodale/docs-ui-kit/components/PropsTable.astro";
+import DocsPage from "../../layouts/DocsPage.astro";
+import { href } from "../../lib/link";
+
+export const prerender = true;
+---
+
+<DocsPage
+	title="API Reference"
+	description="Complete export list, type definitions, and hook documentation."
+>
+	<ContentSection label="Component exports" id="components">
+		<PropsTable
+			title="Components"
+			rows={[
+				{ name: "SearchableDropdown<T, G>", type: "Component", description: "Single-select searchable dropdown. T is the option type (string or object), G is the group context type." },
+				{ name: "SearchableDropdownMulti<T, G>", type: "Component", description: "Multi-select variant with chip display, clear-all, and backspace deletion." },
+			]}
+		/>
+
+		<CodeBlock
+			code={`import {
+  SearchableDropdown,
+  SearchableDropdownMulti,
+} from "@luciodale/react-searchable-dropdown";`}
+			language="tsx"
+			filename="imports.ts"
+		/>
+	</ContentSection>
+
+	<ContentSection label="Hook exports" id="hooks">
+		<PropsTable
+			title="Hooks"
+			rows={[
+				{ name: "useDebounce<T>(value, delay)", type: "Hook", description: "Returns [debouncedValue, setDebouncedValue]. When delay is 0, updates are immediate. Useful for debouncing external state that feeds into the dropdown." },
+			]}
+		/>
+
+		<CodeBlock
+			code={`import { useDebounce } from "@luciodale/react-searchable-dropdown";
+
+function MyComponent() {
+  const [query, setQuery] = useState("");
+  const [debouncedQuery] = useDebounce(query, 200);
+
+  // debouncedQuery updates 200ms after the last query change
+}`}
+			language="tsx"
+			filename="useDebounceExample.tsx"
+		/>
+	</ContentSection>
+
+	<ContentSection label="Option types" id="option-types">
+		<CodeBlock
+			code={`// Base option type — either a string or an object
+type TDropdownOption = TObjectLikeDropdownOption | TStringDropdownOption;
+
+// String options
+type TStringDropdownOption = string;
+
+// Object options must have label and value
+type TObjectDropdownOption = {
+  [key: string]: string | number | boolean;
+  label: string;
+  value: string;
+};
+
+// Created-on-the-fly options (when no match is found)
+type TNewValueDropdownOption = {
+  isNewValue: true;
+  label: string;
+  value: string;
+};
+
+// Union of object option types
+type TObjectLikeDropdownOption =
+  | TObjectDropdownOption
+  | TNewValueDropdownOption;`}
+			language="tsx"
+			filename="types.ts"
+		/>
+
+		<Callout type="info" title="Required fields for object options">
+			<p>
+				Object options must always have <code>label</code> (displayed in the dropdown) and
+				<code>value</code> (the selection identifier). Additional fields are allowed and
+				can be used as search keys.
+			</p>
+		</Callout>
+	</ContentSection>
+
+	<ContentSection label="Search types" id="search-types">
+		<CodeBlock
+			code={`// Constrains searchOptionKeys to actual keys of the option type
+type TSearchOptionKeys<T extends TDropdownOption> =
+  T extends { label: string; value: string }
+    ? Array<Extract<keyof T, string>>
+    : never;
+
+// Match-sorter ranking keys
+type TSearchableDropdownFilterType = keyof typeof matchSorter.rankings;
+// Values: "CASE_SENSITIVE_EQUAL" | "EQUAL" | "STARTS_WITH"
+//       | "WORD_STARTS_WITH" | "CONTAINS" | "ACRONYM"
+//       | "MATCHES" | "NO_MATCH"`}
+			language="tsx"
+			filename="search-types.ts"
+		/>
+	</ContentSection>
+
+	<ContentSection label="Group types" id="group-types">
+		<CodeBlock
+			code={`// Discriminated union — provide both or neither
+type TGroups<T extends TDropdownOption, G> =
+  | {
+      handleGroups: (
+        matchingOptions: T[]
+      ) => {
+        groupCounts: number[];
+        groupCategories: string[];
+      };
+      groupContent: (
+        index: number,
+        groupCategories: string[],
+        context: G
+      ) => React.ReactNode;
+    }
+  | {
+      handleGroups?: undefined;
+      groupContent?: undefined;
+    };`}
+			language="tsx"
+			filename="group-types.ts"
+		/>
+	</ContentSection>
+
+	<ContentSection label="Component prop types" id="component-types">
+		<CodeBlock
+			code={`// Single select props (simplified)
+type TSearchableDropdown<T, G> =
+  T extends TObjectLikeDropdownOption
+    ? TSearchableCommon<T, G> & {
+        searchOptionKeys: Array<Extract<keyof T, string>>;
+      }
+    : TSearchableCommon<T, G> & {
+        searchOptionKeys?: undefined;
+      };
+
+// Multi select props (simplified)
+type TSearchableDropdownMulti<T, G> =
+  T extends TObjectLikeDropdownOption
+    ? TSearchableCommonMulti<T, G> & {
+        searchOptionKeys: Array<Extract<keyof T, string>>;
+      }
+    : TSearchableCommonMulti<T, G> & {
+        searchOptionKeys?: undefined;
+      };`}
+			language="tsx"
+			filename="component-types.ts"
+		/>
+
+		<p class="text-white/60 mt-4 mb-4">
+			The conditional type structure means that TypeScript will require
+			<code>searchOptionKeys</code> when you pass object options and hide it when you pass
+			string options. This is enforced at the type level: you literally cannot pass a
+			meaningless <code>searchOptionKeys</code> to a string dropdown.
+		</p>
+	</ContentSection>
+
+	<ContentSection label="CSS files" id="css-files">
+		<PropsTable
+			title="Importable stylesheets"
+			rows={[
+				{ name: "dist/single-style.css", type: "CSS", description: "Default dark theme for SearchableDropdown. Includes variables.css." },
+				{ name: "dist/multi-style.css", type: "CSS", description: "Default dark theme for SearchableDropdownMulti. Includes variables.css and chip styles." },
+				{ name: "dist/variables.css", type: "CSS", description: "CSS custom properties only. Import this if you want the variable definitions without the component styles." },
+			]}
+		/>
+	</ContentSection>
+
+	<ContentSection label="All type exports" id="all-exports">
+		<CodeBlock
+			code={`import type {
+  TDropdownOption,
+  TNewValueDropdownOption,
+  TObjectDropdownOption,
+  TObjectLikeDropdownOption,
+  TStringDropdownOption,
+  TSearchableDropdown,
+  TSearchableDropdownMulti,
+  TSearchableCommon,
+  TSearchableCommonMulti,
+  TSearchableDropdownFilterType,
+  TSearchOptionKeys,
+  TGroups,
+} from "@luciodale/react-searchable-dropdown";`}
+			language="tsx"
+			filename="type-imports.ts"
+		/>
+	</ContentSection>
+</DocsPage>

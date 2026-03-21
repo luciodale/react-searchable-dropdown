@@ -1,0 +1,30 @@
+---
+import Callout from "@luciodale/docs-ui-kit/components/Callout.astro";
+import ContentSection from "@luciodale/docs-ui-kit/components/ContentSection.astro";
+import { MultiSelectDemo } from "../../components/demos/MultiSelectDemo";
+import DocsPage from "../../layouts/DocsPage.astro";
+import "@luciodale/react-searchable-dropdown/src/assets/multi-style.css";
+
+export const prerender = true;
+---
+
+<DocsPage
+	title="Multi Select Demo"
+	description="Live multi-select dropdown with chips, clear-all, and backspace deletion."
+>
+	<ContentSection label="Multi Select" id="multi-select">
+		<p class="text-white/60 mb-4">
+			Multi-select with 100ms debounce and backspace chip deletion enabled. Select multiple
+			cities and watch them appear as removable chips.
+		</p>
+
+		<MultiSelectDemo client:load />
+
+		<Callout type="tip" title="Keyboard shortcuts">
+			<p>
+				Arrow keys navigate the list. Enter or Tab selects the focused option. Escape
+				closes the dropdown. Backspace with an empty search input removes the last chip.
+			</p>
+		</Callout>
+	</ContentSection>
+</DocsPage>

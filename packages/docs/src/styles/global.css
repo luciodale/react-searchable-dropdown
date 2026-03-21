@@ -1,0 +1,4 @@
+@import "tailwindcss";
+@import "@luciodale/docs-ui-kit/styles.css";
+
+@source "../../../../node_modules/@luciodale/docs-ui-kit/src/**/*.{astro,ts}";

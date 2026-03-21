@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <!-- Option dots spread across the top -->
+  <circle cx="16" cy="16" r="3" fill="white" />
+  <circle cx="32" cy="12" r="3" fill="white" />
+  <circle cx="48" cy="16" r="3" fill="white" />
+
+  <!-- Converging arcs funneling down to the selection -->
+  <path d="M16 22C20 34 28 42 32 48" stroke="white" stroke-width="3" stroke-linecap="round" />
+  <path d="M48 22C44 34 36 42 32 48" stroke="white" stroke-width="3" stroke-linecap="round" />
+
+  <!-- The selected result -->
+  <circle cx="32" cy="52" r="5" fill="white" />
+</svg>

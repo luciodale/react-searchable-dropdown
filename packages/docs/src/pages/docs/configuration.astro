@@ -1,0 +1,126 @@
+---
+import Callout from "@luciodale/docs-ui-kit/components/Callout.astro";
+import CodeBlock from "@luciodale/docs-ui-kit/components/CodeBlock.astro";
+import ContentSection from "@luciodale/docs-ui-kit/components/ContentSection.astro";
+import PropsTable from "@luciodale/docs-ui-kit/components/PropsTable.astro";
+import DocsPage from "../../layouts/DocsPage.astro";
+import { href } from "../../lib/link";
+
+export const prerender = true;
+---
+
+<DocsPage
+	title="Configuration"
+	description="All available props for SearchableDropdown and SearchableDropdownMulti."
+>
+	<ContentSection label="Overview" id="overview">
+		<p class="text-white/60 mb-4">
+			Both components share a common set of props for search, filtering, positioning, and
+			styling. The only difference is how selection state is managed: single select uses
+			<code>value</code>/<code>setValue</code>, multi select uses
+			<code>values</code>/<code>setValues</code> plus a few extra props for chip behavior.
+		</p>
+	</ContentSection>
+
+	<ContentSection label="Common props" id="common-props">
+		<PropsTable
+			title="Shared by both components"
+			rows={[
+				{ name: "options", type: "T[]", description: "Array of options. Can be strings or objects with label/value.", required: true },
+				{ name: "placeholder", type: "string", description: "Placeholder text shown in the search input." },
+				{ name: "disabled", type: "boolean", defaultValue: "false", description: "Disables the dropdown." },
+				{ name: "debounceDelay", type: "number", defaultValue: "0", description: "Milliseconds to debounce the search filter." },
+				{ name: "searchOptionKeys", type: "Array<keyof T>", description: "Keys to search against when options are objects. Required for object options, unavailable for strings." },
+				{ name: "filterType", type: "TSearchableDropdownFilterType", defaultValue: "CONTAINS", description: "Match strategy used by match-sorter. See Filtering docs." },
+				{ name: "dropdownOptionsHeight", type: "number", defaultValue: "300", description: "Max height of the dropdown options list in pixels." },
+				{ name: "createNewOptionIfNoMatch", type: "boolean", defaultValue: "true", description: "Whether to show a 'create new' option when no matches are found." },
+				{ name: "dropdownOptionNoMatchLabel", type: "string", defaultValue: "No Match", description: "Label shown for the no-match / create-new option." },
+				{ name: "dropdownNoOptionsLabel", type: "string", description: "Label shown when the options array is empty." },
+				{ name: "offset", type: "number", defaultValue: "5", description: "Pixel gap between the input and the dropdown list." },
+				{ name: "strategy", type: "'absolute' | 'fixed'", defaultValue: "absolute", description: "CSS positioning strategy for the dropdown portal." },
+				{ name: "DropdownIcon", type: "ComponentType<{ toggled: boolean }>", description: "Custom icon component for the dropdown toggle." },
+				{ name: "searchQuery", type: "string | undefined", description: "Controlled search query value. Makes the search input controlled." },
+				{ name: "onSearchQueryChange", type: "(query: string | undefined) => void", description: "Callback when the search query changes. Pair with searchQuery for controlled mode." },
+				{ name: "onBlur", type: "() => void", description: "Callback when the dropdown loses focus." },
+			]}
+		/>
+	</ContentSection>
+
+	<ContentSection label="Single select props" id="single-select-props">
+		<PropsTable
+			title="SearchableDropdown specific"
+			rows={[
+				{ name: "value", type: "T | undefined", description: "The currently selected option.", required: true },
+				{ name: "setValue", type: "(option: T) => void", description: "Callback when an option is selected.", required: true },
+			]}
+		/>
+	</ContentSection>
+
+	<ContentSection label="Multi select props" id="multi-select-props">
+		<PropsTable
+			title="SearchableDropdownMulti specific"
+			rows={[
+				{ name: "values", type: "T[] | undefined", description: "Array of currently selected options.", required: true },
+				{ name: "setValues", type: "(options: T[]) => void", description: "Callback when the selection changes.", required: true },
+				{ name: "deleteLastChipOnBackspace", type: "boolean", defaultValue: "false", description: "Remove the last selected chip when pressing backspace on an empty search input." },
+				{ name: "onClearAll", type: "() => void", description: "Callback when the clear all button is clicked." },
+				{ name: "onClearOption", type: "(option: T) => void", description: "Callback when an individual chip is removed." },
+				{ name: "ClearAllIcon", type: "ComponentType", description: "Custom icon for the clear all button." },
+			]}
+		/>
+	</ContentSection>
+
+	<ContentSection label="Grouping props" id="grouping-props">
+		<PropsTable
+			title="Group support (both components)"
+			rows={[
+				{ name: "handleGroups", type: "(matchingOptions: T[]) => { groupCounts: number[]; groupCategories: string[] }", description: "Function that computes group boundaries from the current filtered options." },
+				{ name: "groupContent", type: "(index: number, groupCategories: string[], context: G) => ReactNode", description: "Render function for group headers." },
+				{ name: "context", type: "G", description: "Arbitrary data passed through to groupContent. Useful for passing callbacks or config." },
+			]}
+		/>
+
+		<Callout type="info">
+			<p>
+				<code>handleGroups</code> and <code>groupContent</code> are a discriminated union.
+				Either provide both or neither. TypeScript will enforce this.
+			</p>
+		</Callout>
+	</ContentSection>
+
+	<ContentSection label="CSS class props" id="css-class-props">
+		<PropsTable
+			title="Styling overrides"
+			rows={[
+				{ name: "classNameSearchableDropdownContainer", type: "string", description: "Root container element." },
+				{ name: "classNameSearchQueryInput", type: "string", description: "The search input field." },
+				{ name: "classNameDropdownOptions", type: "string", description: "The dropdown options container." },
+				{ name: "classNameDropdownOption", type: "string", description: "Individual option items." },
+				{ name: "classNameDropdownOptionFocused", type: "string", description: "The currently focused (keyboard-navigated) option." },
+				{ name: "classNameDropdownOptionSelected", type: "string", description: "The currently selected option (single select only)." },
+				{ name: "classNameDropdownOptionDisabled", type: "string", description: "Disabled options." },
+				{ name: "classNameDropdownOptionLabel", type: "string", description: "The text label inside each option." },
+				{ name: "classNameDropdownOptionLabelFocused", type: "string", description: "The text label of the focused option." },
+				{ name: "classNameDropdownOptionNoMatch", type: "string", description: "The no-match / create-new option." },
+				{ name: "classNameTriggerIcon", type: "string", description: "The dropdown toggle icon." },
+				{ name: "classNameTriggerIconInvert", type: "string", description: "The icon when the dropdown is open (rotated state)." },
+				{ name: "classNameDisabled", type: "string", description: "Applied to the container when disabled." },
+				{ name: "inputId", type: "string", description: "HTML id attribute for the search input. Useful for label association." },
+			]}
+		/>
+
+		<p class="text-white/60 mt-4">
+			Multi select has three additional class props:
+			<code>classNameMultiSelectedOption</code>, <code>classNameMultiSelectedOptionClose</code>,
+			and <code>classNameClearAll</code>.
+		</p>
+	</ContentSection>
+
+	<ContentSection label="Next steps" id="next-steps">
+		<ul class="text-white/60 space-y-2 list-disc list-inside">
+			<li><a href={href("/docs/filtering")} class="text-accent hover:underline">Filtering</a> — understand match strategies and debouncing</li>
+			<li><a href={href("/docs/styling")} class="text-accent hover:underline">Styling</a> — theming with CSS classes and variables</li>
+			<li><a href={href("/docs/api")} class="text-accent hover:underline">API Reference</a> — full export list and type definitions</li>
+		</ul>
+	</ContentSection>
+</DocsPage>

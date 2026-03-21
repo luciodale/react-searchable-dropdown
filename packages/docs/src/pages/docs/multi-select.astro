@@ -1,0 +1,167 @@
+---
+import Callout from "@luciodale/docs-ui-kit/components/Callout.astro";
+import CodeBlock from "@luciodale/docs-ui-kit/components/CodeBlock.astro";
+import ContentSection from "@luciodale/docs-ui-kit/components/ContentSection.astro";
+import DocsPage from "../../layouts/DocsPage.astro";
+import { href } from "../../lib/link";
+
+export const prerender = true;
+---
+
+<DocsPage
+	title="Multi Select"
+	description="Chips, clear all, backspace deletion, and multi-select specific behavior."
+>
+	<ContentSection label="The problem" id="the-problem">
+		<p class="text-white/60 mb-4">
+			Multi-select adds a layer of complexity that single-select doesn't have. You need to
+			show selected items as removable chips, filter already-selected items out of the dropdown,
+			handle chip overflow in tight layouts, and give users a way to clear everything at once.
+			Keyboard behavior changes too: backspace should optionally remove the last chip, not just
+			clear the search text.
+		</p>
+		<p class="text-white/60 mb-4">
+			<code>SearchableDropdownMulti</code> handles all of this. The API surface mirrors
+			<code>SearchableDropdown</code> with a few additions for chip management.
+		</p>
+	</ContentSection>
+
+	<ContentSection label="Basic usage" id="basic-usage">
+		<CodeBlock
+			code={`import { useState } from "react";
+import { SearchableDropdownMulti } from "@luciodale/react-searchable-dropdown";
+import "@luciodale/react-searchable-dropdown/dist/multi-style.css";
+
+const skills = ["TypeScript", "React", "Node.js", "Python", "Go", "Rust"];
+
+function SkillPicker() {
+  const [selected, setSelected] = useState<string[] | undefined>(undefined);
+
+  return (
+    <SearchableDropdownMulti
+      options={skills}
+      values={selected}
+      setValues={setSelected}
+      placeholder="Select skills..."
+    />
+  );
+}`}
+			language="tsx"
+			filename="SkillPicker.tsx"
+		/>
+
+		<p class="text-white/60 mt-4 mb-4">
+			Selected items appear as chips above the search input. The dropdown automatically
+			filters out already-selected options so users don't pick the same thing twice.
+		</p>
+	</ContentSection>
+
+	<ContentSection label="Backspace deletion" id="backspace">
+		<p class="text-white/60 mb-4">
+			When <code>deleteLastChipOnBackspace</code> is true, pressing backspace with an empty
+			search input removes the most recently selected chip. This matches the behavior users
+			expect from tag inputs and multi-select fields.
+		</p>
+
+		<CodeBlock
+			code={`<SearchableDropdownMulti
+  options={skills}
+  values={selected}
+  setValues={setSelected}
+  deleteLastChipOnBackspace={true}
+  placeholder="Select skills..."
+/>`}
+			language="tsx"
+			filename="BackspaceExample.tsx"
+		/>
+	</ContentSection>
+
+	<ContentSection label="Clear all" id="clear-all">
+		<p class="text-white/60 mb-4">
+			When there are selected values, a clear-all button appears. You can hook into this with
+			<code>onClearAll</code> for side effects, or provide a custom <code>ClearAllIcon</code>.
+		</p>
+
+		<CodeBlock
+			code={`<SearchableDropdownMulti
+  options={skills}
+  values={selected}
+  setValues={setSelected}
+  onClearAll={() => console.log("all cleared")}
+  onClearOption={(option) => console.log("removed:", option)}
+  placeholder="Select skills..."
+/>`}
+			language="tsx"
+			filename="ClearCallbacksExample.tsx"
+		/>
+	</ContentSection>
+
+	<ContentSection label="Object options" id="object-options">
+		<p class="text-white/60 mb-4">
+			Multi-select works identically with object options. The same <code>searchOptionKeys</code>
+			and type inference apply.
+		</p>
+
+		<CodeBlock
+			code={`type Tool = {
+  label: string;
+  value: string;
+  category: string;
+};
+
+const tools: Tool[] = [
+  { label: "VS Code", value: "vscode", category: "Editor" },
+  { label: "Vim", value: "vim", category: "Editor" },
+  { label: "Docker", value: "docker", category: "DevOps" },
+  { label: "Kubernetes", value: "k8s", category: "DevOps" },
+];
+
+function ToolPicker() {
+  const [selected, setSelected] = useState<Tool[] | undefined>(undefined);
+
+  return (
+    <SearchableDropdownMulti
+      options={tools}
+      values={selected}
+      setValues={setSelected}
+      searchOptionKeys={["label", "category"]}
+      placeholder="Search tools..."
+    />
+  );
+}`}
+			language="tsx"
+			filename="ObjectMultiExample.tsx"
+		/>
+	</ContentSection>
+
+	<ContentSection label="Debouncing" id="debouncing">
+		<Callout type="tip" title="Large lists">
+			<p>
+				For multi-select with large option lists, use <code>debounceDelay</code> to
+				prevent the filter from running on every keystroke. 100ms is a good starting
+				point.
+			</p>
+		</Callout>
+
+		<CodeBlock
+			code={`<SearchableDropdownMulti
+  options={hugeList}
+  values={selected}
+  setValues={setSelected}
+  debounceDelay={100}
+  deleteLastChipOnBackspace={true}
+  placeholder="Select cities..."
+/>`}
+			language="tsx"
+			filename="DebounceMultiExample.tsx"
+		/>
+	</ContentSection>
+
+	<ContentSection label="Next steps" id="next-steps">
+		<ul class="text-white/60 space-y-2 list-disc list-inside">
+			<li><a href={href("/docs/grouping")} class="text-accent hover:underline">Grouping</a> — grouped options in multi-select</li>
+			<li><a href={href("/docs/styling")} class="text-accent hover:underline">Styling</a> — customize chips and multi-select appearance</li>
+			<li><a href={href("/demo/multi-select")} class="text-accent hover:underline">Live demo</a> — try multi-select with a large dataset</li>
+		</ul>
+	</ContentSection>
+</DocsPage>

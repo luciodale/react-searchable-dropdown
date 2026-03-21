@@ -1,0 +1,33 @@
+---
+import Callout from "@luciodale/docs-ui-kit/components/Callout.astro";
+import ContentSection from "@luciodale/docs-ui-kit/components/ContentSection.astro";
+import { GroupsDemo } from "../../components/demos/GroupsDemo";
+import DocsPage from "../../layouts/DocsPage.astro";
+import "@luciodale/react-searchable-dropdown/src/assets/single-style.css";
+import "@luciodale/react-searchable-dropdown/src/assets/multi-style.css";
+
+export const prerender = true;
+---
+
+<DocsPage
+	title="Groups Demo"
+	description="Grouped dropdown options with dynamic category headers."
+>
+	<ContentSection label="Grouped Dropdowns" id="groups">
+		<p class="text-white/60 mb-4">
+			Both single and multi-select variants with grouped options. Categories are computed
+			dynamically from the filtered results. Try searching to see how group headers update
+			as options are filtered.
+		</p>
+
+		<GroupsDemo client:load />
+
+		<Callout type="info" title="Dynamic groups">
+			<p>
+				Groups recalculate on every search. If a search query filters out all items in a
+				category, that category's header disappears. Pork is disabled to demonstrate the
+				disabled option styling within groups.
+			</p>
+		</Callout>
+	</ContentSection>
+</DocsPage>

@@ -1,0 +1,184 @@
+---
+import Callout from "@luciodale/docs-ui-kit/components/Callout.astro";
+import CodeBlock from "@luciodale/docs-ui-kit/components/CodeBlock.astro";
+import ContentSection from "@luciodale/docs-ui-kit/components/ContentSection.astro";
+import DocsPage from "../../layouts/DocsPage.astro";
+import { href } from "../../lib/link";
+
+export const prerender = true;
+---
+
+<DocsPage
+	title="Grouping"
+	description="Organize dropdown options into dynamically generated category groups."
+>
+	<ContentSection label="The problem" id="the-problem">
+		<p class="text-white/60 mb-4">
+			Long flat lists are hard to scan. When your options have natural categories (food by
+			type, users by department, tools by platform), grouping them with headers makes the
+			dropdown far more usable. But static groups break the moment search filtering kicks
+			in: if no items in a category match the query, you get an empty group header sitting
+			there looking awkward.
+		</p>
+		<p class="text-white/60 mb-4">
+			The grouping system in this library is dynamic. You provide a function that computes
+			groups from the currently filtered options. When the user searches, groups automatically
+			recalculate. Empty categories disappear. The group headers always reflect what's
+			actually visible.
+		</p>
+	</ContentSection>
+
+	<ContentSection label="How it works" id="how-it-works">
+		<p class="text-white/60 mb-4">
+			Two props work together: <code>handleGroups</code> computes group boundaries from the
+			current filtered options, and <code>groupContent</code> renders each group header.
+		</p>
+
+		<CodeBlock
+			code={`import { useState } from "react";
+import { SearchableDropdown } from "@luciodale/react-searchable-dropdown";
+import "@luciodale/react-searchable-dropdown/dist/single-style.css";
+
+type Food = {
+  label: string;
+  value: string;
+  category: string;
+};
+
+const foods: Food[] = [
+  { label: "Chicken", value: "chicken", category: "meat" },
+  { label: "Turkey", value: "turkey", category: "meat" },
+  { label: "Carrots", value: "carrots", category: "veggies" },
+  { label: "Broccoli", value: "broccoli", category: "veggies" },
+  { label: "Salmon", value: "salmon", category: "fish" },
+  { label: "Tuna", value: "tuna", category: "fish" },
+  { label: "Apple", value: "apple", category: "fruit" },
+  { label: "Banana", value: "banana", category: "fruit" },
+];
+
+function handleGroups(matchingOptions: Food[]) {
+  const grouped = matchingOptions.reduce(
+    (acc, item) => {
+      const key = item.category || "Other";
+      acc[key] = (acc[key] || 0) + 1;
+      return acc;
+    },
+    {} as Record<string, number>,
+  );
+
+  return {
+    groupCategories: Object.keys(grouped),
+    groupCounts: Object.values(grouped),
+  };
+}
+
+function FoodPicker() {
+  const [food, setFood] = useState<Food | undefined>(undefined);
+
+  return (
+    <SearchableDropdown
+      options={foods}
+      value={food}
+      setValue={setFood}
+      searchOptionKeys={["label"]}
+      handleGroups={handleGroups}
+      groupContent={(index, categories) => (
+        <div className="lda-dropdown-group">{categories[index]}</div>
+      )}
+      placeholder="Pick a food..."
+    />
+  );
+}`}
+			language="tsx"
+			filename="GroupedDropdown.tsx"
+		/>
+	</ContentSection>
+
+	<ContentSection label="The handleGroups function" id="handle-groups">
+		<p class="text-white/60 mb-4">
+			<code>handleGroups</code> receives the filtered options (after search) and returns two
+			parallel arrays:
+		</p>
+		<ul class="text-white/60 space-y-2 list-disc list-inside mb-4">
+			<li><code>groupCategories</code>: names for each group (displayed in headers)</li>
+			<li><code>groupCounts</code>: how many items belong to each group</li>
+		</ul>
+		<p class="text-white/60 mb-4">
+			The order matters. Items in the options array must be sorted so that items in the same
+			group are adjacent. The counts tell the virtualizer where each group starts and ends.
+		</p>
+
+		<Callout type="warning" title="Options must be pre-sorted by group">
+			<p>
+				The options array must be ordered so that items in the same category are
+				contiguous. If items from the same category are scattered, the grouping will
+				produce incorrect headers.
+			</p>
+		</Callout>
+	</ContentSection>
+
+	<ContentSection label="Multi-select with groups" id="multi-groups">
+		<p class="text-white/60 mb-4">
+			Grouping works identically in <code>SearchableDropdownMulti</code>. Pass the same
+			<code>handleGroups</code> and <code>groupContent</code> props.
+		</p>
+
+		<CodeBlock
+			code={`function FoodPickerMulti() {
+  const [foods, setFoods] = useState<Food[] | undefined>(undefined);
+
+  return (
+    <SearchableDropdownMulti
+      options={allFoods}
+      values={foods}
+      setValues={setFoods}
+      searchOptionKeys={["label"]}
+      handleGroups={handleGroups}
+      groupContent={(index, categories) => (
+        <div className="lda-multi-dropdown-group">
+          {categories[index]}
+        </div>
+      )}
+      placeholder="Pick foods..."
+    />
+  );
+}`}
+			language="tsx"
+			filename="GroupedMultiDropdown.tsx"
+		/>
+	</ContentSection>
+
+	<ContentSection label="Context prop" id="context">
+		<p class="text-white/60 mb-4">
+			The <code>context</code> prop passes arbitrary data to <code>groupContent</code>. This
+			is useful when group headers need access to callbacks, configuration, or external state
+			without closing over component scope.
+		</p>
+
+		<CodeBlock
+			code={`<SearchableDropdown
+  options={foods}
+  value={food}
+  setValue={setFood}
+  searchOptionKeys={["label"]}
+  context={{ highlightColor: "#ef4723" }}
+  handleGroups={handleGroups}
+  groupContent={(index, categories, ctx) => (
+    <div style={{ color: ctx.highlightColor }}>
+      {categories[index]}
+    </div>
+  )}
+/>`}
+			language="tsx"
+			filename="ContextExample.tsx"
+		/>
+	</ContentSection>
+
+	<ContentSection label="Next steps" id="next-steps">
+		<ul class="text-white/60 space-y-2 list-disc list-inside">
+			<li><a href={href("/docs/api")} class="text-accent hover:underline">API Reference</a> — complete type definitions including TGroups</li>
+			<li><a href={href("/demo/groups")} class="text-accent hover:underline">Live demo</a> — grouped dropdowns in action</li>
+			<li><a href={href("/docs/styling")} class="text-accent hover:underline">Styling</a> — customize group header appearance</li>
+		</ul>
+	</ContentSection>
+</DocsPage>
