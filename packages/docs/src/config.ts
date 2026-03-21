@@ -7,6 +7,7 @@ export const siteConfig: SiteConfig = {
 	siteUrl: "https://react-searchable-dropdown-docs.pages.dev",
 	logoSrc: "/logo.svg",
 	logoAlt: "react-searchable-dropdown logo",
+	ogImage: "/og-image.png",
 	installCommand: "npm install @luciodale/react-searchable-dropdown",
 	githubUrl: "https://github.com/luciodale/react-searchable-dropdown",
 	author: "Lucio D'Alessandro",
