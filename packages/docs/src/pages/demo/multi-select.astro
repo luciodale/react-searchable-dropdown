@@ -13,12 +13,14 @@ export const prerender = true;
 	description="Live multi-select dropdown with chips, clear-all, and backspace deletion."
 >
 	<ContentSection label="Multi Select" id="multi-select">
-		<p class="text-white/60 mb-4">
+		<p class="text-white/60 mb-6">
 			Multi-select with 100ms debounce and backspace chip deletion enabled. Select multiple
 			cities and watch them appear as removable chips.
 		</p>
 
-		<MultiSelectDemo client:load />
+		<div class="rounded-xl border border-white/10 bg-white/[0.02] p-6 sm:p-10 mb-8">
+			<MultiSelectDemo client:load />
+		</div>
 
 		<Callout type="tip" title="Keyboard shortcuts">
 			<p>

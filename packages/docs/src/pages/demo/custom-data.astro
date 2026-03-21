@@ -13,12 +13,14 @@ export const prerender = true;
 	description="Fetch your own data from any URL and use it as dropdown options."
 >
 	<ContentSection label="Custom Data" id="custom-data">
-		<p class="text-white/60 mb-4">
+		<p class="text-white/60 mb-6">
 			Enter a URL that returns a JSON array of strings. The dropdown will populate with
 			the fetched data. You can target localhost too.
 		</p>
 
-		<CustomDataDemo client:load />
+		<div class="rounded-xl border border-white/10 bg-white/[0.02] p-6 sm:p-10 mb-8">
+			<CustomDataDemo client:load />
+		</div>
 
 		<Callout type="info">
 			<p>

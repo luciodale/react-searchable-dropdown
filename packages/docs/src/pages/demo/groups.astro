@@ -14,13 +14,15 @@ export const prerender = true;
 	description="Grouped dropdown options with dynamic category headers."
 >
 	<ContentSection label="Grouped Dropdowns" id="groups">
-		<p class="text-white/60 mb-4">
+		<p class="text-white/60 mb-6">
 			Both single and multi-select variants with grouped options. Categories are computed
 			dynamically from the filtered results. Try searching to see how group headers update
 			as options are filtered.
 		</p>
 
-		<GroupsDemo client:load />
+		<div class="rounded-xl border border-white/10 bg-white/[0.02] p-6 sm:p-10 mb-8">
+			<GroupsDemo client:load />
+		</div>
 
 		<Callout type="info" title="Dynamic groups">
 			<p>

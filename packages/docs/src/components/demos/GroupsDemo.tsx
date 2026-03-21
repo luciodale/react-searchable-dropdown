@@ -54,8 +54,7 @@ export function GroupsDemo() {
 				display: "flex",
 				flexDirection: "column",
 				alignItems: "center",
-				gap: "32px",
-				padding: "32px 0",
+				gap: "40px",
 			}}
 		>
 			<div
@@ -63,12 +62,20 @@ export function GroupsDemo() {
 					display: "flex",
 					flexDirection: "column",
 					alignItems: "center",
-					gap: "16px",
+					gap: "20px",
 				}}
 			>
-				<h3 style={{ color: "rgba(255,255,255,0.8)", fontSize: "16px", fontWeight: 600 }}>
+				<p
+					style={{
+						color: "rgba(255,255,255,0.5)",
+						fontSize: "13px",
+						fontWeight: 500,
+						letterSpacing: "0.05em",
+						textTransform: "uppercase",
+					}}
+				>
 					Single Select with Groups
-				</h3>
+				</p>
 				<SearchableDropdown
 					dropdownOptionsHeight={320}
 					placeholder="Pick a food..."
@@ -89,12 +96,20 @@ export function GroupsDemo() {
 					display: "flex",
 					flexDirection: "column",
 					alignItems: "center",
-					gap: "16px",
+					gap: "20px",
 				}}
 			>
-				<h3 style={{ color: "rgba(255,255,255,0.8)", fontSize: "16px", fontWeight: 600 }}>
+				<p
+					style={{
+						color: "rgba(255,255,255,0.5)",
+						fontSize: "13px",
+						fontWeight: 500,
+						letterSpacing: "0.05em",
+						textTransform: "uppercase",
+					}}
+				>
 					Multi Select with Groups
-				</h3>
+				</p>
 				<SearchableDropdownMulti
 					dropdownOptionsHeight={320}
 					placeholder="Pick foods..."

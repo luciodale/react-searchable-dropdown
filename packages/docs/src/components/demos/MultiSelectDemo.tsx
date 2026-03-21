@@ -11,11 +11,10 @@ export function MultiSelectDemo() {
 				display: "flex",
 				flexDirection: "column",
 				alignItems: "center",
-				gap: "16px",
-				padding: "32px 0",
+				gap: "20px",
 			}}
 		>
-			<p style={{ color: "rgba(255,255,255,0.5)", fontSize: "14px" }}>
+			<p style={{ color: "rgba(255,255,255,0.4)", fontSize: "13px", letterSpacing: "0.02em" }}>
 				{sampleOptions.length.toLocaleString()} cities loaded
 			</p>
 			<SearchableDropdownMulti
@@ -27,11 +26,15 @@ export function MultiSelectDemo() {
 				debounceDelay={100}
 				deleteLastChipOnBackspace={true}
 			/>
-			{values && values.length > 0 && (
-				<p style={{ color: "rgba(255,255,255,0.7)", fontSize: "14px" }}>
-					Selected: {values.length} cities
-				</p>
-			)}
+			<p
+				style={{
+					color: values && values.length > 0 ? "rgba(255,255,255,0.7)" : "rgba(255,255,255,0.25)",
+					fontSize: "13px",
+					minHeight: "20px",
+				}}
+			>
+				{values && values.length > 0 ? `Selected: ${values.length} cities` : "No selection"}
+			</p>
 		</div>
 	);
 }

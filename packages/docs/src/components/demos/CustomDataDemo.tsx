@@ -38,8 +38,7 @@ export function CustomDataDemo() {
 				display: "flex",
 				flexDirection: "column",
 				alignItems: "center",
-				gap: "16px",
-				padding: "32px 0",
+				gap: "20px",
 				maxWidth: "400px",
 				margin: "0 auto",
 			}}
@@ -54,7 +53,7 @@ export function CustomDataDemo() {
 						flex: 1,
 						padding: "8px 12px",
 						borderRadius: "8px",
-						border: "1px solid rgba(255,255,255,0.2)",
+						border: "1px solid rgba(255,255,255,0.15)",
 						background: "rgba(255,255,255,0.05)",
 						color: "white",
 						fontSize: "14px",
@@ -87,9 +86,15 @@ export function CustomDataDemo() {
 				setValue={setValue}
 				debounceDelay={100}
 			/>
-			{value && (
-				<p style={{ color: "rgba(255,255,255,0.7)", fontSize: "14px" }}>Selected: {value}</p>
-			)}
+			<p
+				style={{
+					color: value ? "rgba(255,255,255,0.7)" : "rgba(255,255,255,0.25)",
+					fontSize: "13px",
+					minHeight: "20px",
+				}}
+			>
+				{value ? `Selected: ${value}` : "No selection"}
+			</p>
 		</div>
 	);
 }

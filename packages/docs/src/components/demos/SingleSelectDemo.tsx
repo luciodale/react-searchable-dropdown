@@ -11,11 +11,10 @@ export function SingleSelectDemo() {
 				display: "flex",
 				flexDirection: "column",
 				alignItems: "center",
-				gap: "16px",
-				padding: "32px 0",
+				gap: "20px",
 			}}
 		>
-			<p style={{ color: "rgba(255,255,255,0.5)", fontSize: "14px" }}>
+			<p style={{ color: "rgba(255,255,255,0.4)", fontSize: "13px", letterSpacing: "0.02em" }}>
 				{sampleOptions.length.toLocaleString()} cities loaded
 			</p>
 			<SearchableDropdown
@@ -24,11 +23,17 @@ export function SingleSelectDemo() {
 				options={sampleOptions}
 				value={value}
 				setValue={setValue}
-				debounceDelay={0}
+				debounceDelay={100}
 			/>
-			{value && (
-				<p style={{ color: "rgba(255,255,255,0.7)", fontSize: "14px" }}>Selected: {value}</p>
-			)}
+			<p
+				style={{
+					color: value ? "rgba(255,255,255,0.7)" : "rgba(255,255,255,0.25)",
+					fontSize: "13px",
+					minHeight: "20px",
+				}}
+			>
+				{value ? `Selected: ${value}` : "No selection"}
+			</p>
 		</div>
 	);
 }

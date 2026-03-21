@@ -1,9 +1,9 @@
 ---
 import Callout from "@luciodale/docs-ui-kit/components/Callout.astro";
 import ContentSection from "@luciodale/docs-ui-kit/components/ContentSection.astro";
+import "@luciodale/react-searchable-dropdown/src/assets/single-style.css";
 import { SingleSelectDemo } from "../../components/demos/SingleSelectDemo";
 import DocsPage from "../../layouts/DocsPage.astro";
-import "@luciodale/react-searchable-dropdown/src/assets/single-style.css";
 
 export const prerender = true;
 ---
@@ -13,18 +13,24 @@ export const prerender = true;
 	description="Live single-select dropdown with 100k+ cities."
 >
 	<ContentSection label="Single Select" id="single-select">
-		<p class="text-white/60 mb-4">
-			Default theme, string options, zero debounce. The list contains hundreds of thousands
-			of cities. Start typing to see the search filter in action.
+		<p class="text-white/60 mb-6">
+			Default theme, string options, zero debounce. The list contains
+			hundreds of thousands of cities. Start typing to see the search
+			filter in action.
 		</p>
 
-		<SingleSelectDemo client:load />
+		<div
+			class="rounded-xl border border-white/10 bg-white/2 p-6 sm:p-10 mb-8"
+		>
+			<SingleSelectDemo client:load />
+		</div>
 
 		<Callout type="info" title="Performance">
 			<p>
-				This demo loads the full dataset into the browser. Filtering happens entirely
-				client-side using match-sorter. The dropdown list is virtualized via Virtuoso,
-				so only visible items are rendered regardless of list size.
+				This demo loads the full dataset into the browser. Filtering
+				happens entirely client-side using match-sorter. The dropdown
+				list is virtualized via Virtuoso, so only visible items are
+				rendered regardless of list size.
 			</p>
 		</Callout>
 	</ContentSection>

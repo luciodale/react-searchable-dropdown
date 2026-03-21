@@ -5,8 +5,8 @@ export function DropdownIconDefault({ className }: { className?: string }) {
 			<g>
 				<path
 					d="M8 14L12 10L16 14"
-					stroke="#000000"
-					strokeWidth="2"
+					stroke="currentColor"
+					strokeWidth="1.5"
 					strokeLinecap="round"
 					strokeLinejoin="round"
 				/>

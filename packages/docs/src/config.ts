@@ -5,7 +5,7 @@ export const siteConfig: SiteConfig = {
 	description:
 		"A TypeScript-first searchable dropdown for React. Virtualized lists, keyboard navigation, single and multi-select, full styling control.",
 	siteUrl: "https://react-searchable-dropdown-docs.pages.dev",
-	logoSrc: "/projects/react-searchable-dropdown/logo.svg",
+	logoSrc: "/logo.svg",
 	logoAlt: "react-searchable-dropdown logo",
 	installCommand: "npm install @luciodale/react-searchable-dropdown",
 	githubUrl: "https://github.com/luciodale/react-searchable-dropdown",
@@ -44,6 +44,7 @@ export const siteConfig: SiteConfig = {
 				{ href: "/demo/multi-select", label: "Multi Select" },
 				{ href: "/demo/custom-data", label: "Custom Data" },
 				{ href: "/demo/groups", label: "Groups" },
+				{ href: "/demo/custom-theme", label: "Custom Theme" },
 			],
 		},
 	],

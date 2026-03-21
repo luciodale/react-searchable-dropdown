@@ -1,7 +1,7 @@
 .lda-searchable-dropdown {
   /* Colors */
-  --color-background: rgb(0, 0, 0);
-  --color-disabled: rgb(20, 20, 20);
+  --color-background: rgb(9, 9, 11);
+  --color-disabled: rgb(20, 20, 24);
   --color-border: rgba(255, 255, 255, 0.1);
   --color-focus: #ef4723;
   --color-text: rgba(255, 255, 255, 0.9);
@@ -10,7 +10,7 @@
   --color-chip-hover: rgba(255, 255, 255, 0.15);
   --color-chip-close-hover-bg: rgba(255, 255, 255, 0.2);
   --color-chip-close-hover-text: rgba(255, 255, 255, 0.9);
-  --color-option-hover: rgba(255, 255, 255, 0.05);
+  --color-option-hover: rgba(255, 255, 255, 0.06);
   --color-option-selected: rgba(239, 71, 35, 0.15);
   --color-option-group: rgba(239, 71, 35, 0.12);
   --color-option-disabled: rgba(255, 255, 255, 0.02);
@@ -25,26 +25,24 @@
 
   /* Sizes */
   --width-container: 300px;
-  --height-input: 36px;
-  --height-dropdown: 300px;
+  --height-input: 40px;
   --border-radius-sm: 4px;
-  --border-radius-md: 8px;
+  --border-radius-md: 6px;
   --border-radius-circle: 50%;
 
   /* Typography */
-  --font-family: "Work Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --font-family-mono: "JetBrains Mono", "Fira Code", monospace;
   --font-size-sm: 12px;
   --font-size-base: 14px;
 
   /* Transitions */
   --transition-fast: 0.1s;
-  --transition-base: 0.2s;
+  --transition-base: 0.15s;
 
   /* Z-index */
   --z-dropdown: 10;
 
   /* Shadows */
-  --shadow-focus: 0 0 0 1px var(--color-focus);
+  --shadow-focus: 0 0 0 2px rgba(239, 71, 35, 0.2);
+  --shadow-dropdown: 0 4px 6px -1px rgb(0 0 0 / 0.3), 0 2px 4px -2px rgb(0 0 0 / 0.2);
   --shadow-button: 0 0 0 2px rgba(0, 0, 0, 0.1);
 }
