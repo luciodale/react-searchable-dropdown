@@ -3,6 +3,7 @@
 	"references": [
 		{ "path": "./packages/library" },
 		{ "path": "./packages/docs" },
-		{ "path": "./tsconfig.node.json" }
+		{ "path": "./tsconfig.node.json" },
+		{ "path": "./tsconfig.test.json" }
 	]
 }

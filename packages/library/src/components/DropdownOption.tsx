@@ -4,6 +4,7 @@ import { getLabelFromOption } from "../utils";
 import { DropdownOptionLabel } from "./DropdownOptionLabel";
 
 type DropdownOptionProps = {
+	optionId?: string;
 	currentOption: TDropdownOption;
 	searchQuery: string | undefined;
 	dropdownOptionNavigationIndex: number;
@@ -51,6 +52,7 @@ function getDropdownOptionClassName({
 }
 
 export function DropdownOption({
+	optionId,
 	currentOption,
 	searchQuery,
 	dropdownOptionNavigationIndex,
@@ -89,8 +91,13 @@ export function DropdownOption({
 	});
 
 	return (
+		// biome-ignore lint/a11y/useFocusableInteractive: focus managed via aria-activedescendant on the input
 		<div
 			ref={dropdownOptionRef}
+			id={optionId}
+			role="option"
+			aria-selected={optionIsSelected || optionIsFocused}
+			aria-disabled={optionIsDisabled || undefined}
 			className={className}
 			onMouseUp={() => !optionIsDisabled && handleDropdownOptionSelect(currentOption)}
 			onMouseEnter={() => !optionIsDisabled && onMouseEnter?.(currentOptionIndex)}

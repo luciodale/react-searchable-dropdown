@@ -1,27 +1,15 @@
-import {
-	FloatingPortal,
-	autoUpdate,
-	flip,
-	offset,
-	shift,
-	size,
-	useFloating,
-} from "@floating-ui/react";
-import { type ChangeEvent, useCallback, useEffect, useRef, useState } from "react";
-import { GroupedVirtuoso, Virtuoso, type VirtuosoHandle } from "react-virtuoso";
+import { FloatingPortal } from "@floating-ui/react";
+import { useCallback } from "react";
+import { GroupedVirtuoso, Virtuoso } from "react-virtuoso";
 import { DropdownIconDefault } from "./components/DropdownIconDefault";
 import { DropdownOption } from "./components/DropdownOption";
 import { DropdownOptionNoMatch } from "./components/DropdownOptionNoMatch";
 import { NoOptionsProvided } from "./components/NoOptionsProvided";
 import { BASE_CLASS } from "./constants";
 import { useClickOutside } from "./hooks/useClickOutside";
-import { useDebounce } from "./hooks/useDebounce";
-import { useDropdownOptions } from "./hooks/useDropdownOptions";
-import { useGroups } from "./hooks/useGroups";
 import { useKeyboardNavigation } from "./hooks/useKeyboardNavigation";
-import { useOnMouseEnterOptionHandler } from "./hooks/useOnMouseEnterOptionHandler";
-import { useResetSuppressMouseEnterOption } from "./hooks/useResetSuppressMouseEnterOption";
-import type { TDropdownOption, TSearchableDropdown } from "./types";
+import { useSearchableDropdownCore } from "./hooks/useSearchableDropdownCore";
+import type { TDropdownOption, TSearchableDropdownProps } from "./types";
 import {
 	getLabelFromOption,
 	getSearchQueryLabelFromOption,
@@ -34,7 +22,7 @@ export function SearchableDropdown<T extends TDropdownOption, G>({
 	placeholder,
 	value,
 	setValue,
-	searchOptionKeys,
+	searchOptionKeys: searchOptionKeysProp,
 	disabled,
 	filterType = "CONTAINS",
 	debounceDelay = 0,
@@ -47,7 +35,6 @@ export function SearchableDropdown<T extends TDropdownOption, G>({
 	createNewOptionIfNoMatch = true,
 	offset: offsetValue = 5,
 	strategy = "absolute",
-
 	groupContent = undefined,
 	handleGroups = undefined,
 	context,
@@ -65,48 +52,15 @@ export function SearchableDropdown<T extends TDropdownOption, G>({
 	classNameTriggerIconInvert = "lda-dropdown-trigger-icon-invert",
 	classNameDisabled,
 	inputId,
-}: TSearchableDropdown<T, G>) {
-	const { refs, floatingStyles } = useFloating({
-		placement: "bottom",
-		strategy,
-		whileElementsMounted: autoUpdate,
-		middleware: [
-			offset(offsetValue),
-			flip(),
-			shift(),
-			size({
-				apply({ rects, elements }) {
-					Object.assign(elements.floating.style, {
-						width: `${rects.reference.width}px`,
-					});
-				},
-			}),
-		],
-	});
+}: TSearchableDropdownProps<T, G>) {
+	// Default to ["label"] for object options so search works without explicit searchOptionKeys
+	const searchOptionKeys =
+		searchOptionKeysProp ??
+		(options.length > 0 && typeof options[0] !== "string" ? (["label"] as string[]) : undefined);
 
-	const searchQueryinputRef = refs.reference as React.MutableRefObject<HTMLInputElement | null>;
-	const virtuosoRef = useRef<VirtuosoHandle>(null);
-
-	const [searchQueryInternal, setSearchQueryInternal] = useState<string | undefined>(
-		getSearchQueryLabelFromOption(value || ""),
-	);
-
-	const searchQuery = searchQueryProp ?? searchQueryInternal;
-	const setSearchQuery = onSearchQueryChange ?? setSearchQueryInternal;
-
-	const [debouncedSearchQuery, setDebouncedSearchQuery] = useDebounce(searchQuery, debounceDelay);
-
-	const [showDropdownOptions, setShowDropdownOptions] = useState(false);
-	const [dropdownOptionNavigationIndex, setDropdownOptionNavigationIndex] = useState(0);
-	const [suppressMouseEnterOptionListener, setSuppressMouseEnterOptionListener] = useState(false);
-	const [virtuosoOptionsHeight, setVirtuosoOptionsHeight] = useState<number | null>(null);
-	const [hasMeasuredHeight, setHasMeasuredHeight] = useState(false);
-
-	const enhanceOptionsWithNewCreationCallback = useCallback(
+	const enhanceOptionsWithNewCreation = useCallback(
 		(matchingOptions: TDropdownOption[], currentSearchQuery: string) => {
-			if (!createNewOptionIfNoMatch) {
-				return undefined;
-			}
+			if (!createNewOptionIfNoMatch) return undefined;
 
 			const searchQueryNormalized = currentSearchQuery.toLocaleLowerCase();
 			const exactMatchFound = matchingOptions.some(
@@ -125,111 +79,25 @@ export function SearchableDropdown<T extends TDropdownOption, G>({
 		[createNewOptionIfNoMatch],
 	);
 
-	const matchingOptions = useDropdownOptions(
+	const core = useSearchableDropdownCore({
 		options,
-		debouncedSearchQuery,
 		searchOptionKeys,
+		initialSearchQuery: getSearchQueryLabelFromOption(value || ""),
+		searchQueryProp,
+		onSearchQueryChange,
 		filterType,
-		enhanceOptionsWithNewCreationCallback, // Use the new single-select specific callback
-	);
-
-	// Use the groups hook
-	const { groupCounts, groupContentCallback, hasGroups } = useGroups(
-		matchingOptions,
-		// @ts-expect-error - matchingOptions arg is a union represented by TDropdownOption
+		debounceDelay,
+		dropdownOptionsHeight,
+		offsetValue,
+		strategy,
 		handleGroups,
 		groupContent,
-	);
-
-	// to restore mouse option selection
-	useResetSuppressMouseEnterOption(
-		dropdownOptionNavigationIndex,
-		suppressMouseEnterOptionListener,
-		setSuppressMouseEnterOptionListener,
-	);
-
-	const handleOnChangeSearchQuery = useCallback(
-		(e: ChangeEvent<HTMLInputElement>) => {
-			const newSearchQuery = e.target.value;
-			setSearchQuery(newSearchQuery);
-			setShowDropdownOptions(true);
-			setDropdownOptionNavigationIndex(0);
-			setSuppressMouseEnterOptionListener(false);
-		},
-		[setSearchQuery],
-	);
-
-	// Scroll back to top when search query changes
-	useEffect(() => {
-		if (debouncedSearchQuery !== searchQuery) return;
-
-		virtuosoRef.current?.scrollToIndex({
-			index: 0,
-			align: "start",
-			behavior: "auto",
-		});
-	}, [debouncedSearchQuery, searchQuery]);
-
-	const handleOnSelectDropdownOption = useCallback(
-		(option: TDropdownOption | undefined) => {
-			// option might be undefined when createNewOptionIfNoMatch is false
-			if (option) {
-				// biome-ignore lint/suspicious/noExplicitAny: <explanation>
-				setValue(getValueFromOption(option as any, searchOptionKeys));
-				setSearchQuery(getSearchQueryLabelFromOption(option));
-				// when undefined we restore the value as searchQuery
-			} else if (value) {
-				setSearchQuery(getSearchQueryLabelFromOption(value));
-				// if there was no value set we restore empty string - placeholder kicks in
-			} else {
-				setSearchQuery("");
-				setDebouncedSearchQuery("");
-			}
-			setShowDropdownOptions(false);
-			setHasMeasuredHeight(false);
-			setDropdownOptionNavigationIndex(0);
-			setVirtuosoOptionsHeight(dropdownOptionsHeight);
-		},
-		[
-			setValue,
-			searchOptionKeys,
-			value,
-			setDebouncedSearchQuery,
-			dropdownOptionsHeight,
-			setSearchQuery,
-		],
-	);
-
-	const onLeaveCallback = useCallback(() => {
-		if (!showDropdownOptions) return;
-		setShowDropdownOptions(false);
-		setHasMeasuredHeight(false);
-		setSuppressMouseEnterOptionListener(false);
-		setSearchQuery(getLabelFromOption(value || ""));
-		setDropdownOptionNavigationIndex(0);
-		setVirtuosoOptionsHeight(dropdownOptionsHeight);
-	}, [value, dropdownOptionsHeight, setSearchQuery, showDropdownOptions]);
-
-	// @ts-expect-error - refs from floating ui are typed as VirtualElement
-	useClickOutside([refs.reference, refs.floating], onLeaveCallback);
-
-	const { handleKeyDown } = useKeyboardNavigation({
-		virtuosoRef,
-		searchQueryinputRef,
-		matchingOptions,
-		showDropdownOptions,
-		setShowDropdownOptions,
-		dropdownOptionNavigationIndex,
-		setDropdownOptionNavigationIndex,
-		handleOnSelectDropdownOption,
-		setSuppressMouseEnterOptionListener,
-		onLeaveCallback,
+		context,
+		enhanceOptionsWithNewCreation,
 	});
 
-	const handleMouseEnterOptionCallback = useOnMouseEnterOptionHandler(
-		suppressMouseEnterOptionListener,
-		setDropdownOptionNavigationIndex,
-	);
+	const searchQueryinputRef = core.refs
+		.reference as React.MutableRefObject<HTMLInputElement | null>;
 
 	const currentOptionIsSelectedCallback = useCallback(
 		(option: TDropdownOption) => {
@@ -242,33 +110,97 @@ export function SearchableDropdown<T extends TDropdownOption, G>({
 		[searchOptionKeys, value],
 	);
 
-	const DropdownOptionCallback = useCallback(
-		(currentOptionIndex: number) => {
-			return (
-				<DropdownOption
-					searchQuery={debouncedSearchQuery}
-					currentOption={matchingOptions[currentOptionIndex]}
-					currentOptionIsSelected={currentOptionIsSelectedCallback}
-					handleDropdownOptionSelect={handleOnSelectDropdownOption}
-					currentOptionIndex={currentOptionIndex}
-					dropdownOptionNavigationIndex={dropdownOptionNavigationIndex}
-					highlightMatches={true}
-					onMouseEnter={handleMouseEnterOptionCallback}
-					classNameDropdownOption={classNameDropdownOption}
-					classNameDropdownOptionFocused={classNameDropdownOptionFocused}
-					classNameDropdownOptionSelected={classNameDropdownOptionSelected}
-					classNameDropdownOptionLabel={classNameDropdownOptionLabel}
-					classNameDropdownOptionLabelFocused={classNameDropdownOptionLabelFocused}
-					classNameDropdownOptionDisabled={classNameDropdownOptionDisabled}
-				/>
-			);
+	const handleOnSelectDropdownOption = useCallback(
+		(option: TDropdownOption | undefined) => {
+			if (option) {
+				// getValueFromOption converts TNewValueDropdownOption → {label, value} at runtime.
+				// TS can't verify this matches T because the "create new" injection widens the type.
+				setValue(getValueFromOption(option, searchOptionKeys) as T);
+				core.setSearchQuery(getSearchQueryLabelFromOption(option));
+			} else if (value) {
+				core.setSearchQuery(getSearchQueryLabelFromOption(value));
+			} else {
+				core.setSearchQuery("");
+				core.setDebouncedSearchQuery("");
+			}
+			core.resetDropdownState();
 		},
 		[
-			matchingOptions,
-			debouncedSearchQuery,
-			dropdownOptionNavigationIndex,
+			setValue,
+			searchOptionKeys,
+			value,
+			core.setDebouncedSearchQuery,
+			core.setSearchQuery,
+			core.resetDropdownState,
+		],
+	);
+
+	const onLeaveCallback = useCallback(() => {
+		if (!core.showDropdownOptions) return;
+		core.setSuppressMouseEnterOptionListener(false);
+		core.setSearchQuery(getLabelFromOption(value || ""));
+		core.resetDropdownState();
+	}, [
+		value,
+		core.showDropdownOptions,
+		core.setSearchQuery,
+		core.setSuppressMouseEnterOptionListener,
+		core.resetDropdownState,
+	]);
+
+	useClickOutside([core.refs.reference, core.refs.floating], onLeaveCallback);
+
+	const { handleKeyDown } = useKeyboardNavigation({
+		virtuosoRef: core.virtuosoRef,
+		searchQueryinputRef,
+		matchingOptions: core.matchingOptions,
+		showDropdownOptions: core.showDropdownOptions,
+		setShowDropdownOptions: core.setShowDropdownOptions,
+		dropdownOptionNavigationIndex: core.dropdownOptionNavigationIndex,
+		setDropdownOptionNavigationIndex: core.setDropdownOptionNavigationIndex,
+		handleOnSelectDropdownOption,
+		setSuppressMouseEnterOptionListener: core.setSuppressMouseEnterOptionListener,
+		onLeaveCallback,
+	});
+
+	const dropdownOptionNoMatchCallback = useCallback(
+		() =>
+			!core.matchingOptions.length && (
+				<DropdownOptionNoMatch
+					classNameDropdownOptionNoMatch={classNameDropdownOptionNoMatch}
+					dropdownOptionNoMatchLabel={dropdownOptionNoMatchLabel}
+				/>
+			),
+		[classNameDropdownOptionNoMatch, dropdownOptionNoMatchLabel, core.matchingOptions],
+	);
+
+	const DropdownOptionCallback = useCallback(
+		(currentOptionIndex: number) => (
+			<DropdownOption
+				optionId={core.getOptionId(currentOptionIndex)}
+				searchQuery={core.debouncedSearchQuery}
+				currentOption={core.matchingOptions[currentOptionIndex]}
+				currentOptionIsSelected={currentOptionIsSelectedCallback}
+				handleDropdownOptionSelect={handleOnSelectDropdownOption}
+				currentOptionIndex={currentOptionIndex}
+				dropdownOptionNavigationIndex={core.dropdownOptionNavigationIndex}
+				highlightMatches={true}
+				onMouseEnter={core.handleMouseEnterOptionCallback}
+				classNameDropdownOption={classNameDropdownOption}
+				classNameDropdownOptionFocused={classNameDropdownOptionFocused}
+				classNameDropdownOptionSelected={classNameDropdownOptionSelected}
+				classNameDropdownOptionLabel={classNameDropdownOptionLabel}
+				classNameDropdownOptionLabelFocused={classNameDropdownOptionLabelFocused}
+				classNameDropdownOptionDisabled={classNameDropdownOptionDisabled}
+			/>
+		),
+		[
+			core.getOptionId,
+			core.matchingOptions,
+			core.debouncedSearchQuery,
+			core.dropdownOptionNavigationIndex,
+			core.handleMouseEnterOptionCallback,
 			handleOnSelectDropdownOption,
-			handleMouseEnterOptionCallback,
 			currentOptionIsSelectedCallback,
 			classNameDropdownOption,
 			classNameDropdownOptionFocused,
@@ -279,99 +211,83 @@ export function SearchableDropdown<T extends TDropdownOption, G>({
 		],
 	);
 
-	const handleTotalListHeightChanged = useCallback((height: number) => {
-		setVirtuosoOptionsHeight(height);
-		setHasMeasuredHeight(true);
-	}, []);
-
-	const heightOfDropdownOptionsContainer =
-		virtuosoOptionsHeight !== null
-			? Math.min(virtuosoOptionsHeight, dropdownOptionsHeight)
-			: dropdownOptionsHeight;
-
-	const dropdownOptionNoMatchCallback = useCallback(
-		() =>
-			!matchingOptions.length && (
-				<DropdownOptionNoMatch
-					classNameDropdownOptionNoMatch={classNameDropdownOptionNoMatch}
-					dropdownOptionNoMatchLabel={dropdownOptionNoMatchLabel}
-				/>
-			),
-		[classNameDropdownOptionNoMatch, dropdownOptionNoMatchLabel, matchingOptions],
-	);
-
 	return (
 		<div
 			className={`${BASE_CLASS} ${classNameSearchableDropdownContainer} ${disabled ? "disabled" : ""}`}
 			onKeyDown={handleKeyDown}
 		>
 			<input
-				ref={refs.setReference}
+				ref={core.refs.setReference}
 				type="text"
+				role="combobox"
+				aria-expanded={core.showDropdownOptions}
+				aria-controls={core.listboxId}
+				aria-activedescendant={core.activeDescendantId}
+				aria-autocomplete="list"
+				aria-haspopup="listbox"
 				readOnly={disabled}
 				disabled={disabled}
 				placeholder={getSearchQueryLabelFromOption(value || "") || placeholder}
 				className={`${classNameSearchQueryInput} ${disabled ? (classNameDisabled ?? "") : ""}`}
-				value={searchQuery}
-				onChange={handleOnChangeSearchQuery}
+				value={core.searchQuery}
+				onChange={core.handleOnChangeSearchQuery}
 				data-testid={inputId ?? classNameSearchQueryInput}
 				onMouseUp={() => {
-					if (!showDropdownOptions) {
+					if (!core.showDropdownOptions) {
 						searchQueryinputRef.current?.focus();
 					}
 				}}
 				onFocus={() => {
-					setSearchQuery("");
-					setDebouncedSearchQuery("");
-					setShowDropdownOptions(true);
+					core.setSearchQuery("");
+					core.setDebouncedSearchQuery("");
+					core.setShowDropdownOptions(true);
 				}}
 			/>
 
 			{DropdownIcon ? (
-				<DropdownIcon toggled={showDropdownOptions} />
+				<DropdownIcon toggled={core.showDropdownOptions} />
 			) : (
 				<DropdownIconDefault
 					className={`${classNameTriggerIcon} ${
-						!showDropdownOptions ? classNameTriggerIconInvert : ""
+						!core.showDropdownOptions ? classNameTriggerIconInvert : ""
 					}`}
 				/>
 			)}
 
-			{showDropdownOptions && (
+			{core.showDropdownOptions && (
 				<FloatingPortal>
+					{/* biome-ignore lint/a11y/useFocusableInteractive: focus managed via aria-activedescendant on the input */}
 					<div
-						ref={refs.setFloating}
+						ref={core.refs.setFloating}
+						role="listbox"
+						id={core.listboxId}
 						style={{
-							...floatingStyles,
-							visibility: hasMeasuredHeight ? "visible" : "hidden",
+							...core.floatingStyles,
+							visibility: core.hasMeasuredHeight ? "visible" : "hidden",
 						}}
 						className={`${BASE_CLASS} ${classNameDropdownOptions}`}
 					>
 						{options.length > 0 ? (
-							hasGroups ? (
+							core.hasGroups ? (
 								<GroupedVirtuoso
 									context={context}
-									ref={virtuosoRef}
-									style={{ height: `${heightOfDropdownOptionsContainer}px` }}
-									groupCounts={groupCounts}
-									groupContent={groupContentCallback}
+									ref={core.virtuosoRef}
+									style={{ height: `${core.heightOfDropdownOptionsContainer}px` }}
+									groupCounts={core.groupCounts}
+									groupContent={core.groupContentCallback}
 									itemContent={DropdownOptionCallback}
-									totalListHeightChanged={handleTotalListHeightChanged}
-									components={{
-										Footer: dropdownOptionNoMatchCallback,
-									}}
+									totalListHeightChanged={core.handleTotalListHeightChanged}
+									components={{ Footer: dropdownOptionNoMatchCallback }}
 								/>
 							) : (
 								<Virtuoso
 									context={context}
-									ref={virtuosoRef}
-									style={{ height: `${heightOfDropdownOptionsContainer}px` }}
-									totalCount={matchingOptions.length}
+									ref={core.virtuosoRef}
+									style={{ height: `${core.heightOfDropdownOptionsContainer}px` }}
+									totalCount={core.matchingOptions.length}
 									itemContent={DropdownOptionCallback}
-									totalListHeightChanged={handleTotalListHeightChanged}
-									components={{
-										Footer: dropdownOptionNoMatchCallback,
-									}}
+									totalListHeightChanged={core.handleTotalListHeightChanged}
+									components={{ Footer: dropdownOptionNoMatchCallback }}
 								/>
 							)
 						) : (

@@ -1,5 +1,6 @@
 ---
 import Callout from "@luciodale/docs-ui-kit/components/Callout.astro";
+import CodeBlock from "@luciodale/docs-ui-kit/components/CodeBlock.astro";
 import ContentSection from "@luciodale/docs-ui-kit/components/ContentSection.astro";
 import { MultiSelectDemo } from "../../components/demos/MultiSelectDemo";
 import DocsPage from "../../layouts/DocsPage.astro";
@@ -28,5 +29,33 @@ export const prerender = true;
 				closes the dropdown. Backspace with an empty search input removes the last chip.
 			</p>
 		</Callout>
+	</ContentSection>
+
+	<ContentSection label="The code" id="the-code">
+		<CodeBlock
+			code={`import { SearchableDropdownMulti } from "@luciodale/react-searchable-dropdown";
+import "@luciodale/react-searchable-dropdown/dist/multi-style.css";
+import { useState } from "react";
+
+const cities = ["London, GB", "Paris, FR", "Berlin, DE", /* ... */];
+
+function CityPickerMulti() {
+  const [values, setValues] = useState<string[] | undefined>(undefined);
+
+  return (
+    <SearchableDropdownMulti
+      options={cities}
+      values={values}
+      setValues={setValues}
+      placeholder="Search cities..."
+      dropdownOptionsHeight={312}
+      debounceDelay={100}
+      deleteLastChipOnBackspace
+    />
+  );
+}`}
+			language="tsx"
+			filename="MultiSelectExample.tsx"
+		/>
 	</ContentSection>
 </DocsPage>

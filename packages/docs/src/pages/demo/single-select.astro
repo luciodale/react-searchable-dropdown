@@ -1,5 +1,6 @@
 ---
 import Callout from "@luciodale/docs-ui-kit/components/Callout.astro";
+import CodeBlock from "@luciodale/docs-ui-kit/components/CodeBlock.astro";
 import ContentSection from "@luciodale/docs-ui-kit/components/ContentSection.astro";
 import "@luciodale/react-searchable-dropdown/src/assets/single-style.css";
 import { SingleSelectDemo } from "../../components/demos/SingleSelectDemo";
@@ -33,5 +34,32 @@ export const prerender = true;
 				rendered regardless of list size.
 			</p>
 		</Callout>
+	</ContentSection>
+
+	<ContentSection label="The code" id="the-code">
+		<CodeBlock
+			code={`import { SearchableDropdown } from "@luciodale/react-searchable-dropdown";
+import "@luciodale/react-searchable-dropdown/dist/single-style.css";
+import { useState } from "react";
+
+const cities = ["London, GB", "Paris, FR", "Berlin, DE", /* ... */];
+
+function CityPicker() {
+  const [value, setValue] = useState<string | undefined>(undefined);
+
+  return (
+    <SearchableDropdown
+      options={cities}
+      value={value}
+      setValue={setValue}
+      placeholder="Search cities..."
+      dropdownOptionsHeight={320}
+      debounceDelay={100}
+    />
+  );
+}`}
+			language="tsx"
+			filename="SingleSelectExample.tsx"
+		/>
 	</ContentSection>
 </DocsPage>

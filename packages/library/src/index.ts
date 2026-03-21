@@ -7,6 +7,7 @@ export type {
 	TNewValueDropdownOption,
 	TObjectDropdownOption,
 	TSearchableDropdown,
+	TSearchableDropdownProps,
 	TSearchableDropdownFilterType,
 	TSearchOptionKeys,
 	TObjectLikeDropdownOption,
@@ -14,5 +15,6 @@ export type {
 	TSearchableCommon,
 	TSearchableCommonMulti,
 	TSearchableDropdownMulti,
+	TSearchableDropdownMultiProps,
 	TStringDropdownOption,
 } from "./types";

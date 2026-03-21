@@ -170,6 +170,69 @@ type TSearchableDropdownMulti<T, G> =
 		</p>
 	</ContentSection>
 
+	<ContentSection label="Wrapper prop types" id="wrapper-types">
+		<p class="text-white/60 mb-4">
+			The conditional types above (<code>TSearchableDropdown</code>, <code>TSearchableDropdownMulti</code>)
+			enforce <code>searchOptionKeys</code> at compile time. However, TypeScript cannot resolve conditional
+			types inside generic function bodies. If you are building a wrapper component that forwards
+			props generically, use the wrapper-friendly types instead.
+		</p>
+
+		<CodeBlock
+			code={`// Wrapper-friendly: searchOptionKeys is always optional.
+// Use these when building generic wrapper components.
+type TSearchableDropdownProps<T extends TDropdownOption, G = unknown>
+type TSearchableDropdownMultiProps<T extends TDropdownOption, G = unknown>`}
+			language="tsx"
+			filename="wrapper-types.ts"
+		/>
+
+		<p class="text-white/60 mt-6 mb-4">
+			Example: a wrapper that sets default props while staying generic over the option type.
+		</p>
+
+		<CodeBlock
+			code={`import {
+  SearchableDropdown,
+  type TSearchableDropdownProps,
+  type TDropdownOption,
+} from "@luciodale/react-searchable-dropdown";
+
+function MyDropdown<T extends TDropdownOption, G>(
+  props: TSearchableDropdownProps<T, G>
+) {
+  return (
+    <SearchableDropdown
+      dropdownOptionsHeight={320}
+      placeholder="Search..."
+      debounceDelay={100}
+      {...props}
+    />
+  );
+}
+
+// Usage — still fully typed
+<MyDropdown options={["a", "b", "c"]} value={undefined} setValue={setValue} />
+<MyDropdown
+  options={[{ label: "Red", value: "red" }]}
+  value={undefined}
+  setValue={setValue}
+  searchOptionKeys={["label"]}
+/>`}
+			language="tsx"
+			filename="WrapperExample.tsx"
+		/>
+
+		<Callout type="info" title="When to use which type">
+			<p>
+				Use <code>TSearchableDropdown</code> / <code>TSearchableDropdownMulti</code> for
+				end-user components where TypeScript can resolve the concrete type. Use
+				<code>TSearchableDropdownProps</code> / <code>TSearchableDropdownMultiProps</code>
+				for generic wrappers that forward props without knowing the option type.
+			</p>
+		</Callout>
+	</ContentSection>
+
 	<ContentSection label="CSS files" id="css-files">
 		<PropsTable
 			title="Importable stylesheets"
@@ -191,6 +254,8 @@ type TSearchableDropdownMulti<T, G> =
   TStringDropdownOption,
   TSearchableDropdown,
   TSearchableDropdownMulti,
+  TSearchableDropdownProps,
+  TSearchableDropdownMultiProps,
   TSearchableCommon,
   TSearchableCommonMulti,
   TSearchableDropdownFilterType,

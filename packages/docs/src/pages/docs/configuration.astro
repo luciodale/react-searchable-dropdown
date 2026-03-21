@@ -30,7 +30,7 @@ export const prerender = true;
 				{ name: "placeholder", type: "string", description: "Placeholder text shown in the search input." },
 				{ name: "disabled", type: "boolean", defaultValue: "false", description: "Disables the dropdown." },
 				{ name: "debounceDelay", type: "number", defaultValue: "0", description: "Milliseconds to debounce the search filter." },
-				{ name: "searchOptionKeys", type: "Array<keyof T>", description: "Keys to search against when options are objects. Required for object options, unavailable for strings." },
+				{ name: "searchOptionKeys", type: "Array<keyof T>", defaultValue: '["label"]', description: "Keys to search against when options are objects. Defaults to [\"label\"] for object options. Pass additional keys to search more fields." },
 				{ name: "filterType", type: "TSearchableDropdownFilterType", defaultValue: "CONTAINS", description: "Match strategy used by match-sorter. See Filtering docs." },
 				{ name: "dropdownOptionsHeight", type: "number", defaultValue: "300", description: "Max height of the dropdown options list in pixels." },
 				{ name: "createNewOptionIfNoMatch", type: "boolean", defaultValue: "true", description: "Whether to show a 'create new' option when no matches are found." },

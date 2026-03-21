@@ -1,28 +1,21 @@
-import { type MutableRefObject, useCallback, useEffect } from "react";
+import { useCallback, useEffect } from "react";
+
+// Accepts any ref-like object. Floating UI refs hold Element | VirtualElement,
+// but only DOM Elements have .contains(). We check at runtime.
+type RefWithCurrent = { current: unknown };
+
+function nodeContains(ref: RefWithCurrent, target: Node): boolean {
+	return ref.current instanceof Node && ref.current.contains(target);
+}
 
 /**
- * A custom React hook to detect clicks outside of one or more specified DOM elements.
- *
- * @param {Array<React.RefObject<HTMLElement>>} refs - An array of ref objects attached to the DOM elements you want to monitor.
- * @param {() => void} handler - The callback function to execute when a click occurs outside all monitored elements.
+ * Detects clicks outside of one or more referenced DOM elements.
  */
-export function useClickOutside(refs: MutableRefObject<HTMLElement | null>[], handler: () => void) {
+export function useClickOutside(refs: RefWithCurrent[], handler: () => void) {
 	const memoizedHandler = useCallback(
 		(event: MouseEvent) => {
-			// Assume click is outside initially
-			let isClickInsideAnyRef = false;
+			const isClickInsideAnyRef = refs.some((ref) => nodeContains(ref, event.target as Node));
 
-			// Iterate over all provided refs
-			for (const ref of refs) {
-				// Check if the current ref's DOM node exists AND
-				// if the clicked target is contained within this ref's DOM node.
-				if (ref.current?.contains(event.target as Node)) {
-					isClickInsideAnyRef = true; // Click was inside at least one of the refs
-					break; // No need to check further, we found a match
-				}
-			}
-
-			// If the click was not inside any of the provided refs, execute the handler
 			if (!isClickInsideAnyRef) {
 				handler();
 			}
@@ -31,9 +24,6 @@ export function useClickOutside(refs: MutableRefObject<HTMLElement | null>[], ha
 	);
 	useEffect(() => {
 		document.addEventListener("mousedown", memoizedHandler);
-
-		return () => {
-			document.removeEventListener("mousedown", memoizedHandler);
-		};
+		return () => document.removeEventListener("mousedown", memoizedHandler);
 	}, [memoizedHandler]);
 }

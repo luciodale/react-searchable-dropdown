@@ -72,8 +72,8 @@ export const prerender = true;
 	<ContentSection label="Search option keys" id="search-option-keys">
 		<p class="text-white/60 mb-4">
 			When your options are objects, <code>searchOptionKeys</code> tells the filter which
-			fields to search against. The match-sorter library searches each key independently and
-			combines results.
+			fields to search against. It defaults to <code>["label"]</code> for object options,
+			so basic search works out of the box. Pass additional keys to search more fields.
 		</p>
 
 		<CodeBlock
@@ -83,6 +83,14 @@ export const prerender = true;
   category: string;
   sku: string;
 };
+
+// Works without searchOptionKeys — searches "label" by default
+<SearchableDropdown
+  options={products}
+  value={product}
+  setValue={setProduct}
+  placeholder="Search products..."
+/>
 
 // Search by name and category, but not by SKU
 <SearchableDropdown

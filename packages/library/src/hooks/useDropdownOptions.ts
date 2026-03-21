@@ -6,19 +6,16 @@ import type {
 	TSearchableDropdownFilterType,
 } from "../types";
 
-export function useDropdownOptions(
-	options: TDropdownOption[],
+export function useDropdownOptions<T extends TDropdownOption>(
+	options: T[],
 	searchQuery: string | undefined,
 	searchOptionKeys: string[] | undefined,
 	filterType: TSearchableDropdownFilterType,
 	enhanceOptionsWithNewCreation: (
-		matchingOptions: TDropdownOption[],
+		matchingOptions: T[],
 		searchQuery: string,
-		// These parameters are optional as they are only relevant for multi-select
-		selectedValuesSet?: Set<string>,
-		searchOptionKeys?: string[],
 	) => TNewValueDropdownOption | undefined,
-) {
+): (T | TNewValueDropdownOption)[] {
 	const searchQueryDeferred = useDeferredValue(searchQuery);
 
 	return useMemo(() => {
@@ -26,7 +23,6 @@ export function useDropdownOptions(
 
 		const threshold = matchSorter.rankings[filterType];
 
-		// Perform the initial match-sorter filtering
 		const matchingOptions = matchSorter(
 			options,
 			searchQueryDeferred,
@@ -38,15 +34,10 @@ export function useDropdownOptions(
 				: { threshold },
 		);
 
-		const generatedOption = enhanceOptionsWithNewCreation(
-			matchingOptions,
-			searchQueryDeferred,
-			undefined,
-			searchOptionKeys,
-		);
+		const generatedOption = enhanceOptionsWithNewCreation(matchingOptions, searchQueryDeferred);
 
 		if (generatedOption) {
-			matchingOptions.unshift(generatedOption);
+			return [generatedOption, ...matchingOptions];
 		}
 
 		return matchingOptions;

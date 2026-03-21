@@ -2,26 +2,10 @@ import { type KeyboardEvent, useCallback } from "react";
 import type { VirtuosoHandle } from "react-virtuoso";
 import type { TDropdownOption } from "../types";
 
-export function useKeyboardNavigation<T extends TDropdownOption>({
-	virtuosoRef,
-	searchQueryinputRef,
-	matchingOptions,
-	showDropdownOptions,
-	setShowDropdownOptions,
-	dropdownOptionNavigationIndex,
-	setDropdownOptionNavigationIndex,
-	handleOnSelectDropdownOption,
-	setSuppressMouseEnterOptionListener,
-	onLeaveCallback,
-	isMultiSelect = false,
-	values,
-	setValues,
-	deleteLastChipOnBackspace = false,
-	onClearOption,
-}: {
+type UseKeyboardNavigationBaseParams = {
 	virtuosoRef: React.RefObject<VirtuosoHandle | null>;
 	searchQueryinputRef: React.RefObject<HTMLInputElement | null>;
-	matchingOptions: T[];
+	matchingOptions: TDropdownOption[];
 	showDropdownOptions: boolean;
 	setShowDropdownOptions: (show: boolean) => void;
 	dropdownOptionNavigationIndex: number;
@@ -29,12 +13,41 @@ export function useKeyboardNavigation<T extends TDropdownOption>({
 	handleOnSelectDropdownOption: (option: TDropdownOption) => void;
 	setSuppressMouseEnterOptionListener: (suppress: boolean) => void;
 	onLeaveCallback: () => void;
-	isMultiSelect?: boolean;
-	values?: TDropdownOption[];
-	setValues?: (options: TDropdownOption[]) => void;
-	deleteLastChipOnBackspace?: boolean;
-	onClearOption?: (option: TDropdownOption) => void;
-}) {
+};
+
+type UseKeyboardNavigationSingleParams = UseKeyboardNavigationBaseParams & {
+	isMultiSelect?: false;
+	values?: undefined;
+	setValues?: undefined;
+	deleteLastChipOnBackspace?: undefined;
+	onClearOption?: undefined;
+};
+
+type UseKeyboardNavigationMultiParams<T extends TDropdownOption> =
+	UseKeyboardNavigationBaseParams & {
+		isMultiSelect: true;
+		values: T[] | undefined;
+		setValues: (options: T[]) => void;
+		deleteLastChipOnBackspace?: boolean;
+		onClearOption?: (option: T) => void;
+	};
+
+export function useKeyboardNavigation<T extends TDropdownOption>(
+	params: UseKeyboardNavigationSingleParams | UseKeyboardNavigationMultiParams<T>,
+) {
+	const {
+		virtuosoRef,
+		searchQueryinputRef,
+		matchingOptions,
+		showDropdownOptions,
+		setShowDropdownOptions,
+		dropdownOptionNavigationIndex,
+		setDropdownOptionNavigationIndex,
+		handleOnSelectDropdownOption,
+		setSuppressMouseEnterOptionListener,
+		onLeaveCallback,
+	} = params;
+
 	const handleKeyDown = useCallback(
 		(e: KeyboardEvent<HTMLInputElement>) => {
 			if (e.key === "ArrowDown") {
@@ -70,7 +83,7 @@ export function useKeyboardNavigation<T extends TDropdownOption>({
 
 				if (showDropdownOptions && dropdownOptionNavigationIndex >= 0 && matchingOptions.length) {
 					handleOnSelectDropdownOption(matchingOptions[dropdownOptionNavigationIndex]);
-					if (isMultiSelect) {
+					if (params.isMultiSelect) {
 						searchQueryinputRef.current?.focus();
 					} else {
 						searchQueryinputRef.current?.blur();
@@ -79,15 +92,18 @@ export function useKeyboardNavigation<T extends TDropdownOption>({
 			} else if (e.key === "Escape") {
 				onLeaveCallback();
 				searchQueryinputRef.current?.blur();
-			} else if (e.key === "Backspace" && isMultiSelect && deleteLastChipOnBackspace) {
-				// Check if search query is empty and there are values to delete
+			} else if (
+				e.key === "Backspace" &&
+				params.isMultiSelect &&
+				params.deleteLastChipOnBackspace
+			) {
 				const currentSearchQuery = searchQueryinputRef.current?.value || "";
-				if (currentSearchQuery === "" && values && values.length > 0 && setValues) {
+				if (currentSearchQuery === "" && params.values && params.values.length > 0) {
 					e.preventDefault();
-					const lastChip = values[values.length - 1];
-					const newValues = values.slice(0, -1);
-					setValues(newValues);
-					onClearOption?.(lastChip);
+					const lastChip = params.values[params.values.length - 1];
+					const newValues = params.values.slice(0, -1);
+					params.setValues(newValues);
+					params.onClearOption?.(lastChip);
 				}
 			}
 		},
@@ -102,11 +118,7 @@ export function useKeyboardNavigation<T extends TDropdownOption>({
 			setSuppressMouseEnterOptionListener,
 			onLeaveCallback,
 			virtuosoRef,
-			isMultiSelect,
-			values,
-			setValues,
-			deleteLastChipOnBackspace,
-			onClearOption,
+			params,
 		],
 	);
 

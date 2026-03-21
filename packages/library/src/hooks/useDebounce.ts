@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
-import type { TDropdownOption } from "../types";
 
-export function useDebounce<T extends TDropdownOption>(value: T | undefined, delay: number) {
-	const [debouncedValue, setDebouncedValue] = useState<T | undefined>(value);
+export function useDebounce<T>(value: T, delay: number) {
+	const [debouncedValue, setDebouncedValue] = useState<T>(value);
 
 	useEffect(() => {
 		if (delay === 0) return setDebouncedValue(value);

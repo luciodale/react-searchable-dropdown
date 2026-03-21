@@ -1,5 +1,6 @@
 ---
 import Callout from "@luciodale/docs-ui-kit/components/Callout.astro";
+import CodeBlock from "@luciodale/docs-ui-kit/components/CodeBlock.astro";
 import ContentSection from "@luciodale/docs-ui-kit/components/ContentSection.astro";
 import { CustomDataDemo } from "../../components/demos/CustomDataDemo";
 import DocsPage from "../../layouts/DocsPage.astro";
@@ -29,5 +30,37 @@ export const prerender = true;
 				fields.
 			</p>
 		</Callout>
+	</ContentSection>
+
+	<ContentSection label="The code" id="the-code">
+		<CodeBlock
+			code={`import { SearchableDropdown } from "@luciodale/react-searchable-dropdown";
+import "@luciodale/react-searchable-dropdown/dist/single-style.css";
+import { useEffect, useState } from "react";
+
+function RemoteDropdown({ url }: { url: string }) {
+  const [value, setValue] = useState<string | undefined>(undefined);
+  const [options, setOptions] = useState<string[]>([]);
+
+  useEffect(() => {
+    fetch(url)
+      .then((res) => res.json())
+      .then((data) => setOptions(data));
+  }, [url]);
+
+  return (
+    <SearchableDropdown
+      options={options}
+      value={value}
+      setValue={setValue}
+      placeholder="Select an option"
+      dropdownOptionsHeight={312}
+      debounceDelay={100}
+    />
+  );
+}`}
+			language="tsx"
+			filename="CustomDataExample.tsx"
+		/>
 	</ContentSection>
 </DocsPage>
