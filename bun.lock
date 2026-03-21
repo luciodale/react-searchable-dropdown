@@ -32,7 +32,7 @@
         "@astrojs/cloudflare": "^12.0.0",
         "@astrojs/react": "^4.0.0",
         "@astrojs/sitemap": "^3.3.1",
-        "@luciodale/docs-ui-kit": "^0.3.0",
+        "@luciodale/docs-ui-kit": "^0.3.33",
         "@luciodale/react-searchable-dropdown": "workspace:*",
         "@tailwindcss/vite": "^4.1.18",
         "astro": "^5.0.0",
@@ -44,7 +44,7 @@
     },
     "packages/library": {
       "name": "@luciodale/react-searchable-dropdown",
-      "version": "1.0.1",
+      "version": "1.0.2",
       "dependencies": {
         "@floating-ui/react": "^0.27.12",
         "autosuggest-highlight": "^3.3.4",
@@ -300,7 +300,7 @@
 
     "@jridgewell/trace-mapping": ["@jridgewell/trace-mapping@0.3.31", "", { "dependencies": { "@jridgewell/resolve-uri": "^3.1.0", "@jridgewell/sourcemap-codec": "^1.4.14" } }, "sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw=="],
 
-    "@luciodale/docs-ui-kit": ["@luciodale/docs-ui-kit@0.3.0", "", { "dependencies": { "shiki": "^4.0.2" }, "peerDependencies": { "astro": ">=5" } }, "sha512-NpEyCKPGPfgqSkw5xFXzVX+e4aXl+GiWaT8d87BeDwUGl9vYmniRmehygc4uPwllH9uJkmdwxkKNf+ILCQjKzw=="],
+    "@luciodale/docs-ui-kit": ["@luciodale/docs-ui-kit@0.3.33", "", { "dependencies": { "shiki": "^4.0.2" }, "peerDependencies": { "astro": ">=5" } }, "sha512-tv/HgmlAUS5MOvTDdrE19oX0dVOJohzoEi6t2bEu7GMQf6XoamzL1MUaq0+yE+5oh6pdAnBoZLGppQCCApMo+w=="],
 
     "@luciodale/react-searchable-dropdown": ["@luciodale/react-searchable-dropdown@workspace:packages/library"],
 

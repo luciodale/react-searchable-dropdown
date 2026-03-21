@@ -20,7 +20,7 @@
 	},
 	"description": "A reusable React searchable dropdown component.",
 	"files": ["dist", "README.md"],
-	"homepage": "https://react-searchable-dropdown.netlify.app/",
+	"homepage": "https://koolcodez.com/projects/react-searchable-dropdown",
 	"keywords": [
 		"multi selection",
 		"searchable list",

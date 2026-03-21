@@ -4,7 +4,7 @@ export const siteConfig: SiteConfig = {
 	title: "react-searchable-dropdown",
 	description:
 		"A TypeScript-first searchable dropdown for React. Virtualized lists, keyboard navigation, single and multi-select, full styling control.",
-	siteUrl: "https://react-searchable-dropdown-docs.pages.dev",
+	siteUrl: "https://koolcodez.com/projects/react-searchable-dropdown",
 	logoSrc: "/logo.svg",
 	logoAlt: "react-searchable-dropdown logo",
 	ogImage: "/og-image.png",
@@ -50,4 +50,9 @@ export const siteConfig: SiteConfig = {
 		},
 	],
 	copyright: "Lucio D'Alessandro",
+	parentSite: {
+		href: "https://koolcodez.com/projects",
+		label: "koolcodez",
+		logoSrc: "/kool-codez-logo.svg",
+	},
 };
