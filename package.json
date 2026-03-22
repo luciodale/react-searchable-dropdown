@@ -51,5 +51,8 @@
 		"vite-plugin-dts": "^3.9.1",
 		"vite-plugin-static-copy": "^3.0.2",
 		"vitest": "^3.2.4"
+	},
+	"dependencies": {
+		"@luciodale/docs-ui-kit": "^0.3.37"
 	}
 }
