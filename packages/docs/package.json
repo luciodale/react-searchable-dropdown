@@ -4,7 +4,7 @@
 	"type": "module",
 	"scripts": {
 		"dev": "astro dev",
-		"build": "astro build && bunx pagefind --site dist --output-subdir _pagefind",
+		"build": "astro build && bunx pagefind --site dist --output-subdir projects/react-searchable-dropdown/_pagefind",
 		"preview": "wrangler dev",
 		"deploy": "bun run build && wrangler deploy"
 	},
