@@ -5,7 +5,7 @@
     "": {
       "name": "react-searchable-dropdown-monorepo",
       "dependencies": {
-        "@luciodale/docs-ui-kit": "^0.3.37",
+        "@luciodale/docs-ui-kit": "^0.3.38",
       },
       "devDependencies": {
         "@biomejs/biome": "^1.9.4",
@@ -303,7 +303,7 @@
 
     "@jridgewell/trace-mapping": ["@jridgewell/trace-mapping@0.3.31", "", { "dependencies": { "@jridgewell/resolve-uri": "^3.1.0", "@jridgewell/sourcemap-codec": "^1.4.14" } }, "sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw=="],
 
-    "@luciodale/docs-ui-kit": ["@luciodale/docs-ui-kit@0.3.37", "", { "dependencies": { "shiki": "^4.0.2" }, "peerDependencies": { "astro": ">=5" } }, "sha512-6qK1w6ikJXc7imyobsfgwSYIwutK8VDjl7NZY1mdJ5HFEiz0njFjCi89ftf1Fsc5lK2zwdx8Y3aKxH137b3NbA=="],
+    "@luciodale/docs-ui-kit": ["@luciodale/docs-ui-kit@0.3.38", "", { "dependencies": { "shiki": "^4.0.2" }, "peerDependencies": { "astro": ">=5" } }, "sha512-CFY8IQepmajODemQ38zsQw4TlR4ovLgDyha15+BTxXYbu9VnRPFJRS1LYk+ujX+5GF9+3k72Ni5wpSuONUB8iQ=="],
 
     "@luciodale/react-searchable-dropdown": ["@luciodale/react-searchable-dropdown@workspace:packages/library"],
 

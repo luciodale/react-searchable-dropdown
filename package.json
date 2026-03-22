@@ -53,6 +53,6 @@
 		"vitest": "^3.2.4"
 	},
 	"dependencies": {
-		"@luciodale/docs-ui-kit": "^0.3.37"
+		"@luciodale/docs-ui-kit": "^0.3.38"
 	}
 }
