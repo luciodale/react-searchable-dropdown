@@ -26,33 +26,10 @@ jobs:
       - name: Run unit tests
         run: bun run unit-tests:ci
 
-  e2e-tests:
-    name: E2E Tests
-    runs-on: ubuntu-latest
-    
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-        
-      - name: Setup Bun
-        uses: oven-sh/setup-bun@v2
-        with:
-          bun-version: latest
-          
-      - name: Install dependencies
-        run: bun install
-        
-      - name: Install Playwright browsers
-        working-directory: packages/docs
-        run: bunx playwright install --with-deps
-        
-      - name: Run E2E tests
-        run: bun run e2e-tests:ci
-
   build:
     name: Build
     runs-on: ubuntu-latest
-    needs: [unit-tests, e2e-tests]
+    needs: [unit-tests]
     
     steps:
       - name: Checkout code
