@@ -1,0 +1,255 @@
+---
+import Callout from "@luciodale/docs-ui-kit/components/Callout.astro";
+import CodeBlock from "@luciodale/docs-ui-kit/components/CodeBlock.astro";
+import Comparison from "@luciodale/docs-ui-kit/components/Comparison.astro";
+import ContentSection from "@luciodale/docs-ui-kit/components/ContentSection.astro";
+import InlineCode from "@luciodale/docs-ui-kit/components/InlineCode.astro";
+import DocsPage from "../../layouts/DocsPage.astro";
+import { href } from "../../lib/link";
+
+export const prerender = true;
+---
+
+<DocsPage
+	title="react-searchable-dropdown vs react-select"
+	description="How react-searchable-dropdown compares to react-select. Honest trade-offs on bundle size, virtualization, async search, accessibility, and TypeScript for React dropdowns."
+>
+	<ContentSection label="The choice">
+		<p class="text-white/60 mb-4 leading-relaxed">
+			<InlineCode>react-select</InlineCode> is the default answer when you
+			need a dropdown in React. It's feature rich, battle tested on
+			thousands of apps, and covers single select, multi select, async,
+			creatable, grouping, and custom rendering in one API. Pick it if you
+			need every one of those switches on day one.
+		</p>
+		<p class="text-white/60 leading-relaxed">
+			react-searchable-dropdown is smaller on purpose. It ships
+			virtualization, fuzzy search, and accessibility as defaults rather
+			than as plugins, and its TypeScript generics carry your option type
+			through every prop without ceremony. You trade the kitchen sink for
+			a sharper, narrower surface.
+		</p>
+	</ContentSection>
+
+	<ContentSection label="Where each one sits">
+		<p class="text-white/60 mb-4 leading-relaxed">
+			Dropdowns that do <em>more</em> than this lock you into their
+			styling system (emotion, CSS in JS) and a props surface that has to
+			cover every edge case for every app. Dropdowns that do
+			<em>less</em> hand you a headless combobox and leave virtualization,
+			fuzzy search, and portal positioning on your plate.
+		</p>
+		<p class="text-white/60 leading-relaxed">
+			react-select is the maximalist in that spectrum: everything bundled,
+			everything configurable, runtime styling baked in.
+			react-searchable-dropdown sits in the middle: batteries included for
+			the common cases, className hooks and CSS variables when you need to
+			deviate, no style engine at runtime.
+		</p>
+	</ContentSection>
+
+	<ContentSection label="Feature by feature">
+		<Comparison
+			columns={[
+				{
+					name: "@luciodale/react-searchable-dropdown",
+					href: "https://www.npmjs.com/package/@luciodale/react-searchable-dropdown",
+					tagline: "Virtualized, typed, fuzzy first",
+					highlight: true,
+				},
+				{
+					name: "react-select",
+					href: "https://www.npmjs.com/package/react-select",
+					tagline: "Full featured, plugin heavy",
+				},
+			]}
+			rows={[
+				{
+					feature: "Virtualized option list",
+					description:
+						"Renders only visible items. Handles 100k+ options without jank.",
+					values: [
+						"yes",
+						{ text: "Via react-windowed-select plugin" },
+					],
+				},
+				{
+					feature: "Fuzzy search built in",
+					description:
+						"Typo tolerant matching with highlight. match-sorter under the hood.",
+					values: ["yes", "no"],
+				},
+				{
+					feature: "Async search",
+					description:
+						"Fetch options from a server as the user types. Same component, not a separate import.",
+					values: [
+						"yes",
+						{ text: "Separate AsyncSelect" },
+					],
+				},
+				{
+					feature: "Creatable options",
+					description:
+						"Let users add a new option that isn't in the list.",
+					values: [
+						{ text: "createNewOptionIfNoMatch" },
+						{ text: "CreatableSelect variant" },
+					],
+				},
+				{
+					feature: "Single and multi select",
+					description:
+						"Both modes, same API shape.",
+					values: ["yes", "yes"],
+				},
+				{
+					feature: "Grouped options",
+					description:
+						"Dynamic headers that recalculate as the user searches.",
+					values: ["yes", "yes"],
+				},
+				{
+					feature: "Animated chips and transitions",
+					description:
+						"Baked-in animated chip enter / leave, sortable, fixed chips.",
+					values: ["no", "yes"],
+				},
+				{
+					feature: "Plugin ecosystem",
+					description:
+						"Community add-ons: animated, async-creatable, sortable, fixed options.",
+					values: [{ text: "Minimal" }, { text: "Large" }],
+				},
+				{
+					feature: "Production track record",
+					values: [
+						{ text: "Young, narrower scope" },
+						{ text: "10+ years, millions of apps" },
+					],
+				},
+				{
+					feature: "TypeScript generics end to end",
+					description:
+						"Your option type flows through value, setValue, searchOptionKeys.",
+					values: [
+						"yes",
+						{ text: "Props<Option, IsMulti, Group>" },
+					],
+				},
+				{
+					feature: "Accessibility",
+					description:
+						"ARIA combobox pattern, keyboard nav, focus restore, announcements.",
+					values: ["yes", "yes"],
+				},
+				{
+					feature: "Styling model",
+					values: [
+						{ text: "className slots + CSS variables" },
+						{ text: "Emotion runtime (styles prop)" },
+					],
+				},
+				{
+					feature: "Runtime style engine",
+					description:
+						"Extra JS shipped at runtime to compute styles.",
+					values: ["no", { text: "@emotion/react" }],
+				},
+				{
+					feature: "Portal positioning",
+					description:
+						"Renders outside parent overflow. Works in modals and scroll containers.",
+					values: ["yes", "yes"],
+				},
+				{
+					feature: "Runtime dependencies",
+					values: [
+						{ text: "4 (virtuoso, floating-ui, match-sorter, autosuggest-highlight)" },
+						{ text: "react-select + emotion stack" },
+					],
+				},
+				{
+					feature: "Bundle size (min+gzip)",
+					values: [{ text: "~15 kB" }, { text: "~25 to 45 kB" }],
+				},
+			]}
+			caption="Feature comparison between react-searchable-dropdown and react-select"
+		/>
+	</ContentSection>
+
+	<ContentSection label="TypeScript that doesn't fight you">
+		<p class="text-white/60 mb-4 leading-relaxed">
+			react-select types are powerful but noisy:
+			<InlineCode>Props&lt;Option, IsMulti extends boolean, Group extends GroupBase&lt;Option&gt;&gt;</InlineCode>.
+			You'll end up importing <InlineCode>SingleValue</InlineCode>,
+			<InlineCode>MultiValue</InlineCode>,
+			<InlineCode>ActionMeta</InlineCode> just to type an
+			<InlineCode>onChange</InlineCode>.
+		</p>
+		<CodeBlock
+			code={`// react-searchable-dropdown: pass your type, done
+type User = { label: string; value: string; department: string };
+
+<SearchableDropdown<User>
+  options={users}
+  value={user}
+  setValue={setUser}
+  searchOptionKeys={["label", "department"]}
+/>`}
+			language="tsx"
+			filename="dropdown.tsx"
+		/>
+		<p class="text-white/60 mt-4 leading-relaxed">
+			Rename <InlineCode>department</InlineCode> in the <InlineCode>User</InlineCode>
+			type and the compiler flags <InlineCode>searchOptionKeys</InlineCode> the same second.
+			No type aliases to import, no conditional Props generic juggling.
+		</p>
+	</ContentSection>
+
+	<ContentSection label="Virtualization by default">
+		<p class="text-white/60 mb-4 leading-relaxed">
+			react-select renders every option in the DOM unless you wrap it
+			with <InlineCode>react-windowed-select</InlineCode> plus
+			<InlineCode>react-window</InlineCode>. That's two extra libraries
+			and a custom <InlineCode>MenuList</InlineCode> component for the
+			baseline "show me 5000 options" case. react-searchable-dropdown
+			ships virtuoso out of the box, so 100k options feels the same as
+			100.
+		</p>
+	</ContentSection>
+
+	<ContentSection label="When to pick react-select">
+		<Callout type="info" title="Pick it when">
+			You want the broadest possible feature surface covered by one
+			dependency and you're comfortable with emotion in your bundle. You
+			need creatable options, a huge ecosystem of community add-ons
+			(animated, fixed options, sortable), or your design system is
+			already built on react-select slots.
+		</Callout>
+	</ContentSection>
+
+	<ContentSection label="When to pick react-searchable-dropdown">
+		<Callout type="tip" title="Pick it when">
+			You want virtualization, fuzzy search, and accessibility as
+			defaults, not add-ons. You care about a smaller bundle and no
+			runtime CSS-in-JS engine. You want your option generic to carry
+			through the API without ceremony. Typical fit: internal tools with
+			long option lists, data-heavy forms, and TypeScript-first codebases.
+		</Callout>
+	</ContentSection>
+
+	<ContentSection label="Next steps">
+		<ul class="space-y-2 text-white/60">
+			<li>
+				<a href={href("/docs/getting-started")} class="text-accent hover:underline">Getting started</a> — install and drop it in
+			</li>
+			<li>
+				<a href={href("/docs/filtering")} class="text-accent hover:underline">Filtering</a> — fuzzy search strategies
+			</li>
+			<li>
+				<a href={href("/docs/styling")} class="text-accent hover:underline">Styling</a> — className slots and CSS variables
+			</li>
+		</ul>
+	</ContentSection>
+</DocsPage>

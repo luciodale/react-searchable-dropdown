@@ -1,8 +1,24 @@
 {
 	"name": "react-searchable-dropdown-monorepo",
 	"version": "0.0.0",
-	"description": "A reusable React searchable dropdown component monorepo.",
-	"keywords": ["react", "dropdown", "searchable", "component", "npm"],
+	"description": "High performance virtualized React dropdown and combobox. Single and multi select, async search, fuzzy matching, grouping, portal positioning, fully accessible, TypeScript first.",
+	"keywords": [
+		"react",
+		"typescript",
+		"dropdown",
+		"combobox",
+		"select",
+		"multi-select",
+		"autocomplete",
+		"virtualized",
+		"fuzzy-search",
+		"async-search",
+		"accessibility",
+		"a11y",
+		"aria",
+		"react-select-alternative",
+		"typeahead"
+	],
 	"private": true,
 	"workspaces": ["packages/*"],
 	"repository": {

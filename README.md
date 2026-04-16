@@ -5,7 +5,40 @@
 
   [Documentation](https://koolcodez.com/projects/react-searchable-dropdown) &nbsp;&middot;&nbsp; [NPM](https://www.npmjs.com/package/@luciodale/react-searchable-dropdown) &nbsp;&middot;&nbsp; [GitHub](https://github.com/luciodale/react-searchable-dropdown)
 
+  [![npm version](https://img.shields.io/npm/v/@luciodale/react-searchable-dropdown.svg)](https://www.npmjs.com/package/@luciodale/react-searchable-dropdown)
+  [![npm downloads](https://img.shields.io/npm/dm/@luciodale/react-searchable-dropdown.svg)](https://www.npmjs.com/package/@luciodale/react-searchable-dropdown)
+  [![bundle size](https://img.shields.io/bundlephobia/minzip/@luciodale/react-searchable-dropdown)](https://bundlephobia.com/package/@luciodale/react-searchable-dropdown)
+  [![license](https://img.shields.io/npm/l/@luciodale/react-searchable-dropdown.svg)](./LICENSE)
+
 </div>
+
+## Why react-searchable-dropdown
+
+Coming from `react-select`, `downshift`, or rolling your own combobox, these are the defaults you get instead of add-ons:
+
+- **Virtualized by default.** Handles 100k+ options without plugins. Powered by Virtuoso.
+- **Fuzzy search built in.** Typo tolerant matching with highlight, backed by match-sorter.
+- **Single and multi select share one API.** Same generic, same props shape, different mode.
+- **Async search as a first class mode.** No separate component to import.
+- **TypeScript generics end to end.** Your option type flows through `options`, `value`, `setValue`, `searchOptionKeys`.
+- **No runtime style engine.** className slots plus CSS variables. No emotion in your bundle.
+- **ARIA combobox accessibility.** Keyboard nav, focus restore, screen reader announcements.
+
+> Full comparisons:
+> [vs react-select](https://koolcodez.com/projects/react-searchable-dropdown/docs/vs-react-select) (component camp)
+> ·
+> [vs Downshift](https://koolcodez.com/projects/react-searchable-dropdown/docs/vs-downshift) (headless camp)
+
+## Accessibility
+
+Follows the [ARIA combobox pattern](https://www.w3.org/WAI/ARIA/apg/patterns/combobox/) out of the box.
+
+- `role="combobox"` on the input with `aria-expanded`, `aria-controls`, `aria-autocomplete="list"`.
+- `role="listbox"` on the option list with `aria-activedescendant` tracking the highlighted item.
+- Keyboard: arrow keys, `Enter` to select, `Escape` to close and restore focus to the trigger, `Tab` to leave without selecting.
+- Multi select adds `Backspace` to remove the last chip when the input is empty.
+- Focus is trapped inside the dropdown while open and returned to the trigger on close.
+- Screen reader announcements for filtered result counts as the user types.
 
 ## Install
 

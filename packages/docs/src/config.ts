@@ -48,6 +48,13 @@ export const siteConfig: SiteConfig = {
 				{ href: "/demo/custom-theme", label: "Custom Theme" },
 			],
 		},
+		{
+			title: "Comparison",
+			links: [
+				{ href: "/docs/vs-react-select", label: "vs react-select" },
+				{ href: "/docs/vs-downshift", label: "vs Downshift" },
+			],
+		},
 	],
 	copyright: "Lucio D'Alessandro",
 	parentSite: {
