@@ -1,0 +1,226 @@
+---
+import Callout from "@luciodale/docs-ui-kit/components/Callout.astro";
+import CodeBlock from "@luciodale/docs-ui-kit/components/CodeBlock.astro";
+import Comparison from "@luciodale/docs-ui-kit/components/Comparison.astro";
+import ContentSection from "@luciodale/docs-ui-kit/components/ContentSection.astro";
+import InlineCode from "@luciodale/docs-ui-kit/components/InlineCode.astro";
+import DocsPage from "../../layouts/DocsPage.astro";
+import { href } from "../../lib/link";
+
+export const prerender = true;
+---
+
+<DocsPage
+	title="react-searchable-dropdown vs Downshift"
+	description="How react-searchable-dropdown compares to Downshift. Honest trade-offs on headless flexibility, accessibility, virtualization, and batteries included for React combobox builds."
+>
+	<ContentSection label="The choice">
+		<p class="text-white/60 mb-4 leading-relaxed">
+			Downshift (by Kent C. Dodds and Alex Reardon) is the headless
+			reference for combobox and select in React. It ships nothing but
+			accessibility primitives, keyboard handling, and state. No markup,
+			no styling, no virtualization. Every pixel you see is yours to
+			build, and the library keeps the A11y contract watertight along
+			the way.
+		</p>
+		<p class="text-white/60 leading-relaxed">
+			react-searchable-dropdown is the opposite axis: a component with
+			opinions. Virtualized rendering, fuzzy search, portal positioning,
+			chips, and grouping are defaults, not exercises. You trade
+			Downshift's flexibility for a faster path from npm install to
+			working dropdown.
+		</p>
+	</ContentSection>
+
+	<ContentSection label="Where each one sits">
+		<p class="text-white/60 mb-4 leading-relaxed">
+			Downshift sits at the "do less" end of the spectrum on purpose.
+			It's a set of hooks (<InlineCode>useSelect</InlineCode>,
+			<InlineCode>useCombobox</InlineCode>,
+			<InlineCode>useMultipleSelection</InlineCode>) that hand you the
+			state, the event handlers, and the correct ARIA attributes. Every
+			render decision is yours.
+		</p>
+		<p class="text-white/60 leading-relaxed">
+			react-searchable-dropdown sits further toward "batteries included."
+			It still gives you styling hooks and type safety, but you don't
+			write the list, the input, the chip row, or the keyboard handler
+			yourself. If you need to ship a combobox today, that matters.
+		</p>
+	</ContentSection>
+
+	<ContentSection label="Feature by feature">
+		<Comparison
+			columns={[
+				{
+					name: "@luciodale/react-searchable-dropdown",
+					href: "https://www.npmjs.com/package/@luciodale/react-searchable-dropdown",
+					tagline: "Component, batteries included",
+					highlight: true,
+				},
+				{
+					name: "downshift",
+					href: "https://www.npmjs.com/package/downshift",
+					tagline: "Headless hooks, bring your own UI",
+				},
+			]}
+			rows={[
+				{
+					feature: "Ships the markup",
+					description:
+						"Input, list, chips rendered for you out of the box.",
+					values: ["yes", "no"],
+				},
+				{
+					feature: "Virtualized option list",
+					description:
+						"Handles 100k+ options without jank.",
+					values: ["yes", "no"],
+				},
+				{
+					feature: "Fuzzy search built in",
+					description:
+						"Typo tolerant, with highlight.",
+					values: ["yes", "no"],
+				},
+				{
+					feature: "Portal positioning",
+					description:
+						"Floating UI integration, handles modals and scroll containers.",
+					values: ["yes", "no"],
+				},
+				{
+					feature: "Multi select chips",
+					description:
+						"Removable chips, clear all, backspace to remove last.",
+					values: ["yes", { text: "Via useMultipleSelection hook" }],
+				},
+				{
+					feature: "Grouped options",
+					values: ["yes", { text: "Build your own" }],
+				},
+				{
+					feature: "ARIA combobox pattern",
+					description:
+						"Full keyboard support, focus management, screen reader announcements.",
+					values: ["yes", "yes"],
+				},
+				{
+					feature: "Headless / full render control",
+					description:
+						"Every element rendered by you.",
+					values: [
+						{ text: "className slots + CSS vars" },
+						"yes",
+					],
+				},
+				{
+					feature: "Styling freedom",
+					values: [
+						{ text: "Slots + CSS vars" },
+						{ text: "Unlimited (you render it)" },
+					],
+				},
+				{
+					feature: "Production track record",
+					values: [
+						{ text: "Young" },
+						{ text: "10+ years, industry reference" },
+					],
+				},
+				{
+					feature: "Bundle size (min+gz, core)",
+					values: [{ text: "~15 kB" }, { text: "~4 kB (no UI)" }],
+				},
+				{
+					feature: "Time to first working combobox",
+					values: [
+						{ text: "Minutes" },
+						{ text: "Hours (you build the UI)" },
+					],
+				},
+			]}
+			caption="Feature comparison between react-searchable-dropdown and downshift"
+		/>
+	</ContentSection>
+
+	<ContentSection label="The headless trade off">
+		<p class="text-white/60 mb-4 leading-relaxed">
+			Downshift is the correct answer when your design system has
+			specific requirements that don't fit any existing component. The
+			library guarantees accessibility, you guarantee everything else.
+			That's powerful, and it's also a commitment: you own rendering,
+			keyboard edge cases, filtering, virtualization, positioning, and
+			every future behavior.
+		</p>
+		<CodeBlock
+			code={`// Downshift: you render every element
+const { getToggleButtonProps, getMenuProps, getItemProps, isOpen } = useSelect({
+  items: options,
+});
+
+return (
+  <div>
+    <button {...getToggleButtonProps()}>{selectedItem?.label ?? "Pick"}</button>
+    <ul {...getMenuProps()} hidden={!isOpen}>
+      {isOpen && options.map((opt, i) => (
+        <li key={opt.value} {...getItemProps({ item: opt, index: i })}>
+          {opt.label}
+        </li>
+      ))}
+    </ul>
+  </div>
+);`}
+			language="tsx"
+			filename="downshift.tsx"
+		/>
+		<p class="text-white/60 mb-4 mt-4 leading-relaxed">
+			react-searchable-dropdown picks sensible defaults and lets you
+			override the pieces you care about via className slots and CSS
+			variables.
+		</p>
+		<CodeBlock
+			code={`<SearchableDropdown
+  options={cities}
+  value={city}
+  setValue={setCity}
+  placeholder="Pick a city"
+/>`}
+			language="tsx"
+			filename="dropdown.tsx"
+		/>
+	</ContentSection>
+
+	<ContentSection label="When to pick Downshift">
+		<Callout type="info" title="Pick it when">
+			Your design system has bespoke requirements: custom list virtuals,
+			non standard input patterns, combobox behavior that no component
+			lib covers. You want the battle tested A11y primitives and to
+			render everything yourself. Your team is comfortable shipping
+			keyboard + ARIA edge cases.
+		</Callout>
+	</ContentSection>
+
+	<ContentSection label="When to pick react-searchable-dropdown">
+		<Callout type="tip" title="Pick it when">
+			You want virtualization, fuzzy search, and portal positioning on
+			day one. A working, accessible dropdown that looks reasonable by
+			default is more valuable than total render control. You'd rather
+			theme with className slots than build the DOM yourself.
+		</Callout>
+	</ContentSection>
+
+	<ContentSection label="Next steps">
+		<ul class="space-y-2 text-white/60">
+			<li>
+				<a href={href("/docs/vs-react-select")} class="text-accent hover:underline">vs react-select</a> — if you're comparing to the component-heavy camp
+			</li>
+			<li>
+				<a href={href("/docs/getting-started")} class="text-accent hover:underline">Getting started</a> — install and drop it in
+			</li>
+			<li>
+				<a href={href("/docs/styling")} class="text-accent hover:underline">Styling</a> — className slots and CSS variables
+			</li>
+		</ul>
+	</ContentSection>
+</DocsPage>

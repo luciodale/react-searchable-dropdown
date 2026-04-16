@@ -5,3 +5,5 @@ playwright-report
 test-results
 coverage
 packages/library/README.md
+# Astro build cache
+packages/docs/.astro/
