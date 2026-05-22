@@ -1,6 +1,7 @@
 ---
 import SEO from "@luciodale/docs-ui-kit/components/SEO.astro";
 import { siteConfig } from "../config";
+import { href } from "../lib/link";
 import "../styles/global.css";
 
 type Props = {
@@ -24,7 +25,7 @@ const currentPath = Astro.url.pathname;
 			href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
 			rel="stylesheet"
 		/>
-		<link rel="sitemap" href="/sitemap-index.xml" />
+		<link rel="sitemap" href={href("/sitemap-index.xml")} />
 		<SEO
 			config={siteConfig}
 			title={title}
