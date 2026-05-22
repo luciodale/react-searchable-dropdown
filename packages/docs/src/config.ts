@@ -7,6 +7,7 @@ export const siteConfig: SiteConfig = {
 	siteUrl: "https://koolcodez.com/projects/react-searchable-dropdown",
 	logoSrc: "/logo.svg",
 	logoAlt: "react-searchable-dropdown logo",
+	faviconSrc: "/projects/react-searchable-dropdown/favicon.svg",
 	ogImage: "/og-image.png",
 	installCommand: "npm install @luciodale/react-searchable-dropdown",
 	githubUrl: "https://github.com/luciodale/react-searchable-dropdown",
