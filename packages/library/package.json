@@ -20,7 +20,7 @@
 	},
 	"description": "High performance virtualized React dropdown and combobox. Single and multi select, async search, fuzzy matching, grouping, portal positioning, fully accessible, TypeScript first.",
 	"files": ["dist", "README.md"],
-	"homepage": "https://koolcodez.com/projects/react-searchable-dropdown",
+	"homepage": "https://koolcodez.com/projects/react-searchable-dropdown/",
 	"bugs": {
 		"url": "https://github.com/luciodale/react-searchable-dropdown/issues"
 	},

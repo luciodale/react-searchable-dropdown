@@ -25,7 +25,7 @@
 		"type": "git",
 		"url": "https://github.com/luciodale/react-searchable-dropdown"
 	},
-	"homepage": "https://koolcodez.com/projects/react-searchable-dropdown",
+	"homepage": "https://koolcodez.com/projects/react-searchable-dropdown/",
 	"scripts": {
 		"dev": "bun run --filter react-searchable-dropdown-docs dev",
 		"build": "bun run build:lib && bun run build:docs",
