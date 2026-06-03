@@ -1,5 +1,5 @@
 import { FloatingPortal } from "@floating-ui/react";
-import { useCallback } from "react";
+import { useCallback, useRef } from "react";
 import { GroupedVirtuoso, Virtuoso } from "react-virtuoso";
 import { DropdownIconDefault } from "./components/DropdownIconDefault";
 import { DropdownOption } from "./components/DropdownOption";
@@ -96,8 +96,7 @@ export function SearchableDropdown<T extends TDropdownOption, G>({
 		enhanceOptionsWithNewCreation,
 	});
 
-	const searchQueryinputRef = core.refs
-		.reference as React.MutableRefObject<HTMLInputElement | null>;
+	const searchQueryinputRef = useRef<HTMLInputElement | null>(null);
 
 	const currentOptionIsSelectedCallback = useCallback(
 		(option: TDropdownOption) => {
@@ -213,11 +212,12 @@ export function SearchableDropdown<T extends TDropdownOption, G>({
 
 	return (
 		<div
+			ref={core.refs.setReference}
 			className={`${BASE_CLASS} ${classNameSearchableDropdownContainer} ${disabled ? "disabled" : ""}`}
 			onKeyDown={handleKeyDown}
 		>
 			<input
-				ref={core.refs.setReference}
+				ref={searchQueryinputRef}
 				type="text"
 				role="combobox"
 				aria-expanded={core.showDropdownOptions}
