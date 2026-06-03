@@ -213,7 +213,7 @@ export function SearchableDropdown<T extends TDropdownOption, G>({
 	return (
 		<div
 			ref={core.refs.setReference}
-			className={`${BASE_CLASS} ${classNameSearchableDropdownContainer} ${disabled ? "disabled" : ""}`}
+			className={`${BASE_CLASS} ${classNameSearchableDropdownContainer} ${disabled ? classNameDisabled || "disabled" : ""}`}
 			onKeyDown={handleKeyDown}
 		>
 			<input
@@ -228,7 +228,7 @@ export function SearchableDropdown<T extends TDropdownOption, G>({
 				readOnly={disabled}
 				disabled={disabled}
 				placeholder={getSearchQueryLabelFromOption(value || "") || placeholder}
-				className={`${classNameSearchQueryInput} ${disabled ? (classNameDisabled ?? "") : ""}`}
+				className={classNameSearchQueryInput}
 				value={core.searchQuery}
 				onChange={core.handleOnChangeSearchQuery}
 				data-testid={inputId ?? classNameSearchQueryInput}

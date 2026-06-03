@@ -19,6 +19,7 @@ type TestOverrides = {
 	values?: string[];
 	setValues?: (options: string[]) => void;
 	disabled?: boolean;
+	classNameDisabled?: string;
 	onClearAll?: () => void;
 	onClearOption?: (option: string) => void;
 };
@@ -41,6 +42,23 @@ describe("SearchableDropdownMulti", () => {
 	it("renders with placeholder", () => {
 		renderMultiDropdown();
 		expect(screen.getByPlaceholderText("Pick fruits")).toBeDefined();
+	});
+
+	it("renders disabled state", () => {
+		renderMultiDropdown({ disabled: true });
+		const input = screen.getByPlaceholderText("Pick fruits");
+		expect(input).toHaveProperty("disabled", true);
+		expect(input.closest(".lda-multi-dropdown-container")?.classList.contains("disabled")).toBe(
+			true,
+		);
+	});
+
+	it("applies classNameDisabled to the container when disabled", () => {
+		renderMultiDropdown({ disabled: true, classNameDisabled: "custom-disabled" });
+		const input = screen.getByPlaceholderText("Pick fruits");
+		const container = input.closest(".lda-multi-dropdown-container");
+		expect(container?.classList.contains("custom-disabled")).toBe(true);
+		expect(container?.classList.contains("disabled")).toBe(false);
 	});
 
 	it("opens dropdown on focus", async () => {

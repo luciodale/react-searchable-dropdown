@@ -104,6 +104,15 @@ describe("SearchableDropdown", () => {
 		renderDropdown({ disabled: true });
 		const input = screen.getByPlaceholderText("Pick a fruit");
 		expect(input).toHaveProperty("disabled", true);
+		expect(input.closest(".lda-dropdown-container")?.classList.contains("disabled")).toBe(true);
+	});
+
+	it("applies classNameDisabled to the container when disabled", () => {
+		renderDropdown({ disabled: true, classNameDisabled: "custom-disabled" });
+		const input = screen.getByPlaceholderText("Pick a fruit");
+		const container = input.closest(".lda-dropdown-container");
+		expect(container?.classList.contains("custom-disabled")).toBe(true);
+		expect(container?.classList.contains("disabled")).toBe(false);
 	});
 
 	describe("a11y", () => {
