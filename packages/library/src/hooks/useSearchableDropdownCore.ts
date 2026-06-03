@@ -167,8 +167,8 @@ export function useSearchableDropdownCore<T extends TDropdownOption, G>({
 	// Narrow refs/floatingStyles to portable types so the inferred return
 	// doesn't leak @floating-ui/react-dom internals (TS2742).
 	const portableRefs = refs as {
-		reference: React.MutableRefObject<HTMLElement | null>;
-		floating: React.MutableRefObject<HTMLElement | null>;
+		reference: React.RefObject<HTMLElement | null>;
+		floating: React.RefObject<HTMLElement | null>;
 		setReference: (node: HTMLElement | null) => void;
 		setFloating: (node: HTMLElement | null) => void;
 	};
