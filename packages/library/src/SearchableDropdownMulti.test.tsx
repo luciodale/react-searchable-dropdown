@@ -61,6 +61,22 @@ describe("SearchableDropdownMulti", () => {
 		expect(container?.classList.contains("disabled")).toBe(false);
 	});
 
+	it("ignores an option when disabled while open", async () => {
+		const setValues = vi.fn();
+		const props = { options, values: ["Apple"], setValues };
+		const { rerender } = render(<SearchableDropdownMulti {...props} />);
+		await userEvent.click(screen.getByRole("combobox"));
+		rerender(<SearchableDropdownMulti {...props} disabled />);
+		expect(screen.getByRole("combobox")).toBeDisabled();
+		await userEvent.click(screen.getByText("Banana"));
+		expect(setValues).not.toHaveBeenCalled();
+
+		rerender(<SearchableDropdownMulti {...props} />);
+		await userEvent.click(screen.getByText("Banana"));
+		expect(setValues).toHaveBeenCalledOnce();
+		expect(setValues).toHaveBeenCalledWith(["Apple", "Banana"]);
+	});
+
 	it("opens dropdown on focus", async () => {
 		renderMultiDropdown();
 		await userEvent.click(screen.getByPlaceholderText("Pick fruits"));

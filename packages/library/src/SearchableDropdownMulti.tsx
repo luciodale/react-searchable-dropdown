@@ -136,6 +136,8 @@ export function SearchableDropdownMulti<T extends TDropdownOption, G>({
 
 	const handleOnSelectDropdownOption = useCallback(
 		(option: TDropdownOption | undefined) => {
+			if (disabled && option) return;
+
 			const safeValues = values?.length ? values : [];
 			if (option) {
 				const newValue = getValueFromOption(option, searchOptionKeys);
@@ -158,6 +160,7 @@ export function SearchableDropdownMulti<T extends TDropdownOption, G>({
 			core.setDropdownOptionNavigationIndex(0);
 		},
 		[
+			disabled,
 			setValues,
 			searchOptionKeys,
 			values,
