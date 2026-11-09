@@ -111,6 +111,8 @@ export function SearchableDropdown<T extends TDropdownOption, G>({
 
 	const handleOnSelectDropdownOption = useCallback(
 		(option: TDropdownOption | undefined) => {
+			if (disabled && option) return;
+
 			if (option) {
 				// getValueFromOption converts TNewValueDropdownOption → {label, value} at runtime.
 				// TS can't verify this matches T because the "create new" injection widens the type.
@@ -125,6 +127,7 @@ export function SearchableDropdown<T extends TDropdownOption, G>({
 			core.resetDropdownState();
 		},
 		[
+			disabled,
 			setValue,
 			searchOptionKeys,
 			value,
